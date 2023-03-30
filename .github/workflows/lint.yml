@@ -1,9 +1,12 @@
 name: Project Lint
 
 on:
+  workflow_call:
   push:
     branches-ignore: [main, dev]
   pull_request:
+    types:
+      - opened
     branches: [main, dev]
 
 jobs:
