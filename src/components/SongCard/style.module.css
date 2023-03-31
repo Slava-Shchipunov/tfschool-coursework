@@ -1,0 +1,60 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.art {
+  margin-bottom: 28px;
+  height: 261px;
+  width: 261px;
+}
+
+.small .art {
+  margin-bottom: 11px;
+  height: 150px;
+  width: 150px;
+}
+
+.artFill,
+.artShadow {
+  background-size: cover;
+  background-position: center;
+}
+
+.artFill {
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  position: relative;
+  z-index: 10;
+}
+
+.artShadow {
+  height: 85%;
+  width: 85%;
+  border-radius: 40%;
+  filter: blur(50px);
+  margin: -85% auto 0;
+  opacity: 1;
+}
+
+.title {
+  padding-bottom: 5px;
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.small .title {
+  font-size: 14px;
+}
+
+.artist {
+  font-size: 16px;
+  color: #a5c0ff;
+  opacity: 0.7;
+}
+
+.small .artist {
+  font-size: 10px;
+}
