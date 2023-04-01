@@ -1,0 +1,21 @@
+.playPauseBtn {
+  width: 30px;
+  height: 30px;
+  margin: 0 35px;
+  background-image: url("../../assets/svg/play.svg");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.pause {
+  background-image: url("../../assets/svg/pause.svg");
+}
+
+.playPauseBtn:hover {
+  opacity: 0.6;
+  filter: invert(38%) sepia(11%) saturate(828%) hue-rotate(186deg) brightness(94%) contrast(88%);
+}
