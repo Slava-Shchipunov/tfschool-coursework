@@ -1,6 +1,9 @@
 name: Deploy
 
 on:
+  workflow_dispatch:
+    branches:
+      - main
   pull_request:
     types:
       - closed
@@ -8,40 +11,18 @@ on:
       - main
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run prettier
-      - run: npm run lint
+  call-workflow-lint:
+    uses: ./.github/workflows/lint.yml
 
-  test:
-    needs: lint
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run test
+  call-workflow-test:
+    needs: call-workflow-lint
+    uses: ./.github/workflows/test.yml
 
   deploy:
-    needs: test
+    if: |
+      github.event.pull_request.merged ||
+      github.event_name == 'workflow_dispatch'
+    needs: call-workflow-test
     runs-on: ubuntu-latest
     strategy:
       matrix:
