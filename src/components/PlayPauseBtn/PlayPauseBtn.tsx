@@ -8,7 +8,7 @@ type TPlayPauseBtn = {
 
 const className = classNames.bind(styles);
 
-export function PlayPauseBtn(props: TPlayPauseBtn) {
+export const PlayPauseBtn = (props: TPlayPauseBtn) => {
   const { isPlay, playPauseTrack } = props;
 
   return (
@@ -20,4 +20,4 @@ export function PlayPauseBtn(props: TPlayPauseBtn) {
       data-testid="playPauseBtn"
     />
   );
-}
+};

@@ -6,7 +6,7 @@ type TPlayer = {
   isPlay: boolean;
 };
 
-export function Player(props: TPlayer) {
+export const Player = (props: TPlayer) => {
   const { src, isPlay } = props;
 
   const audioRef = useRef(null);
@@ -21,4 +21,4 @@ export function Player(props: TPlayer) {
   }
 
   return <audio src={src} ref={audioRef} data-testid="audio" />;
-}
+};

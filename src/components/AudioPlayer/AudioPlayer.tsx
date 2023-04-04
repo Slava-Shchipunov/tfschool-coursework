@@ -8,7 +8,7 @@ import { Player } from './Player';
 
 const className = classNames.bind(styles);
 
-export function AudioPlayer() {
+export const AudioPlayer = () => {
   const { activeSong, isPlay } = useSelector(
     (state: TRootState) => state.player
   );
@@ -28,4 +28,4 @@ export function AudioPlayer() {
       <PlayPauseBtn isPlay={isPlay} playPauseTrack={playPauseTrack} />
     </div>
   );
-}
+};
