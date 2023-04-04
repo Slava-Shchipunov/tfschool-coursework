@@ -16,13 +16,13 @@
   width: 150px;
 }
 
-.artFill,
-.artShadow {
+.art-fill,
+.art-shadow {
   background-size: cover;
   background-position: center;
 }
 
-.artFill {
+.art-fill {
   height: 100%;
   width: 100%;
   border-radius: 5px;
@@ -30,7 +30,7 @@
   z-index: 10;
 }
 
-.artShadow {
+.art-shadow {
   height: 85%;
   width: 85%;
   border-radius: 40%;
