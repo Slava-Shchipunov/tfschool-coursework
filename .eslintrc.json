@@ -21,7 +21,11 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier"
+  ],
   "rules": {
     "import/prefer-default-export": "off",
     "react/jsx-uses-react": "off",
@@ -33,5 +37,20 @@
         "unnamedComponents": "arrow-function"
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/**/*.slice.ts"
+      ],
+      "rules": {
+        "no-param-reassign": [
+          "error",
+          {
+            "props": false
+          }
+        ]
+      }
+    }
+  ]
 }
