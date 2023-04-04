@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export function SignPage() {
+export const SignPage = () => {
   return (
     <div className="wrapper">
       <div className="">You are on the SignPage</div>
@@ -9,4 +9,4 @@ export function SignPage() {
       <Link to="/ErrorPage">Go to ErrorPage</Link>
     </div>
   );
-}
+};

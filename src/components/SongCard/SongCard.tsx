@@ -10,7 +10,7 @@ type TSongCard = {
 
 const className = classNames.bind(styles);
 
-export function SongCard(props: TSongCard) {
+export const SongCard = (props: TSongCard) => {
   const { imgUrl, title, artist, isSmall } = props;
 
   return (
@@ -23,4 +23,4 @@ export function SongCard(props: TSongCard) {
       <div className={className('artist')}>{artist}</div>{' '}
     </div>
   );
-}
+};

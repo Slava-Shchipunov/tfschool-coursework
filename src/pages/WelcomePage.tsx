@@ -1,7 +1,7 @@
 import { SongCard } from 'components/SongCard/SongCard';
 import { Link } from 'react-router-dom';
 
-export function WelcomePage() {
+export const WelcomePage = () => {
   return (
     <div className="wrapper">
       <div className="">You are on the WelcomePage</div>
@@ -16,4 +16,4 @@ export function WelcomePage() {
       />
     </div>
   );
-}
+};
