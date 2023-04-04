@@ -16,14 +16,8 @@ export function SongCard(props: TSongCard) {
   return (
     <div className={className('card', { small: isSmall })}>
       <div className={className('art')}>
-        <div
-          className={className('art-fill')}
-          style={{ backgroundImage: `url(${imgUrl})` }}
-        />
-        <div
-          className={className('art-shadow')}
-          style={{ backgroundImage: `url(${imgUrl})` }}
-        />
+        <img className={className('art-fill')} src={imgUrl} alt="cover" />
+        <img className={className('art-shadow')} src={imgUrl} alt="shadow" />
       </div>
       <div className={className('title')}>{title}</div>{' '}
       <div className={className('artist')}>{artist}</div>{' '}
