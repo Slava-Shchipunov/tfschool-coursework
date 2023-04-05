@@ -1,0 +1,17 @@
+.prev-track {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  transition: 0.5s;
+  background-image: url('../../assets/svg/prev.svg');
+}
+
+.prev-track:hover {
+  opacity: 0.6;
+  filter: invert(38%) sepia(11%) saturate(828%) hue-rotate(186deg)
+    brightness(94%) contrast(88%);
+}

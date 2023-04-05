@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 type TSong = {
+  name?: string;
   src?: string;
 };
 
@@ -33,6 +34,11 @@ const playerSlice = createSlice({
       state.activeSong = state.currentSongs[payload];
       state.isActive = true;
     },
+    prev: (state, { payload }) => {
+      state.currentIdx = payload;
+      state.activeSong = state.currentSongs[payload];
+      state.isActive = true;
+    },
     setActiveSong: (state, { payload }) => {
       state.currentSongs = payload.currentSongs;
       state.currentIdx = payload.currentIdx;
@@ -42,5 +48,5 @@ const playerSlice = createSlice({
   },
 });
 
-export const { togglePlay, next, setActiveSong } = playerSlice.actions;
+export const { togglePlay, next, prev, setActiveSong } = playerSlice.actions;
 export const playerRedusers = playerSlice.reducer;
