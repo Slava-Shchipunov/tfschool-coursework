@@ -1,19 +1,23 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-type TInitialState = {
-  isPlay: boolean;
-  activeSong: {
-    src: string;
-  };
+type TSong = {
+  src?: string;
 };
 
-// для проверки работы воспроизведения/паузы трека в initialState добавлена ссылка в activeSong
-// в дальнейшем это будет пустой объект
+type TInitialState = {
+  currentSongs: TSong[];
+  currentIdx: number;
+  isActive: boolean;
+  isPlay: boolean;
+  activeSong: TSong;
+};
+
 const initialState: TInitialState = {
+  currentSongs: [],
+  currentIdx: 0,
+  isActive: false,
   isPlay: false,
-  activeSong: {
-    src: 'https://p.scdn.co/mp3-preview/effd763b0241c4973a3ebad491ac7fd13c93e6c5?cid=d8a5ed958d274c2e8ee717e6a4b0971d',
-  },
+  activeSong: {},
 };
 
 const playerSlice = createSlice({
@@ -24,8 +28,19 @@ const playerSlice = createSlice({
       state.isPlay =
         action.payload !== undefined ? action.payload : !state.isPlay;
     },
+    next: (state, { payload }) => {
+      state.currentIdx = payload;
+      state.activeSong = state.currentSongs[payload];
+      state.isActive = true;
+    },
+    setActiveSong: (state, { payload }) => {
+      state.currentSongs = payload.currentSongs;
+      state.currentIdx = payload.currentIdx;
+      state.activeSong = payload.activeSong;
+      state.isActive = payload.isActive;
+    },
   },
 });
 
-export const { togglePlay } = playerSlice.actions;
+export const { togglePlay, next, setActiveSong } = playerSlice.actions;
 export const playerRedusers = playerSlice.reducer;
