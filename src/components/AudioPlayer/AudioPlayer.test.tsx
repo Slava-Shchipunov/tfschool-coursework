@@ -14,4 +14,10 @@ test('renders AudioPlayer component', () => {
 
   const playPauseBtn = screen.getByTestId('playPauseBtn');
   expect(playPauseBtn).toBeInTheDocument();
+
+  const nextTrackBtn = screen.getByTestId('nextTrackBtn');
+  expect(nextTrackBtn).toBeInTheDocument();
+
+  const prevTrackBtn = screen.getByTestId('prevTrackBtn');
+  expect(prevTrackBtn).toBeInTheDocument();
 });
