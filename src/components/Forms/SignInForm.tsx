@@ -1,29 +1,28 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import classNames from 'classnames/bind';
 import { useForm } from 'react-hook-form';
-import { TUserCreate } from 'types/types';
+import { TUserAuth } from 'types/types';
 import styles from './style.module.css';
 
 const className = classNames.bind(styles);
 
-const defaultValuesForm: TUserCreate = {
-  email: '',
+const defaultValuesForm: TUserAuth = {
   login: '',
   password: '',
 };
 
-export const SignUpForm = () => {
+export const SignInForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TUserCreate>({
+  } = useForm<TUserAuth>({
     defaultValues: defaultValuesForm,
     mode: 'all',
   });
 
-  const onSubmit = (data: TUserCreate) => {
-    console.log(data); // TODO в дальнейшем отправлять данные на сервер для регистрации пользователя
+  const onSubmit = (data: TUserAuth) => {
+    console.log(data); // TODO в дальнейшем отправлять данные на сервер для авторизации пользователя
   };
 
   return (
@@ -46,24 +45,6 @@ export const SignUpForm = () => {
         />
         <p className={className('error-msg')}>{errors.login?.message}</p>
       </label>
-      <label htmlFor="email" className={className('lable')}>
-        Email <br />
-        <input
-          className={className('input')}
-          id="email"
-          type="text"
-          placeholder="Email"
-          autoComplete="off"
-          {...register('email', {
-            required: 'Email is required',
-            pattern: {
-              value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-              message: 'Email is not valid',
-            },
-          })}
-        />
-        <p className={className('error-msg')}>{errors.email?.message}</p>
-      </label>
       <label htmlFor="password" className={className('lable')}>
         Password <br />
         <input
@@ -83,7 +64,7 @@ export const SignUpForm = () => {
         <p className={className('error-msg')}>{errors.password?.message}</p>
       </label>
       <button className={className('button')} type="submit">
-        Sign up
+        Sign in
       </button>
     </form>
   );

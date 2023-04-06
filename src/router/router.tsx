@@ -2,11 +2,13 @@ import { createBrowserRouter } from 'react-router-dom';
 import { App } from 'App';
 import { WelcomePage } from 'pages/WelcomePage';
 import { ErrorPage } from 'pages/ErrorPage';
-import { SignPage } from 'pages/SignPage';
+import { SignInPage } from 'pages/SignInPage';
+import { SignUpPage } from 'pages/SignUpPage';
 
 export enum PathRoutes {
   welcome = '/',
-  sign = 'sign',
+  signup = 'sign-up',
+  signin = 'sign-in',
   errorPath = '404',
 }
 
@@ -20,8 +22,12 @@ const routes = [
         element: <WelcomePage />,
       },
       {
-        path: PathRoutes.sign,
-        element: <SignPage />,
+        path: PathRoutes.signup,
+        element: <SignUpPage />,
+      },
+      {
+        path: PathRoutes.signin,
+        element: <SignInPage />,
       },
     ],
     errorElement: <ErrorPage />,
