@@ -7,10 +7,11 @@
   "extends": [
     "react-app",
     "react-app/jest",
-    "airbnb",
-    "airbnb-typescript",
     "plugin:import/typescript",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -21,36 +22,10 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "prettier"
-  ],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
     "import/prefer-default-export": "off",
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off",
-    "react/function-component-definition": [
-      2,
-      {
-        "namedComponents": "arrow-function",
-        "unnamedComponents": "arrow-function"
-      }
-    ]
-  },
-  "overrides": [
-    {
-      "files": [
-        "src/**/*.slice.ts"
-      ],
-      "rules": {
-        "no-param-reassign": [
-          "error",
-          {
-            "props": false
-          }
-        ]
-      }
-    }
-  ]
+    "react/react-in-jsx-scope": "off"
+  }
 }

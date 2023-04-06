@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 
-/* eslint-disable jsx-a11y/media-has-caption */
 type TPlayer = {
   src: string;
   isPlay: boolean;

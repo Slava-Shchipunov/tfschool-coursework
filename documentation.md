@@ -58,7 +58,7 @@ Online Audio Player – приложение для прослушивания �
 1. [Typescript](https://typescriptlang.org)
 1. [React Router Dom](https://reactrouter.com)
 1. [Redux Tool Kit](https://redux-toolkit.js.org)
-1. [ES lint](https://eslint.org) with [Airbnb Style Guide](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb)
+1. [ES lint](https://eslint.org)
 1. [Prettier](https://prettier.io)
 1. [GitHub Actions](https://docs.github.com/ru/actions)
 

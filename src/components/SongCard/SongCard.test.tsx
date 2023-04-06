@@ -9,14 +9,7 @@ const props = {
 };
 
 test('renders SongCard component', () => {
-  render(
-    <SongCard
-      imgUrl={props.imgUrl}
-      artist={props.artist}
-      title={props.title}
-      isSmall={props.isSmall}
-    />
-  );
+  render(<SongCard {...props} />);
   const title = screen.getByText(props.title);
   const artist = screen.getByText(props.artist);
   expect(title).toBeInTheDocument();
