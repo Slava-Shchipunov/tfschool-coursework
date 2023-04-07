@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import classNames from 'classnames/bind';
 import { useForm } from 'react-hook-form';
 import { TUserCreate } from 'types/types';
