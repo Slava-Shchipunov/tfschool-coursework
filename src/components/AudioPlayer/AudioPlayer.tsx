@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
-import { PlayPauseBtn } from 'components/PlayPauseBtn/PlayPauseBtn';
+import { PlayPauseBtn } from 'components/AudioPlayer/PlayPauseBtn/PlayPauseBtn';
 import { playPause } from 'store/player/player.slice';
 import { TRootState } from 'store/store';
 import styles from './style.module.css';
