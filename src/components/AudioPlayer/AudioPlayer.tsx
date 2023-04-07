@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
 import { PlayPauseBtn } from 'components/AudioPlayer/PlayPauseBtn/PlayPauseBtn';
-import { playPause } from 'store/player/player.slice';
+import { togglePlay } from 'store/player/player.slice';
 import { TRootState } from 'store/store';
 import styles from './style.module.css';
 import { Player } from './Player';
@@ -15,11 +15,7 @@ export const AudioPlayer = () => {
   const dispatch = useDispatch();
 
   const playPauseTrack = () => {
-    if (isPlay) {
-      dispatch(playPause(false));
-    } else {
-      dispatch(playPause(true));
-    }
+    dispatch(togglePlay());
   };
 
   return (

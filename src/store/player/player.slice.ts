@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 type TInitialState = {
   isPlay: boolean;
@@ -20,11 +20,12 @@ const playerSlice = createSlice({
   name: 'player',
   initialState,
   reducers: {
-    playPause: (state, { payload }) => {
-      state.isPlay = payload;
+    togglePlay: (state, action: PayloadAction<boolean | undefined>) => {
+      state.isPlay =
+        action.payload !== undefined ? action.payload : !state.isPlay;
     },
   },
 });
 
-export const { playPause } = playerSlice.actions;
+export const { togglePlay } = playerSlice.actions;
 export const playerRedusers = playerSlice.reducer;
