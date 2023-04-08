@@ -23,9 +23,12 @@
   background-color: #8996b8;
 }
 
-.error-msg {
-  margin-top: 2px;
+.error-container {
+  margin-top: -4px;
   height: 20px;
+}
+
+.error-msg {
   color: #de520d;
   font-size: 0.875rem;
 }
