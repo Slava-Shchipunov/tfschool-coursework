@@ -1,4 +1,4 @@
-import { SongCard } from 'components/SongCard/SongCard';
+import { AudioPlayer } from 'components/AudioPlayer/AudioPlayer';
 import { Link } from 'react-router-dom';
 
 export const WelcomePage = () => {
@@ -8,12 +8,7 @@ export const WelcomePage = () => {
       <Link to="/">Go to WelcomePage</Link>
       <Link to="/sign">Go to SignPage</Link>
       <Link to="/ErrorPage">Go to ErrorPage</Link>
-      <SongCard
-        imgUrl="https://i.scdn.co/image/ab67616d0000b273ec182939cba3386ddcb93069"
-        artist="IMAGINE DRAGON"
-        title="Wrecked"
-        isSmall
-      />
+      <AudioPlayer />
     </div>
   );
 };
