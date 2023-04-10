@@ -1,18 +1,18 @@
 import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
-import { PlayPauseBtn } from 'components/PlayPauseBtn/PlayPauseBtn';
+import { useEffect } from 'react';
 import {
   togglePlay,
   next,
   prev,
   setActiveSong,
 } from 'store/player/player.slice';
-import { NextTrackBtn } from 'components/NextTrackBtn/NextTrackBtn';
-import { useEffect } from 'react';
-import { PrevTrackBtn } from 'components/PrevTrackBtn/PrevTrackBtn';
-import styles from './style.module.css';
-import { Player } from './Player';
 import { getPlayer } from './selectors/getPlayer';
+import { PlayPauseBtn } from 'components/AudioPlayer/PlayPauseBtn/PlayPauseBtn';
+import { NextTrackBtn } from 'components/AudioPlayer/NextTrackBtn/NextTrackBtn';
+import { PrevTrackBtn } from 'components/AudioPlayer/PrevTrackBtn/PrevTrackBtn';
+import { Player } from './Player';
+import styles from './style.module.css';
 
 const className = classNames.bind(styles);
 
@@ -60,6 +60,10 @@ export const AudioPlayer = () => {
   };
 
   const playPauseTrack = () => {
+    if (!isActive) {
+      return;
+    }
+
     dispatch(togglePlay());
   };
 
@@ -68,9 +72,11 @@ export const AudioPlayer = () => {
     if (!isActive) {
       return;
     }
+
     if (currentSongs.length > 1) {
       dispatch(togglePlay(false));
     }
+
     const nextIdx = currentIdx < currentSongs.length - 1 ? currentIdx + 1 : 0;
     dispatch(next(nextIdx));
   };
@@ -79,9 +85,11 @@ export const AudioPlayer = () => {
     if (!isActive) {
       return;
     }
+
     if (currentSongs.length > 1) {
-      dispatch(playPause(false));
+      dispatch(togglePlay(false));
     }
+
     const prevIdx = currentIdx > 0 ? currentIdx - 1 : currentSongs.length - 1;
     dispatch(prev(prevIdx));
   };
