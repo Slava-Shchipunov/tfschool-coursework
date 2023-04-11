@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SignUpForm } from './SignUpForm';
 import { TUserCreate } from 'types/types';
+import { MemoryRouter } from 'react-router-dom';
 
 const mockLogin: (data: TUserCreate) => Promise<TUserCreate> = jest.fn(
   (data) => {
@@ -9,7 +10,11 @@ const mockLogin: (data: TUserCreate) => Promise<TUserCreate> = jest.fn(
 );
 
 test('should render all fields', () => {
-  render(<SignUpForm signUp={mockLogin} />);
+  render(
+    <MemoryRouter>
+      <SignUpForm signUp={mockLogin} />
+    </MemoryRouter>
+  );
 
   expect(screen.getByTestId('login')).toBeInTheDocument();
   expect(screen.getByTestId('email')).toBeInTheDocument();
@@ -17,16 +22,24 @@ test('should render all fields', () => {
 });
 
 test('should display required error when all values is invalid', async () => {
-  render(<SignUpForm signUp={mockLogin} />);
+  render(
+    <MemoryRouter>
+      <SignUpForm signUp={mockLogin} />
+    </MemoryRouter>
+  );
 
   fireEvent.submit(screen.getByTestId('button'));
 
   expect(await screen.findAllByTestId('alert')).toHaveLength(3);
-  await waitFor(() => expect(mockLogin).not.toBeCalled());
+  expect(mockLogin).not.toBeCalled();
 });
 
 test('should display min length error when login is invalid', async () => {
-  render(<SignUpForm signUp={mockLogin} />);
+  render(
+    <MemoryRouter>
+      <SignUpForm signUp={mockLogin} />
+    </MemoryRouter>
+  );
 
   fireEvent.input(screen.getByTestId('login'), {
     target: {
@@ -49,14 +62,18 @@ test('should display min length error when login is invalid', async () => {
   fireEvent.submit(screen.getByTestId('button'));
 
   expect(await screen.findAllByTestId('alert')).toHaveLength(1);
-  await waitFor(() => expect(mockLogin).not.toBeCalled());
+  expect(mockLogin).not.toBeCalled();
   expect(screen.getByTestId('login')).toHaveValue('log');
   expect(screen.getByTestId('email')).toHaveValue('test@mail.com');
   expect(screen.getByTestId('password')).toHaveValue('password');
 });
 
 test('should display matching error when login is invalid', async () => {
-  render(<SignUpForm signUp={mockLogin} />);
+  render(
+    <MemoryRouter>
+      <SignUpForm signUp={mockLogin} />
+    </MemoryRouter>
+  );
 
   fireEvent.input(screen.getByTestId('login'), {
     target: {
@@ -79,14 +96,18 @@ test('should display matching error when login is invalid', async () => {
   fireEvent.submit(screen.getByTestId('button'));
 
   expect(await screen.findAllByTestId('alert')).toHaveLength(1);
-  await waitFor(() => expect(mockLogin).not.toBeCalled());
+  expect(mockLogin).not.toBeCalled();
   expect(screen.getByTestId('login')).toHaveValue('login%');
   expect(screen.getByTestId('email')).toHaveValue('test@mail.com');
   expect(screen.getByTestId('password')).toHaveValue('password');
 });
 
 test('should display matching error when email is invalid', async () => {
-  render(<SignUpForm signUp={mockLogin} />);
+  render(
+    <MemoryRouter>
+      <SignUpForm signUp={mockLogin} />
+    </MemoryRouter>
+  );
 
   fireEvent.input(screen.getByTestId('login'), {
     target: {
@@ -109,14 +130,18 @@ test('should display matching error when email is invalid', async () => {
   fireEvent.submit(screen.getByTestId('button'));
 
   expect(await screen.findAllByTestId('alert')).toHaveLength(1);
-  await waitFor(() => expect(mockLogin).not.toBeCalled());
+  expect(mockLogin).not.toBeCalled();
   expect(screen.getByTestId('login')).toHaveValue('login');
   expect(screen.getByTestId('email')).toHaveValue('test');
   expect(screen.getByTestId('password')).toHaveValue('password');
 });
 
 test('should display min length error when password is invalid', async () => {
-  render(<SignUpForm signUp={mockLogin} />);
+  render(
+    <MemoryRouter>
+      <SignUpForm signUp={mockLogin} />
+    </MemoryRouter>
+  );
 
   fireEvent.input(screen.getByTestId('login'), {
     target: {
@@ -139,14 +164,18 @@ test('should display min length error when password is invalid', async () => {
   fireEvent.submit(screen.getByTestId('button'));
 
   expect(await screen.findAllByTestId('alert')).toHaveLength(1);
-  await waitFor(() => expect(mockLogin).not.toBeCalled());
+  expect(mockLogin).not.toBeCalled();
   expect(screen.getByTestId('login')).toHaveValue('login');
   expect(screen.getByTestId('email')).toHaveValue('test@mail.com');
   expect(screen.getByTestId('password')).toHaveValue('pass');
 });
 
 test('should display matching error when password is invalid', async () => {
-  render(<SignUpForm signUp={mockLogin} />);
+  render(
+    <MemoryRouter>
+      <SignUpForm signUp={mockLogin} />
+    </MemoryRouter>
+  );
 
   fireEvent.input(screen.getByTestId('login'), {
     target: {
@@ -169,14 +198,18 @@ test('should display matching error when password is invalid', async () => {
   fireEvent.submit(screen.getByTestId('button'));
 
   expect(await screen.findAllByTestId('alert')).toHaveLength(1);
-  await waitFor(() => expect(mockLogin).not.toBeCalled());
+  expect(mockLogin).not.toBeCalled();
   expect(screen.getByTestId('login')).toHaveValue('login');
   expect(screen.getByTestId('email')).toHaveValue('test@mail.com');
   expect(screen.getByTestId('password')).toHaveValue('password%');
 });
 
 test('should not display error when value is valid', async () => {
-  render(<SignUpForm signUp={mockLogin} />);
+  render(
+    <MemoryRouter>
+      <SignUpForm signUp={mockLogin} />
+    </MemoryRouter>
+  );
 
   fireEvent.input(screen.getByTestId('login'), {
     target: {
@@ -199,13 +232,11 @@ test('should not display error when value is valid', async () => {
   fireEvent.submit(screen.getByTestId('button'));
 
   await waitFor(() => expect(screen.queryAllByTestId('alert')).toHaveLength(0));
-  await waitFor(() =>
-    expect(mockLogin).toBeCalledWith({
-      login: 'login',
-      email: 'test@mail.com',
-      password: 'password',
-    })
-  );
+  expect(mockLogin).toBeCalledWith({
+    login: 'login',
+    email: 'test@mail.com',
+    password: 'password',
+  });
 
   expect(screen.getByTestId('login')).toHaveValue('');
   expect(screen.getByTestId('email')).toHaveValue('');

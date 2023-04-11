@@ -47,3 +47,12 @@
 .button:hover {
   background-color: #8996b8;
 }
+
+.link {
+  text-decoration: underline #8996b8 2px;
+}
+
+.link-text {
+  width: fit-content;
+  margin: 0 auto;
+}
