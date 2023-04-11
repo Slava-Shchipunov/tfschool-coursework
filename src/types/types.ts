@@ -8,4 +8,4 @@ export type TUser = {
 
 export type TUserCreate = Omit<TUser, 'id'>;
 
-export type TUserAuth = Omit<TUser, 'id' | 'email'>;
+export type TUserAuth = Omit<TUser, 'id' | 'login'>;

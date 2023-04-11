@@ -14,7 +14,7 @@ test('should render all fields', () => {
     </MemoryRouter>
   );
 
-  expect(screen.getByTestId('login')).toBeInTheDocument();
+  expect(screen.getByTestId('email')).toBeInTheDocument();
   expect(screen.getByTestId('password')).toBeInTheDocument();
 });
 
@@ -31,16 +31,16 @@ test('should display required error when all values is invalid', async () => {
   expect(mockLogin).not.toBeCalled();
 });
 
-test('should display min length error when login is invalid', async () => {
+test('should display matching error when email is invalid', async () => {
   render(
     <MemoryRouter>
       <SignInForm signIn={mockLogin} />
     </MemoryRouter>
   );
 
-  fireEvent.input(screen.getByTestId('login'), {
+  fireEvent.input(screen.getByTestId('email'), {
     target: {
-      value: 'log',
+      value: 'test',
     },
   });
 
@@ -54,34 +54,7 @@ test('should display min length error when login is invalid', async () => {
 
   expect(await screen.findAllByTestId('alert')).toHaveLength(1);
   expect(mockLogin).not.toBeCalled();
-  expect(screen.getByTestId('login')).toHaveValue('log');
-  expect(screen.getByTestId('password')).toHaveValue('password');
-});
-
-test('should display matching error when login is invalid', async () => {
-  render(
-    <MemoryRouter>
-      <SignInForm signIn={mockLogin} />
-    </MemoryRouter>
-  );
-
-  fireEvent.input(screen.getByTestId('login'), {
-    target: {
-      value: 'login%',
-    },
-  });
-
-  fireEvent.input(screen.getByTestId('password'), {
-    target: {
-      value: 'password',
-    },
-  });
-
-  fireEvent.submit(screen.getByTestId('button'));
-
-  expect(await screen.findAllByTestId('alert')).toHaveLength(1);
-  expect(mockLogin).not.toBeCalled();
-  expect(screen.getByTestId('login')).toHaveValue('login%');
+  expect(screen.getByTestId('email')).toHaveValue('test');
   expect(screen.getByTestId('password')).toHaveValue('password');
 });
 
@@ -92,9 +65,9 @@ test('should display matching error when password is invalid', async () => {
     </MemoryRouter>
   );
 
-  fireEvent.input(screen.getByTestId('login'), {
+  fireEvent.input(screen.getByTestId('email'), {
     target: {
-      value: 'login',
+      value: 'test@mail.com',
     },
   });
 
@@ -108,7 +81,7 @@ test('should display matching error when password is invalid', async () => {
 
   expect(await screen.findAllByTestId('alert')).toHaveLength(1);
   expect(mockLogin).not.toBeCalled();
-  expect(screen.getByTestId('login')).toHaveValue('login');
+  expect(screen.getByTestId('email')).toHaveValue('test@mail.com');
   expect(screen.getByTestId('password')).toHaveValue('password%');
 });
 
@@ -119,9 +92,9 @@ test('should display min length error when password is invalid', async () => {
     </MemoryRouter>
   );
 
-  fireEvent.input(screen.getByTestId('login'), {
+  fireEvent.input(screen.getByTestId('email'), {
     target: {
-      value: 'login',
+      value: 'test@mail.com',
     },
   });
 
@@ -135,7 +108,7 @@ test('should display min length error when password is invalid', async () => {
 
   expect(await screen.findAllByTestId('alert')).toHaveLength(1);
   expect(mockLogin).not.toBeCalled();
-  expect(screen.getByTestId('login')).toHaveValue('login');
+  expect(screen.getByTestId('email')).toHaveValue('test@mail.com');
   expect(screen.getByTestId('password')).toHaveValue('pass');
 });
 
@@ -146,9 +119,9 @@ test('should not display error when value is valid', async () => {
     </MemoryRouter>
   );
 
-  fireEvent.input(screen.getByTestId('login'), {
+  fireEvent.input(screen.getByTestId('email'), {
     target: {
-      value: 'login',
+      value: 'test@mail.com',
     },
   });
 
@@ -162,10 +135,10 @@ test('should not display error when value is valid', async () => {
 
   await waitFor(() => expect(screen.queryAllByTestId('alert')).toHaveLength(0));
   expect(mockLogin).toBeCalledWith({
-    login: 'login',
+    email: 'test@mail.com',
     password: 'password',
   });
 
-  expect(screen.getByTestId('login')).toHaveValue('');
+  expect(screen.getByTestId('email')).toHaveValue('');
   expect(screen.getByTestId('password')).toHaveValue('');
 });

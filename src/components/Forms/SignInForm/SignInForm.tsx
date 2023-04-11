@@ -13,24 +13,24 @@ type TSignInProps = {
 };
 
 export const SignInForm = (props: TSignInProps) => {
-  const [login, setLogin] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [loginError, setLoginError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
   const states = {
-    login: setLogin,
+    email: setEmail,
     password: setPassword,
   };
 
   const errors = {
-    login: setLoginError,
+    email: setEmailError,
     password: setPasswordError,
   };
 
   const patterns = {
-    Login: /^[a-zA-Z0-9]+$/,
+    Email: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
     Password: /^[a-zA-Z0-9]+$/,
   };
 
@@ -38,22 +38,22 @@ export const SignInForm = (props: TSignInProps) => {
     // TODO в дальнейшем отправлять данные на сервер для авторизации пользователя
     event.preventDefault();
 
-    if (!login || !password) {
-      !login && setLoginError('Login is required');
+    if (!email || !password) {
+      !email && setEmailError('Email is required');
       !password && setPasswordError('Password is required');
       return;
     }
 
-    if (loginError || passwordError) {
+    if (emailError || passwordError) {
       return;
     }
 
     const data: TUserAuth = {
-      login: login,
+      email: email,
       password: password,
     };
 
-    setLogin('');
+    setEmail('');
     setPassword('');
 
     await props.signIn(data);
@@ -64,10 +64,9 @@ export const SignInForm = (props: TSignInProps) => {
   return (
     <form className={className('form')} onSubmit={handleSubmit}>
       <Input
-        type={'Login'}
-        minLength={4}
-        value={login}
-        error={loginError}
+        type={'Email'}
+        value={email}
+        error={emailError}
         validateInput={validate}
       />
       <Input
