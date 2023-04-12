@@ -80,3 +80,87 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+/* Font start */
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('./assets/fonts/Gilroy-Regular.ttf');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('./assets/fonts/Gilroy-Medium.ttf');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('./assets/fonts/Gilroy-Bold.ttf');
+  font-weight: 700;
+}
+
+/* Font end */
+
+/* Common styles start */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li {
+  margin: 0;
+  font-family: 'Gilroy';
+  font-weight: 400;
+  color: #eaf0ff;
+  line-height: 1.17;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: 0.5s;
+}
+
+a:hover,
+a:focus {
+  color: #8996b8;
+  opacity: 0.6;
+  outline: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  outline: none;
+}
+
+body {
+  background-color: #091227;
+}
+
+/* Common styles end */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
