@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './style.module.css';
+import styles from '../style.module.css';
 import { Icon } from 'components/Icon/Icon';
 import prevIconUrl from 'assets/svg/prev.svg';
 
@@ -14,7 +14,7 @@ export const PrevTrackBtn = (props: TPrevTrackBtn) => {
 
   return (
     <button
-      className={className('prev-track')}
+      className={className('button')}
       type="button"
       aria-label="Prev track"
       onClick={prevTrack}

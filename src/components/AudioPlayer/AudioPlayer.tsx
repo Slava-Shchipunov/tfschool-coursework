@@ -8,9 +8,9 @@ import {
   setActiveSong,
 } from 'store/player/player.slice';
 import { getPlayer } from './selectors/getPlayer';
-import { PlayPauseBtn } from 'components/AudioPlayer/PlayPauseBtn/PlayPauseBtn';
-import { NextTrackBtn } from 'components/AudioPlayer/NextTrackBtn/NextTrackBtn';
-import { PrevTrackBtn } from 'components/AudioPlayer/PrevTrackBtn/PrevTrackBtn';
+import { PlayPauseBtn } from 'components/AudioPlayer/controls/PlayPauseBtn';
+import { NextTrackBtn } from 'components/AudioPlayer/controls/NextTrackBtn';
+import { PrevTrackBtn } from 'components/AudioPlayer/controls/PrevTrackBtn';
 import { Player } from './Player';
 import styles from './style.module.css';
 

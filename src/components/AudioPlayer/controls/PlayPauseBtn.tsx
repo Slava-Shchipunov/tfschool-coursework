@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './style.module.css';
+import styles from '../style.module.css';
 import { Icon } from 'components/Icon/Icon';
 import pauseIconUrl from 'assets/svg/pause.svg';
 import playIconUrl from 'assets/svg/play.svg';
@@ -16,7 +16,7 @@ export const PlayPauseBtn = (props: TPlayPauseBtn) => {
 
   return (
     <button
-      className={className('play-pause-btn')}
+      className={className('button')}
       type="button"
       aria-label="Play or pause"
       onClick={playPauseTrack}
