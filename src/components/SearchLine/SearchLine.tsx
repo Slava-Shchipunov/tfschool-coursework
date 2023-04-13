@@ -8,7 +8,7 @@ import crossIconUrl from 'assets/svg/cross.svg';
 const className = classNames.bind(styles);
 
 type TSearchLineProps = {
-  /* signIn: (data: TUserAuth) => Promise<TUserAuth>; */
+  search: (data: string) => Promise<string>;
 };
 
 export const SearchLine = (props: TSearchLineProps) => {
@@ -23,8 +23,7 @@ export const SearchLine = (props: TSearchLineProps) => {
     if (trimmedSearchString) {
       const searchData: string = trimmedSearchString;
 
-      console.log(searchData);
-      /* await props.signIn(searchData); */
+      await props.search(searchData);
     }
   };
 
