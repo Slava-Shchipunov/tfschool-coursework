@@ -38,8 +38,12 @@ export const Seekbar = (props: TSeekbar) => {
 
   return (
     <div className={className('slider-container')}>
-      <div className={className('current-time')}>{formatTime(currentTime)}</div>
-      <div className={className('total-duration')}>{formatTime(duration)}</div>
+      <div className={className('current-time')} data-testid="currentTime">
+        {formatTime(currentTime)}
+      </div>
+      <div className={className('total-duration')} data-testid="totalDuration">
+        {formatTime(duration)}
+      </div>
       <input
         type="range"
         min="0"
@@ -47,6 +51,7 @@ export const Seekbar = (props: TSeekbar) => {
         step="any"
         value={currentTime}
         style={{ background: background }}
+        data-testid="seekbar"
         onChange={updateSeekbar}
         className={className('seek-slider')}
       />
