@@ -1,0 +1,7 @@
+.container {
+  display: flex;
+}
+
+.track-list {
+  flex-grow: 1;
+}
