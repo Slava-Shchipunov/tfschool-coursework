@@ -29,16 +29,17 @@ const playerSlice = createSlice({
       state.isPlay =
         action.payload !== undefined ? action.payload : !state.isPlay;
     },
-    next: (state, { payload }) => {
+    next: (state, { payload }: PayloadAction<number>) => {
       state.currentIdx = payload;
       state.activeSong = state.currentSongs[payload];
       state.isActive = true;
     },
-    prev: (state, { payload }) => {
+    prev: (state, { payload }: PayloadAction<number>) => {
       state.currentIdx = payload;
       state.activeSong = state.currentSongs[payload];
       state.isActive = true;
     },
+    // TODO добавить тип для payload:
     setActiveSong: (state, { payload }) => {
       state.currentSongs = payload.currentSongs;
       state.currentIdx = payload.currentIdx;
