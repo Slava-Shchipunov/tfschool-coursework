@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { RAPIDAPI_KEY, SPOTIFY_BASE_URL } from 'consts';
-import { TSearchResponse } from 'types/types';
+import { TSearchResponse, TTrackDetailsResponse } from 'types/types';
 
 const instanceAxiosSpotify = (defaultConfig?: AxiosRequestConfig) => {
   const config: AxiosRequestConfig = {
@@ -30,7 +30,7 @@ export const searchTracks = (searchQuery: string) => {
 };
 
 export const getTrackDetails = (tarckId: string) => {
-  return instanceAxiosSpotify().get('/tracks', {
+  return instanceAxiosSpotify().get<TTrackDetailsResponse>('/tracks', {
     params: { ids: tarckId },
   });
 };
