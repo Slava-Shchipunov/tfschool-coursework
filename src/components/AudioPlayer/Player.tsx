@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 type TPlayer = {
   src: string;
   isPlay: boolean;
+<<<<<<< HEAD
   seekTime: number;
   nextTrack: () => void;
   updateDuration: (event: React.SyntheticEvent<HTMLAudioElement>) => void;
@@ -12,6 +13,13 @@ type TPlayer = {
 export const Player = (props: TPlayer) => {
   const { src, isPlay, seekTime, nextTrack, updateDuration, updateTime } =
     props;
+=======
+  onEnded: () => void;
+};
+
+export const Player = (props: TPlayer) => {
+  const { src, isPlay, onEnded } = props;
+>>>>>>> 3ebbfac (feat: add onEnded event handler)
 
   const audioRef = useRef(null);
 
@@ -32,6 +40,7 @@ export const Player = (props: TPlayer) => {
   }
 
   return (
+<<<<<<< HEAD
     <audio
       src={src}
       ref={audioRef}
@@ -40,5 +49,8 @@ export const Player = (props: TPlayer) => {
       onLoadedData={updateDuration}
       onTimeUpdate={updateTime}
     />
+=======
+    <audio src={src} ref={audioRef} data-testid="audio" onEnded={onEnded} />
+>>>>>>> 3ebbfac (feat: add onEnded event handler)
   );
 };

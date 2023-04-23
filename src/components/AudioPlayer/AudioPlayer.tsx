@@ -121,6 +121,7 @@ export const AudioPlayer = () => {
         nextTrack={nextTrack}
         updateDuration={updateDuration}
         updateTime={updateTime}
+        onEnded={nextTrack}
       />
 
       <h2
