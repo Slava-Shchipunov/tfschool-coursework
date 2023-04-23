@@ -15,6 +15,7 @@ export type TTrack = {
   name: string;
   artists: string[];
   image: string;
+  src?: string;
 };
 
 export type TTrackResponse = {
@@ -40,4 +41,10 @@ export type TImageResponse = {
 
 export type TSearchResponse = {
   tracks: TTrackResponse[];
+};
+
+export type TTrackDetailsResponse = {
+  tracks: {
+    preview_url: string;
+  }[];
 };
