@@ -9,12 +9,13 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 const className = classNames.bind(styles);
 
 export const SearchPage = () => {
-  const { isLoading, errorMessage, trackList } = useSelector(getTracks);
+  const { isLoading, errorMessage, currentSongs } = useSelector(getTracks);
   const dispatch = useAppDispatch();
 
   return (
     <div className={className('search-page')}>
       <form
+        style={{ marginBottom: '15px' }}
         onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
           const target = event.target as HTMLFormElement;
@@ -22,13 +23,20 @@ export const SearchPage = () => {
           dispatch(searchTracksThunk(data));
         }}
       >
-        <input type="text" name="search" />
+        <input
+          type="text"
+          name="search"
+          autoComplete="off"
+          placeholder="search..."
+        />
+        <button style={{ marginLeft: '10px' }}>Search tracks</button>
       </form>
       <div className={className('tracks')}>
-        {trackList &&
-          trackList.map((track) => (
+        {currentSongs &&
+          currentSongs.map((track) => (
             <SongCard
               key={track.id}
+              trackId={track.id}
               imgUrl={track.image}
               title={track.name}
               artist={track.artists.join(', ')}

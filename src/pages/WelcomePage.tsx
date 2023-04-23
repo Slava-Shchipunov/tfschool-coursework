@@ -14,6 +14,7 @@ export const WelcomePage = () => {
       <Link to="/">Go to WelcomePage</Link>
       <Link to="/sign-up">Go to Sign up page</Link>
       <Link to="/sign-in">Go to Sign in page</Link>
+      <Link to="/player">Go to Player page</Link>
       <Link to="/ErrorPage">Go to ErrorPage</Link>
       <SearchLine search={exampleSearchFunc} />
       <AudioPlayer />

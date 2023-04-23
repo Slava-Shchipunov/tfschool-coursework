@@ -1,12 +1,7 @@
 import classNames from 'classnames/bind';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Dispatch, useEffect, useReducer } from 'react';
-import {
-  togglePlay,
-  next,
-  prev,
-  setActiveSong,
-} from 'store/player/player.slice';
+import { togglePlay } from 'store/player/player.slice';
 import { getPlayer } from './selectors/getPlayer';
 import { PlayPauseBtn } from 'components/AudioPlayer/controls/PlayPauseBtn';
 import { NextTrackBtn } from 'components/AudioPlayer/controls/NextTrackBtn';
@@ -14,6 +9,10 @@ import { PrevTrackBtn } from 'components/AudioPlayer/controls/PrevTrackBtn';
 import { Player } from './Player';
 import styles from './style.module.css';
 import { Seekbar } from './Seekbar/Seekbar';
+import { getTrackDetailsThunk } from 'store/player/player.thunk';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { SongCard } from 'components/SongCard/SongCard';
+import { getTracks } from 'pages/SearchPage/selectors/getTracks';
 
 const className = classNames.bind(styles);
 
@@ -37,8 +36,8 @@ const reducer = (state: TState, action: TAction) => {
 };
 
 export const AudioPlayer = () => {
-  const { activeSong, isPlay, currentSongs, currentIdx, isActive } =
-    useSelector(getPlayer);
+  const { activeSong, isPlay, currentIdx, isActive } = useSelector(getPlayer);
+  const { currentSongs } = useSelector(getTracks);
 
   const [state, dispatchState]: [TState, Dispatch<TAction>] = useReducer(
     reducer,
@@ -49,45 +48,12 @@ export const AudioPlayer = () => {
     }
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (currentSongs.length) dispatch(togglePlay(true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIdx]);
-
-  // TODO удалить setTestState после подключения к API
-  const setTestState = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const obj = {
-      currentSongs: [
-        {
-          name: 'Lost',
-          src: 'https://p.scdn.co/mp3-preview/effd763b0241c4973a3ebad491ac7fd13c93e6c5?cid=d8a5ed958d274c2e8ee717e6a4b0971d',
-        },
-        {
-          name: 'Believer',
-          src: 'https://p.scdn.co/mp3-preview/b4121580743329ad0206bdacff9e2484c2ab6e70?cid=d8a5ed958d274c2e8ee717e6a4b0971d',
-        },
-        {
-          name: 'Walk On Water',
-          src: 'https://p.scdn.co/mp3-preview/b24a40896af0276240af3ea23e6c115205b8886e?cid=d8a5ed958d274c2e8ee717e6a4b0971d',
-        },
-      ],
-      currentIdx: 0,
-      isActive: true,
-      activeSong: {
-        name: 'Lost',
-        src: 'https://p.scdn.co/mp3-preview/effd763b0241c4973a3ebad491ac7fd13c93e6c5?cid=d8a5ed958d274c2e8ee717e6a4b0971d',
-      },
-    };
-
-    dispatch(setActiveSong(obj));
-
-    if (event) {
-      const target = event.target as HTMLButtonElement;
-      target.textContent = 'PLAYLIST HAS BEEN LOADED. PRESS PLAY';
-    }
-  };
+  }, [activeSong]);
 
   const playPauseTrack = () => {
     if (!isActive) {
@@ -108,7 +74,11 @@ export const AudioPlayer = () => {
     }
 
     const nextIdx = currentIdx < currentSongs.length - 1 ? currentIdx + 1 : 0;
-    dispatch(next(nextIdx));
+
+    const trackId = currentSongs[nextIdx].id;
+    if (currentSongs) {
+      dispatch(getTrackDetailsThunk({ trackId, currentSongs }));
+    }
   };
 
   const prevTrack = () => {
@@ -121,7 +91,11 @@ export const AudioPlayer = () => {
     }
 
     const prevIdx = currentIdx > 0 ? currentIdx - 1 : currentSongs.length - 1;
-    dispatch(prev(prevIdx));
+
+    const trackId = currentSongs[prevIdx].id;
+    if (currentSongs) {
+      dispatch(getTrackDetailsThunk({ trackId, currentSongs }));
+    }
   };
 
   const updateDuration = (event: React.SyntheticEvent<HTMLAudioElement>) => {
@@ -141,7 +115,7 @@ export const AudioPlayer = () => {
   return (
     <div className={className('audio-player')} style={{ flexWrap: 'wrap' }}>
       <Player
-        src={activeSong.src ? activeSong.src : ''}
+        src={activeSong?.src ? activeSong.src : ''}
         isPlay={isPlay}
         seekTime={state.seekTime}
         nextTrack={nextTrack}
@@ -149,20 +123,7 @@ export const AudioPlayer = () => {
         updateTime={updateTime}
       />
 
-      {/* // TODO удалить button и h1 после подключения к API */}
-      <button
-        type="button"
-        onClick={setTestState}
-        style={{
-          display: 'block',
-          margin: '20px',
-          flexBasis: '100%',
-          maxWidth: 'fit-content',
-        }}
-      >
-        CLICK ME TO LOAD TEST PLAYLIST
-      </button>
-      <h1
+      <h2
         style={{
           margin: '0px auto 20px',
           textAlign: 'center',
@@ -170,8 +131,17 @@ export const AudioPlayer = () => {
           height: '75px',
         }}
       >
-        Now playing: {activeSong.name ? activeSong.name : '-'}
-      </h1>
+        Playing Now
+      </h2>
+
+      {activeSong && (
+        <SongCard
+          imgUrl={activeSong.image}
+          title={activeSong.name}
+          artist={activeSong.artists.join(', ')}
+          isSmall={false}
+        />
+      )}
 
       <Seekbar
         duration={state.duration}

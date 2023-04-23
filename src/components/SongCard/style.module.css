@@ -10,6 +10,10 @@
   width: 261px;
 }
 
+.small:hover {
+  cursor: pointer;
+}
+
 .small .art {
   margin-bottom: 11px;
   height: 150px;
@@ -42,6 +46,7 @@
   padding-bottom: 5px;
   font-weight: 500;
   font-size: 24px;
+  text-align: center;
 }
 
 .small .title {
@@ -52,6 +57,7 @@
   font-size: 16px;
   color: #a5c0ff;
   opacity: 0.7;
+  text-align: center;
 }
 
 .small .artist {
