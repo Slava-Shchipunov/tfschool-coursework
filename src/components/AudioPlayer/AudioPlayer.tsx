@@ -118,7 +118,6 @@ export const AudioPlayer = () => {
         src={activeSong?.src ? activeSong.src : ''}
         isPlay={isPlay}
         seekTime={state.seekTime}
-        nextTrack={nextTrack}
         updateDuration={updateDuration}
         updateTime={updateTime}
         onEnded={nextTrack}
