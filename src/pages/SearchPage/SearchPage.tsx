@@ -5,6 +5,7 @@ import { getTracks } from './selectors/getTracks';
 import { SongCard } from 'components/SongCard/SongCard';
 import { searchTracksThunk } from 'store/tracks/tracks.thunk';
 import { useAppDispatch } from 'hooks/useAppDispatch';
+import { Loader } from 'components/Loader/Loader';
 
 const className = classNames.bind(styles);
 
@@ -31,19 +32,22 @@ export const SearchPage = () => {
         />
         <button style={{ marginLeft: '10px' }}>Search tracks</button>
       </form>
-      <div className={className('tracks')}>
-        {currentSongs &&
-          currentSongs.map((track) => (
-            <SongCard
-              key={track.id}
-              trackId={track.id}
-              imgUrl={track.image}
-              title={track.name}
-              artist={track.artists.join(', ')}
-              isSmall={true}
-            />
-          ))}
-      </div>
+      {isLoading && <Loader />}
+      {!isLoading && (
+        <div className={className('tracks')}>
+          {currentSongs &&
+            currentSongs.map((track) => (
+              <SongCard
+                key={track.id}
+                trackId={track.id}
+                imgUrl={track.image}
+                title={track.name}
+                artist={track.artists.join(', ')}
+                isSmall={true}
+              />
+            ))}
+        </div>
+      )}
     </div>
   );
 };
