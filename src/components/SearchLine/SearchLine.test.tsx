@@ -34,7 +34,7 @@ test('should not send request with empty string', async () => {
 
   expect(screen.getByTestId('search')).toHaveValue('');
 
-  fireEvent.submit(screen.getByTestId('submitBtn'));
+  fireEvent.click(screen.getByTestId('submitBtn'));
 
   expect(mockSearch).not.toBeCalled();
 });
@@ -48,7 +48,7 @@ test('should send request with test string', async () => {
     },
   });
 
-  fireEvent.submit(screen.getByTestId('submitBtn'));
+  fireEvent.click(screen.getByTestId('submitBtn'));
 
   expect(mockSearch).toBeCalledWith('test search');
 

@@ -14,10 +14,16 @@ type TSearchLineProps = {
 export const SearchLine = (props: TSearchLineProps) => {
   const [value, setValue] = useState('');
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // TODO в дальнейшем отправлять данные на сервер для поиска по названию
-    event.preventDefault();
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
 
+  const handleReset = () => {
+    setValue('');
+  };
+
+  const handleSubmit = async () => {
+    // TODO в дальнейшем отправлять данные на сервер для поиска по названию
     const trimmedSearchString = value.trim();
 
     if (trimmedSearchString) {
@@ -28,7 +34,7 @@ export const SearchLine = (props: TSearchLineProps) => {
   };
 
   return (
-    <form className={className('search-form')} onSubmit={handleSubmit}>
+    <div className={className('search')}>
       <input
         className={className('search-input')}
         id="search"
@@ -37,17 +43,13 @@ export const SearchLine = (props: TSearchLineProps) => {
         autoComplete="off"
         data-testid="search"
         value={value}
-        onChange={(event) => {
-          setValue(event.target.value);
-        }}
+        onChange={handleChange}
       />
       <button
         className={className('reset-btn')}
         type="button"
         data-testid="resetBtn"
-        onClick={() => {
-          setValue('');
-        }}
+        onClick={handleReset}
       >
         <Icon
           url={crossIconUrl}
@@ -59,11 +61,12 @@ export const SearchLine = (props: TSearchLineProps) => {
       </button>
       <button
         className={className('search-btn')}
-        type="submit"
+        type="button"
         data-testid="submitBtn"
+        onClick={handleSubmit}
       >
         <Icon url={searchIconUrl} width="30px" height="30px" />
       </button>
-    </form>
+    </div>
   );
 };
