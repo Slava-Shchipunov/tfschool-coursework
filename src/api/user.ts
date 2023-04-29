@@ -2,6 +2,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  signOut,
 } from 'firebase/auth';
 import { TUserAuth, TUserCreate } from 'types/types';
 import { auth } from './firebase';
@@ -20,4 +21,8 @@ export const signIn = async (data: TUserAuth) => {
   const { email, password } = data;
 
   await signInWithEmailAndPassword(auth, email, password);
+};
+
+export const userSignOut = async () => {
+  await signOut(auth);
 };

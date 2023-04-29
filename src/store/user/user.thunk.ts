@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setError, setLoading, setUserName } from './user.slice';
 import { handleError } from 'api/handleError';
 import { TUserAuth, TUserCreate } from 'types/types';
-import { signIn, signUp } from 'api/user';
+import { signIn, signUp, userSignOut } from 'api/user';
 import { auth } from 'api/firebase';
 
 export const userSignUpThunk = createAsyncThunk(
@@ -36,6 +36,23 @@ export const userSignInThunk = createAsyncThunk(
       if (auth.currentUser?.displayName) {
         dispatch(setUserName(auth.currentUser.displayName));
       }
+    } catch (error) {
+      const errorMessage = handleError(error).message;
+      dispatch(setError(errorMessage));
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
+export const userSignOutThunk = createAsyncThunk(
+  'userSignOut',
+  async (_, { dispatch }) => {
+    dispatch(setError(''));
+    dispatch(setLoading(true));
+    try {
+      await userSignOut();
+      dispatch(setUserName(''));
     } catch (error) {
       const errorMessage = handleError(error).message;
       dispatch(setError(errorMessage));
