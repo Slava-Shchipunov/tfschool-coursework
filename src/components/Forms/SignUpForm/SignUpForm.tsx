@@ -3,16 +3,18 @@ import { TUserCreate } from 'types/types';
 import styles from '../style.module.css';
 import { Input } from '../Input';
 import { useState } from 'react';
+import { useAppDispatch } from 'hooks/useAppDispatch';
 import { validateInput } from '../validateInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { userSignUpThunk } from 'store/user/user.thunk';
+import { auth } from 'api/firebase';
 
 const className = classNames.bind(styles);
 
-type TSignUpProps = {
-  signUp: (data: TUserCreate) => Promise<TUserCreate>;
-};
+export const SignUpForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-export const SignUpForm = (props: TSignUpProps) => {
   const [login, setLogin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,7 +42,6 @@ export const SignUpForm = (props: TSignUpProps) => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // TODO в дальнейшем отправлять данные на сервер для регистрации пользователя
     event.preventDefault();
 
     if (!login || !email || !password) {
@@ -64,7 +65,11 @@ export const SignUpForm = (props: TSignUpProps) => {
     setEmail('');
     setPassword('');
 
-    await props.signUp(data);
+    await dispatch(userSignUpThunk(data));
+
+    if (auth.currentUser) {
+      navigate('/player');
+    }
   };
 
   const validate = validateInput(states, errors, patterns);

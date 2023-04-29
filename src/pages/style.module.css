@@ -1,0 +1,8 @@
+.loader-wrapper {
+  background: rgba(9, 18, 39, 0.6);
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
