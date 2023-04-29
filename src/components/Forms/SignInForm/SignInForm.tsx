@@ -4,17 +4,15 @@ import styles from '../style.module.css';
 import { useState } from 'react';
 import { Input } from '../Input';
 import { validateInput } from '../validateInput';
-import { Link, useNavigate } from 'react-router-dom';
-import { userSignInThunk } from 'store/user/user.thunk';
-import { useAppDispatch } from 'hooks/useAppDispatch';
-import { auth } from 'api/firebase';
+import { Link } from 'react-router-dom';
 
 const className = classNames.bind(styles);
 
-export const SignInForm = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+type TSignInProps = {
+  signIn: (data: TUserAuth) => Promise<void>;
+};
 
+export const SignInForm = (props: TSignInProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -57,11 +55,7 @@ export const SignInForm = () => {
     setEmail('');
     setPassword('');
 
-    await dispatch(userSignInThunk(data));
-
-    if (auth.currentUser) {
-      navigate('/player');
-    }
+    await props.signIn(data);
   };
 
   const validate = validateInput(states, errors, patterns);

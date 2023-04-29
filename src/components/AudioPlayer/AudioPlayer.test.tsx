@@ -1,14 +1,14 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { AudioPlayer } from './AudioPlayer';
-import { playerRedusers, setActiveSong } from 'store/player/player.slice';
+import { playerReducers, setActiveSong } from 'store/player/player.slice';
 import { configureStore } from '@reduxjs/toolkit';
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 
 const createNewStore = () => {
   return configureStore({
     reducer: {
-      player: playerRedusers,
+      player: playerReducers,
     },
   });
 };

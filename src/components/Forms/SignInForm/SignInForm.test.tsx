@@ -3,8 +3,8 @@ import { SignInForm } from './SignInForm';
 import { TUserAuth } from 'types/types';
 import { MemoryRouter } from 'react-router-dom';
 
-const mockLogin: (data: TUserAuth) => Promise<TUserAuth> = jest.fn((data) => {
-  return Promise.resolve(data);
+const mockLogin: (data: TUserAuth) => Promise<void> = jest.fn(() => {
+  return Promise.resolve();
 });
 
 test('should render all fields', () => {

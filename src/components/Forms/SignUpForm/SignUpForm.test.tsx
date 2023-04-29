@@ -3,11 +3,9 @@ import { SignUpForm } from './SignUpForm';
 import { TUserCreate } from 'types/types';
 import { MemoryRouter } from 'react-router-dom';
 
-const mockLogin: (data: TUserCreate) => Promise<TUserCreate> = jest.fn(
-  (data) => {
-    return Promise.resolve(data);
-  }
-);
+const mockLogin: (data: TUserCreate) => Promise<void> = jest.fn(() => {
+  return Promise.resolve();
+});
 
 test('should render all fields', () => {
   render(
