@@ -129,7 +129,6 @@ export const AudioPlayer = () => {
       type: 'duration',
       time: event.currentTarget.duration,
     });
-    console.log(state);
   };
 
   const updateTime = (event: React.SyntheticEvent<HTMLAudioElement>) => {
