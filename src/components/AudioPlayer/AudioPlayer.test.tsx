@@ -209,3 +209,20 @@ test('should correctly change src when clicking on the PrevTrackBtn', async () =
   expect(await screen.findByText('First track')).toBeInTheDocument();
   expect(audioElement.src).toContain('first-track-src');
 });
+
+test('should loop playback when the RepeatTrackBtn is pressed', async () => {
+  const store = createNewStore();
+
+  renderWithProvider(store);
+
+  await waitFor(() => setTestState(store));
+
+  const audioElement: HTMLAudioElement = screen.getByTestId('audio');
+  expect(audioElement.loop).toBe(false);
+
+  fireEvent.click(screen.getByTestId('repeatTrackBtn'));
+  await waitFor(() => expect(audioElement.loop).toBe(true));
+
+  fireEvent.click(screen.getByTestId('repeatTrackBtn'));
+  await waitFor(() => expect(audioElement.loop).toBe(false));
+});
