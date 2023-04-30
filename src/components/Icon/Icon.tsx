@@ -8,6 +8,7 @@ type TIcon = {
   url: string;
   width: string;
   height: string;
+  dark?: boolean;
   filter?: string;
 };
 
@@ -15,7 +16,7 @@ export const IconComponent = (props: TIcon) => {
   const { url, width, height, filter } = { ...props };
   return (
     <div
-      className={className('icon')}
+      className={className('icon', { dark: dark })}
       style={{
         backgroundImage: `url(${url})`,
         width: width,

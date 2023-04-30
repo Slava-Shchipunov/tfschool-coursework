@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { useSelector } from 'react-redux';
 import { Dispatch, useCallback, useEffect, useReducer } from 'react';
-import { togglePlay } from 'store/player/player.slice';
+import { togglePlay, toggleRepeat } from 'store/player/player.slice';
 import { getPlayer } from './selectors/getPlayer';
 import { PlayPauseBtn } from 'components/AudioPlayer/controls/PlayPauseBtn';
 import { NextTrackBtn } from 'components/AudioPlayer/controls/NextTrackBtn';
@@ -13,6 +13,7 @@ import { getTrackDetailsThunk } from 'store/player/player.thunk';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { SongCard } from 'components/SongCard/SongCard';
 import { getTracks } from 'store/tracks/tracks.selectors';
+import { RepeatTrackBtn } from './controls/RepeatTrackBtn';
 
 const className = classNames.bind(styles);
 
@@ -36,7 +37,8 @@ const reducer = (state: TState, action: TAction) => {
 };
 
 export const AudioPlayer = () => {
-  const { activeSong, isPlay, currentIdx, isActive } = useSelector(getPlayer);
+  const { activeSong, isPlay, currentIdx, isActive, isRepeat } =
+    useSelector(getPlayer);
   const { currentSongs } = useSelector(getTracks);
 
   const [state, dispatchState]: [TState, Dispatch<TAction>] = useReducer(
@@ -111,6 +113,9 @@ export const AudioPlayer = () => {
       time: event.currentTarget.currentTime,
     });
   };
+  const repeatTrack = () => {
+    dispatch(toggleRepeat());
+  };
 
   return (
     <div className={className('audio-player')} style={{ flexWrap: 'wrap' }}>
@@ -121,6 +126,7 @@ export const AudioPlayer = () => {
         updateDuration={updateDuration}
         updateTime={updateTime}
         onEnded={nextTrack}
+        loop={isRepeat}
       />
 
       <h2
@@ -148,6 +154,10 @@ export const AudioPlayer = () => {
         currentTime={state.currentTime}
         dispatchState={dispatchState}
       />
+      <div className={className('slider-container')}>
+        <RepeatTrackBtn isRepeat={isRepeat} repeatTrack={repeatTrack} />
+      </div>
+
       <div className={className('buttons')}>
         <PrevTrackBtn prevTrack={prevTrack} />
         <PlayPauseBtn isPlay={isPlay} playPauseTrack={playPauseTrack} />

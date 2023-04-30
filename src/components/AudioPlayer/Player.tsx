@@ -6,11 +6,13 @@ type TPlayer = {
   seekTime: number;
   updateDuration: (event: React.SyntheticEvent<HTMLAudioElement>) => void;
   updateTime: (event: React.SyntheticEvent<HTMLAudioElement>) => void;
+  loop: boolean;
   onEnded: () => void;
 };
 
 export const Player = (props: TPlayer) => {
-  const { src, isPlay, seekTime, onEnded, updateDuration, updateTime } = props;
+  const { src, isPlay, seekTime, loop, onEnded, updateDuration, updateTime } =
+    props;
 
   const audioRef = useRef(null);
 
@@ -38,6 +40,7 @@ export const Player = (props: TPlayer) => {
       onEnded={onEnded}
       onLoadedData={updateDuration}
       onTimeUpdate={updateTime}
+      loop={loop}
     />
   );
 };

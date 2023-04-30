@@ -8,6 +8,7 @@ type TInitialState = {
   isActive: boolean;
   isPlay: boolean;
   activeSong: TTrack | null;
+  isRepeat: boolean;
 };
 
 export const initialState: TInitialState = {
@@ -17,6 +18,7 @@ export const initialState: TInitialState = {
   isActive: false,
   isPlay: false,
   activeSong: null,
+  isRepeat: false,
 };
 
 const playerSlice = createSlice({
@@ -27,7 +29,9 @@ const playerSlice = createSlice({
       state.isPlay =
         action.payload !== undefined ? action.payload : !state.isPlay;
     },
-
+    toggleRepeat: (state) => {
+      state.isRepeat = !state.isRepeat;
+    },
     // TODO добавить тип для payload:
 
     setActiveSong: (state, { payload }) => {
@@ -44,6 +48,6 @@ const playerSlice = createSlice({
   },
 });
 
-export const { togglePlay, setActiveSong, setLoading, setError } =
+export const { togglePlay, toggleRepeat, setActiveSong, setLoading, setError } =
   playerSlice.actions;
 export const playerReducers = playerSlice.reducer;

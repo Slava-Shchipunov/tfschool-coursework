@@ -13,7 +13,6 @@
 .buttons {
   display: flex;
   align-items: center;
-  margin-bottom: 40px;
   justify-content: center;
   gap: 35px;
 }
@@ -22,4 +21,19 @@
   border: none;
   background-color: transparent;
   padding: 0px;
+}
+
+.active,
+.dark-btn:hover {
+  transition: ease-in-out 0.5s;
+  opacity: 1;
+  filter: invert(0%) sepia(100%) saturate(1%) hue-rotate(139deg) brightness(173%) contrast(101%);
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
 }
