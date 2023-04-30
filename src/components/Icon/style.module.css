@@ -1,0 +1,12 @@
+.icon {
+  background: no-repeat transparent center;
+  transition: ease-in-out 0.5s;
+  cursor: pointer;
+}
+
+.icon:hover,
+*:focus .icon {
+  opacity: 0.6;
+  filter: invert(38%) sepia(11%) saturate(828%) hue-rotate(186deg)
+    brightness(94%) contrast(88%);
+}
