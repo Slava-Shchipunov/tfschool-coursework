@@ -14,6 +14,7 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import { SongCard } from 'components/SongCard/SongCard';
 import { getTracks } from 'store/tracks/tracks.selectors';
 import { RepeatTrackBtn } from './controls/RepeatTrackBtn';
+import { ShuffleTracksBtn } from './controls/ShuffleTracksBtn';
 
 const className = classNames.bind(styles);
 
@@ -156,6 +157,7 @@ export const AudioPlayer = () => {
       />
       <div className={className('slider-container')}>
         <RepeatTrackBtn isRepeat={isRepeat} repeatTrack={repeatTrack} />
+        <ShuffleTracksBtn isShuffle={isRepeat} shuffleTracks={repeatTrack} />
       </div>
 
       <div className={className('buttons')}>
