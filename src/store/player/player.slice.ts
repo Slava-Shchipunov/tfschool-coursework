@@ -9,6 +9,7 @@ type TInitialState = {
   isPlay: boolean;
   activeSong: TTrack | null;
   isRepeat: boolean;
+  isShuffle: boolean;
 };
 
 export const initialState: TInitialState = {
@@ -19,6 +20,7 @@ export const initialState: TInitialState = {
   isPlay: false,
   activeSong: null,
   isRepeat: false,
+  isShuffle: false,
 };
 
 const playerSlice = createSlice({
@@ -31,6 +33,9 @@ const playerSlice = createSlice({
     },
     toggleRepeat: (state) => {
       state.isRepeat = !state.isRepeat;
+    },
+    toggleShuffle: (state) => {
+      state.isShuffle = !state.isShuffle;
     },
     // TODO добавить тип для payload:
 
@@ -48,6 +53,12 @@ const playerSlice = createSlice({
   },
 });
 
-export const { togglePlay, toggleRepeat, setActiveSong, setLoading, setError } =
-  playerSlice.actions;
+export const {
+  togglePlay,
+  toggleRepeat,
+  toggleShuffle,
+  setActiveSong,
+  setLoading,
+  setError,
+} = playerSlice.actions;
 export const playerReducers = playerSlice.reducer;

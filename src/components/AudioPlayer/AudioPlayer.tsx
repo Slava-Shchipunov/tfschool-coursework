@@ -1,7 +1,11 @@
 import classNames from 'classnames/bind';
 import { useSelector } from 'react-redux';
 import { Dispatch, useCallback, useEffect, useReducer } from 'react';
-import { togglePlay, toggleRepeat } from 'store/player/player.slice';
+import {
+  togglePlay,
+  toggleRepeat,
+  toggleShuffle,
+} from 'store/player/player.slice';
 import { getPlayer } from './selectors/getPlayer';
 import { PlayPauseBtn } from 'components/AudioPlayer/controls/PlayPauseBtn';
 import { NextTrackBtn } from 'components/AudioPlayer/controls/NextTrackBtn';
@@ -38,7 +42,7 @@ const reducer = (state: TState, action: TAction) => {
 };
 
 export const AudioPlayer = () => {
-  const { activeSong, isPlay, currentIdx, isActive, isRepeat } =
+  const { activeSong, isPlay, currentIdx, isActive, isRepeat, isShuffle } =
     useSelector(getPlayer);
   const { currentSongs } = useSelector(getTracks);
 
@@ -76,13 +80,21 @@ export const AudioPlayer = () => {
       dispatch(togglePlay(false));
     }
 
-    const nextIdx = currentIdx < currentSongs.length - 1 ? currentIdx + 1 : 0;
+    let nextIdx: number;
+
+    if (isShuffle) {
+      do {
+        nextIdx = Math.floor(Math.random() * currentSongs.length);
+      } while (currentIdx === nextIdx);
+    } else {
+      nextIdx = currentIdx < currentSongs.length - 1 ? currentIdx + 1 : 0;
+    }
 
     const trackId = currentSongs[nextIdx].id;
     if (currentSongs) {
       dispatch(getTrackDetailsThunk({ trackId, currentSongs }));
     }
-  }, [currentIdx, currentSongs, dispatch, isActive]);
+  }, [currentIdx, currentSongs, dispatch, isActive, isShuffle]);
 
   const prevTrack = useCallback(() => {
     if (!isActive) {
@@ -93,13 +105,21 @@ export const AudioPlayer = () => {
       dispatch(togglePlay(false));
     }
 
-    const prevIdx = currentIdx > 0 ? currentIdx - 1 : currentSongs.length - 1;
+    let prevIdx: number;
+
+    if (isShuffle) {
+      do {
+        prevIdx = Math.floor(Math.random() * currentSongs.length);
+      } while (currentIdx === prevIdx);
+    } else {
+      prevIdx = currentIdx > 0 ? currentIdx - 1 : currentSongs.length - 1;
+    }
 
     const trackId = currentSongs[prevIdx].id;
     if (currentSongs) {
       dispatch(getTrackDetailsThunk({ trackId, currentSongs }));
     }
-  }, [currentIdx, currentSongs, dispatch, isActive]);
+  }, [currentIdx, currentSongs, dispatch, isActive, isShuffle]);
 
   const updateDuration = (event: React.SyntheticEvent<HTMLAudioElement>) => {
     dispatchState({
@@ -116,6 +136,10 @@ export const AudioPlayer = () => {
   };
   const repeatTrack = () => {
     dispatch(toggleRepeat());
+  };
+
+  const shuffleTracks = () => {
+    dispatch(toggleShuffle());
   };
 
   return (
@@ -150,16 +174,15 @@ export const AudioPlayer = () => {
         />
       )}
 
+      <div className={className('slider-container')}>
+        <RepeatTrackBtn isRepeat={isRepeat} repeatTrack={repeatTrack} />
+        <ShuffleTracksBtn isShuffle={isShuffle} shuffleTracks={shuffleTracks} />
+      </div>
       <Seekbar
         duration={state.duration}
         currentTime={state.currentTime}
         dispatchState={dispatchState}
       />
-      <div className={className('slider-container')}>
-        <RepeatTrackBtn isRepeat={isRepeat} repeatTrack={repeatTrack} />
-        <ShuffleTracksBtn isShuffle={isRepeat} shuffleTracks={repeatTrack} />
-      </div>
-
       <div className={className('buttons')}>
         <PrevTrackBtn prevTrack={prevTrack} />
         <PlayPauseBtn isPlay={isPlay} playPauseTrack={playPauseTrack} />
