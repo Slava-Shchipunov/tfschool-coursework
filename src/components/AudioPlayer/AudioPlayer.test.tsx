@@ -33,7 +33,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
+  jest.restoreAllMocks();
 });
 
 const createNewStore = () => {
@@ -225,4 +225,41 @@ test('should loop playback when the RepeatTrackBtn is pressed', async () => {
 
   fireEvent.click(screen.getByTestId('repeatTrackBtn'));
   await waitFor(() => expect(audioElement.loop).toBe(false));
+});
+
+test('should use random track order when ShuffleTracksBtn is pressed', async () => {
+  const store = createNewStore();
+
+  renderWithProvider(store);
+
+  await waitFor(() => setTestState(store));
+
+  const random = jest.spyOn(global.Math, 'random');
+  random.mockReturnValueOnce(0.9);
+
+  const audioElement: HTMLAudioElement = screen.getByTestId('audio');
+  expect(audioElement.src).toContain('first-track-src');
+  fireEvent.click(screen.getByTestId('shuffleTracksBtn'));
+
+  fireEvent.click(screen.getByTestId('nextTrackBtn'));
+  expect(await screen.findByText('Third track')).toBeInTheDocument();
+  expect(audioElement.src).toContain('third-track-src');
+
+  random.mockReturnValueOnce(0.5);
+
+  fireEvent.click(screen.getByTestId('nextTrackBtn'));
+  expect(await screen.findByText('Second track')).toBeInTheDocument();
+  expect(audioElement.src).toContain('second-track-src');
+
+  random.mockReturnValueOnce(0.9);
+
+  fireEvent.click(screen.getByTestId('prevTrackBtn'));
+  expect(await screen.findByText('Third track')).toBeInTheDocument();
+  expect(audioElement.src).toContain('third-track-src');
+
+  random.mockReturnValueOnce(0.5);
+
+  fireEvent.click(screen.getByTestId('prevTrackBtn'));
+  expect(await screen.findByText('Second track')).toBeInTheDocument();
+  expect(audioElement.src).toContain('second-track-src');
 });
