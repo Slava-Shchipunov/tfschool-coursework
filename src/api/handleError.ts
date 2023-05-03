@@ -1,4 +1,5 @@
 import { FirebaseError } from '@firebase/util';
+import axios from 'axios';
 
 type TErrorResponse = {
   statusCode?: string;
@@ -6,7 +7,7 @@ type TErrorResponse = {
 };
 
 export const handleError = (error: unknown): TErrorResponse => {
-  if (error instanceof FirebaseError) {
+  if (error instanceof FirebaseError || axios.isAxiosError(error)) {
     return {
       statusCode: error.code,
       message: error.message,

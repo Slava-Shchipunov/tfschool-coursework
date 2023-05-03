@@ -4,14 +4,13 @@ type TPlayer = {
   src: string;
   isPlay: boolean;
   seekTime: number;
-  nextTrack: () => void;
   updateDuration: (event: React.SyntheticEvent<HTMLAudioElement>) => void;
   updateTime: (event: React.SyntheticEvent<HTMLAudioElement>) => void;
+  onEnded: () => void;
 };
 
 export const Player = (props: TPlayer) => {
-  const { src, isPlay, seekTime, nextTrack, updateDuration, updateTime } =
-    props;
+  const { src, isPlay, seekTime, onEnded, updateDuration, updateTime } = props;
 
   const audioRef = useRef(null);
 
@@ -36,7 +35,7 @@ export const Player = (props: TPlayer) => {
       src={src}
       ref={audioRef}
       data-testid="audio"
-      onEnded={nextTrack}
+      onEnded={onEnded}
       onLoadedData={updateDuration}
       onTimeUpdate={updateTime}
     />

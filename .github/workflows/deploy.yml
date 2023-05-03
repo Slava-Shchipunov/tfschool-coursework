@@ -39,6 +39,7 @@ jobs:
         run: npm run build
         env:
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+          REACT_APP_RAPIDAPI_KEY: ${{ secrets.REACT_APP_RAPIDAPI_KEY }}
       - name: Deploy to netlify
         uses: netlify/actions/cli@master
         with:

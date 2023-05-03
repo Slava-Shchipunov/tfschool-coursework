@@ -1,24 +1,22 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-
-type TSong = {
-  name?: string;
-  src?: string;
-};
+import { TTrack } from 'types/types';
 
 type TInitialState = {
-  currentSongs: TSong[];
+  isLoading: boolean;
+  errorMessage: string;
   currentIdx: number;
   isActive: boolean;
   isPlay: boolean;
-  activeSong: TSong;
+  activeSong: TTrack | null;
 };
 
 const initialState: TInitialState = {
-  currentSongs: [],
+  isLoading: false,
+  errorMessage: '',
   currentIdx: 0,
   isActive: false,
   isPlay: false,
-  activeSong: {},
+  activeSong: null,
 };
 
 const playerSlice = createSlice({
@@ -29,24 +27,21 @@ const playerSlice = createSlice({
       state.isPlay =
         action.payload !== undefined ? action.payload : !state.isPlay;
     },
-    next: (state, { payload }) => {
-      state.currentIdx = payload;
-      state.activeSong = state.currentSongs[payload];
-      state.isActive = true;
-    },
-    prev: (state, { payload }) => {
-      state.currentIdx = payload;
-      state.activeSong = state.currentSongs[payload];
-      state.isActive = true;
-    },
+    // TODO добавить тип для payload:
     setActiveSong: (state, { payload }) => {
-      state.currentSongs = payload.currentSongs;
       state.currentIdx = payload.currentIdx;
       state.activeSong = payload.activeSong;
       state.isActive = payload.isActive;
     },
+    setLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.isLoading = payload;
+    },
+    setError: (state, { payload }: PayloadAction<string>) => {
+      state.errorMessage = payload;
+    },
   },
 });
 
-export const { togglePlay, next, prev, setActiveSong } = playerSlice.actions;
+export const { togglePlay, setActiveSong, setLoading, setError } =
+  playerSlice.actions;
 export const playerReducers = playerSlice.reducer;

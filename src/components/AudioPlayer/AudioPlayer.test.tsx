@@ -4,11 +4,43 @@ import { AudioPlayer } from './AudioPlayer';
 import { playerReducers, setActiveSong } from 'store/player/player.slice';
 import { configureStore } from '@reduxjs/toolkit';
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
+import { setCurrentSongs, tracksReducers } from 'store/tracks/tracks.slice';
+import { instanceAxiosSpotify } from 'api/instancesOfAxios';
+
+jest.mock('api/instancesOfAxios');
+
+beforeEach(() => {
+  type TOptions = {
+    params: { ids: string };
+  };
+
+  (instanceAxiosSpotify.get as jest.Mock).mockImplementation(
+    (_, options: TOptions) => {
+      const urls = ['first-track-src', 'second-track-src', 'third-track-src'];
+      const ids = Number(options.params.ids);
+      const resp = {
+        data: {
+          tracks: [
+            {
+              preview_url: urls[ids],
+            },
+          ],
+        },
+      };
+      return Promise.resolve(resp);
+    }
+  );
+});
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
 const createNewStore = () => {
   return configureStore({
     reducer: {
       player: playerReducers,
+      tracks: tracksReducers,
     },
   });
 };
@@ -34,29 +66,42 @@ const renderWithProvider = (store: ToolkitStore) => {
 };
 
 const setTestState = (store: ToolkitStore): void => {
+  const currentSongs = [
+    {
+      id: '0',
+      name: 'First track',
+      artists: ['artist11', 'artist12', 'artist13'],
+      image: 'image-url1',
+      src: 'first-track-src',
+    },
+    {
+      id: '1',
+      name: 'Second track',
+      artists: ['artist21', 'artist22', 'artist23'],
+      image: 'image-url2',
+      src: 'second-track-src',
+    },
+    {
+      id: '2',
+      name: 'Third track',
+      artists: ['artist31', 'artist32', 'artist33'],
+      image: 'image-url3',
+      src: 'third-track-src',
+    },
+  ];
   const obj = {
-    currentSongs: [
-      {
-        name: 'First track',
-        src: 'first-track-src',
-      },
-      {
-        name: 'Second  track',
-        src: 'second-track-src',
-      },
-      {
-        name: 'Third track',
-        src: 'third-track-src',
-      },
-    ],
     currentIdx: 0,
     isActive: true,
     activeSong: {
+      id: '0',
       name: 'First track',
+      artists: ['artist1', 'artist2', 'artist3'],
+      image: 'image-url',
       src: 'first-track-src',
     },
   };
 
+  store.dispatch(setCurrentSongs(currentSongs));
   store.dispatch(setActiveSong(obj));
 };
 
@@ -87,8 +132,6 @@ test('should call the HTMLAudioElement play() and pause() methods when the playP
     </Provider>
   );
 
-  let countPauseCalls = 0;
-
   const playStub = jest
     .spyOn(window.HTMLMediaElement.prototype, 'play')
     .mockImplementation(() => {
@@ -98,23 +141,24 @@ test('should call the HTMLAudioElement play() and pause() methods when the playP
   const pauseStub = jest
     .spyOn(window.HTMLMediaElement.prototype, 'pause')
     .mockImplementation(() => {
-      countPauseCalls += 1;
       return;
     });
 
   await waitFor(() => setTestState(store));
 
-  expect(playStub).not.toHaveBeenCalled();
-  expect(countPauseCalls).toBe(1);
-  /* ожидается countPauseCalls === 1, так как при вызове setTestState(store) происходит
-    перерендер компонента Player и вызывается метод pause() тега audio */
+  expect(playStub).toBeCalledTimes(1);
+  expect(pauseStub).toBeCalledTimes(1);
+  /* ожидается количество вызовов playStub === 1 и pauseStub === 1, так как при вызове
+    setTestState(store) происходит перерендер компонента Player и вызываются методы play() и
+    pause() тега audio */
 
   fireEvent.click(screen.getByTestId('playPauseBtn'));
-  expect(playStub).toHaveBeenCalled();
-  expect(countPauseCalls).toBe(1);
+  expect(playStub).toBeCalledTimes(1);
+  expect(pauseStub).toBeCalledTimes(2);
 
   fireEvent.click(screen.getByTestId('playPauseBtn'));
-  expect(countPauseCalls).toBe(2);
+  expect(playStub).toBeCalledTimes(2);
+  expect(pauseStub).toBeCalledTimes(2);
 
   playStub.mockRestore();
   pauseStub.mockRestore();
@@ -131,12 +175,15 @@ test('should correctly change src when clicking on the NextTrackBtn', async () =
   expect(audioElement.src).toContain('first-track-src');
 
   fireEvent.click(screen.getByTestId('nextTrackBtn'));
+  expect(await screen.findByText('Second track')).toBeInTheDocument();
   expect(audioElement.src).toContain('second-track-src');
 
   fireEvent.click(screen.getByTestId('nextTrackBtn'));
+  expect(await screen.findByText('Third track')).toBeInTheDocument();
   expect(audioElement.src).toContain('third-track-src');
 
   fireEvent.click(screen.getByTestId('nextTrackBtn'));
+  expect(await screen.findByText('First track')).toBeInTheDocument();
   expect(audioElement.src).toContain('first-track-src');
 });
 
@@ -151,11 +198,14 @@ test('should correctly change src when clicking on the PrevTrackBtn', async () =
   expect(audioElement.src).toContain('first-track-src');
 
   fireEvent.click(screen.getByTestId('prevTrackBtn'));
+  expect(await screen.findByText('Third track')).toBeInTheDocument();
   expect(audioElement.src).toContain('third-track-src');
 
   fireEvent.click(screen.getByTestId('prevTrackBtn'));
+  expect(await screen.findByText('Second track')).toBeInTheDocument();
   expect(audioElement.src).toContain('second-track-src');
 
   fireEvent.click(screen.getByTestId('prevTrackBtn'));
+  expect(await screen.findByText('First track')).toBeInTheDocument();
   expect(audioElement.src).toContain('first-track-src');
 });
