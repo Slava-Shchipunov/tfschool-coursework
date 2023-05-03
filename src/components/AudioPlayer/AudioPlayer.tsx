@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import { useSelector } from 'react-redux';
 import { Dispatch, useCallback, useEffect, useReducer } from 'react';
 import {
+  setVolume,
   togglePlay,
   toggleRepeat,
   toggleShuffle,
@@ -19,6 +20,7 @@ import { SongCard } from 'components/SongCard/SongCard';
 import { getTracks } from 'store/tracks/tracks.selectors';
 import { RepeatTrackBtn } from './controls/RepeatTrackBtn';
 import { ShuffleTracksBtn } from './controls/ShuffleTracksBtn';
+import { VolumeBar } from './VolumeBar/VolumeBar';
 
 const className = classNames.bind(styles);
 
@@ -42,8 +44,15 @@ const reducer = (state: TState, action: TAction) => {
 };
 
 export const AudioPlayer = () => {
-  const { activeSong, isPlay, currentIdx, isActive, isRepeat, isShuffle } =
-    useSelector(getPlayer);
+  const {
+    activeSong,
+    isPlay,
+    currentIdx,
+    isActive,
+    isRepeat,
+    isShuffle,
+    volume,
+  } = useSelector(getPlayer);
   const { currentSongs } = useSelector(getTracks);
 
   const [state, dispatchState]: [TState, Dispatch<TAction>] = useReducer(
@@ -142,28 +151,24 @@ export const AudioPlayer = () => {
     dispatch(toggleShuffle());
   };
 
+  const showVolumeBar = () => {
+    dispatch(setVolume());
+  };
+
   return (
-    <div className={className('audio-player')} style={{ flexWrap: 'wrap' }}>
+    <div className={className('audio-player')}>
       <Player
         src={activeSong?.src ? activeSong.src : ''}
         isPlay={isPlay}
         seekTime={state.seekTime}
         updateDuration={updateDuration}
         updateTime={updateTime}
-        onEnded={nextTrack}
         loop={isRepeat}
+        volume={volume.volumeLevel}
+        onEnded={nextTrack}
       />
 
-      <h2
-        style={{
-          margin: '0px auto 20px',
-          textAlign: 'center',
-          width: '320px',
-          height: '75px',
-        }}
-      >
-        Playing Now
-      </h2>
+      <h2>Playing Now</h2>
 
       {activeSong && (
         <SongCard
@@ -174,19 +179,29 @@ export const AudioPlayer = () => {
         />
       )}
 
-      <div className={className('slider-container')}>
-        <RepeatTrackBtn isRepeat={isRepeat} repeatTrack={repeatTrack} />
-        <ShuffleTracksBtn isShuffle={isShuffle} shuffleTracks={shuffleTracks} />
-      </div>
-      <Seekbar
-        duration={state.duration}
-        currentTime={state.currentTime}
-        dispatchState={dispatchState}
-      />
-      <div className={className('buttons')}>
-        <PrevTrackBtn prevTrack={prevTrack} />
-        <PlayPauseBtn isPlay={isPlay} playPauseTrack={playPauseTrack} />
-        <NextTrackBtn nextTrack={nextTrack} />
+      <div className={className('controls')}>
+        <div className={className('slider-container')}>
+          <VolumeBar
+            volume={volume.volumeLevel}
+            isVolumeActive={volume.isVolumeActive}
+            handleClick={showVolumeBar}
+          />
+          <RepeatTrackBtn isRepeat={isRepeat} repeatTrack={repeatTrack} />
+          <ShuffleTracksBtn
+            isShuffle={isShuffle}
+            shuffleTracks={shuffleTracks}
+          />
+        </div>
+        <Seekbar
+          duration={state.duration}
+          currentTime={state.currentTime}
+          dispatchState={dispatchState}
+        />
+        <div className={className('buttons')}>
+          <PrevTrackBtn prevTrack={prevTrack} />
+          <PlayPauseBtn isPlay={isPlay} playPauseTrack={playPauseTrack} />
+          <NextTrackBtn nextTrack={nextTrack} />
+        </div>
       </div>
     </div>
   );

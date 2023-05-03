@@ -21,7 +21,7 @@ export const RepeatTrackBtn = (props: TRepeatTrackBtn) => {
       onClick={repeatTrack}
       data-testid="repeatTrackBtn"
     >
-      <Icon url={repeatIconUrl} width="30px" height="30px" dark={true} />
+      <Icon url={repeatIconUrl} width="20px" height="20px" dark={true} />
     </button>
   );
 };

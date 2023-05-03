@@ -1,6 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TTrack } from 'types/types';
 
+type TVolume = {
+  isVolumeActive: boolean;
+  volumeLevel: number;
+};
+
 type TInitialState = {
   isLoading: boolean;
   errorMessage: string;
@@ -10,6 +15,7 @@ type TInitialState = {
   activeSong: TTrack | null;
   isRepeat: boolean;
   isShuffle: boolean;
+  volume: TVolume;
 };
 
 export const initialState: TInitialState = {
@@ -21,6 +27,10 @@ export const initialState: TInitialState = {
   activeSong: null,
   isRepeat: false,
   isShuffle: false,
+  volume: {
+    isVolumeActive: false,
+    volumeLevel: 70,
+  },
 };
 
 const playerSlice = createSlice({
@@ -36,6 +46,13 @@ const playerSlice = createSlice({
     },
     toggleShuffle: (state) => {
       state.isShuffle = !state.isShuffle;
+    },
+    setVolume: (state, { payload }: PayloadAction<number | undefined>) => {
+      if (typeof payload === 'undefined') {
+        state.volume.isVolumeActive = !state.volume.isVolumeActive;
+      } else {
+        state.volume.volumeLevel = payload;
+      }
     },
     // TODO добавить тип для payload:
 
@@ -57,6 +74,7 @@ export const {
   togglePlay,
   toggleRepeat,
   toggleShuffle,
+  setVolume,
   setActiveSong,
   setLoading,
   setError,

@@ -21,7 +21,7 @@ export const ShuffleTracksBtn = (props: TShuffleTracksBtn) => {
       onClick={shuffleTracks}
       data-testid="shuffleTracksBtn"
     >
-      <Icon url={shuffleIconUrl} width="30px" height="30px" dark={true} />
+      <Icon url={shuffleIconUrl} width="20px" height="20px" dark={true} />
     </button>
   );
 };
