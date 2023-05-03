@@ -263,3 +263,23 @@ test('should use random track order when ShuffleTracksBtn is pressed', async () 
   expect(await screen.findByText('Second track')).toBeInTheDocument();
   expect(audioElement.src).toContain('second-track-src');
 });
+
+test('should change the volume when moving the VolumeBar slider', async () => {
+  const store = createNewStore();
+
+  renderWithProvider(store);
+
+  await waitFor(() => setTestState(store));
+
+  const audioElement: HTMLAudioElement = screen.getByTestId('audio');
+  expect(audioElement.volume).toBe(0.7);
+
+  fireEvent.change(screen.getByTestId('volumeBar'), {
+    target: {
+      value: '10',
+    },
+  });
+
+  expect(await screen.findByText('10%')).toBeInTheDocument();
+  expect(audioElement.volume).toBe(0.1);
+});

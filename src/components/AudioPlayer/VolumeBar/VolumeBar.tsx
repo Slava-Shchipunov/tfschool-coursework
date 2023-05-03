@@ -43,6 +43,7 @@ export const VolumeBar = (props: TVolumeBar) => {
         style={{ background: background }}
         onChange={updateVolume}
         className={className('volume-slider', { visible: isVolumeActive })}
+        data-testid="volumeBar"
       />
       <div className={className('volume-level')}>{volume}%</div>
     </div>

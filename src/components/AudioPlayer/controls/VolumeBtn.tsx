@@ -18,7 +18,7 @@ export const VolumeBtn = (props: TVolumeBtn) => {
       type="button"
       aria-label="Shuffle tracks"
       onClick={handleClick}
-      data-testid="volumeBar"
+      data-testid="volumeBtn"
     >
       <Icon url={volumeIconUrl} width="20px" height="20px" dark={true} />
     </button>
