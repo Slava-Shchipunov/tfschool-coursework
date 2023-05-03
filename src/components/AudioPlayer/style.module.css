@@ -13,3 +13,9 @@
   justify-content: center;
   gap: 35px;
 }
+
+.button {
+  border: none;
+  background-color: transparent;
+  padding: 0px;
+}

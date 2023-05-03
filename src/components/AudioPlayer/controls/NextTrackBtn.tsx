@@ -1,5 +1,7 @@
 import classNames from 'classnames/bind';
-import styles from './style.module.css';
+import styles from '../style.module.css';
+import { Icon } from 'components/Icon/Icon';
+import nextIconUrl from 'assets/svg/next.svg';
 
 type TNextTrackBtn = {
   nextTrack: () => void;
@@ -12,11 +14,13 @@ export const NextTrackBtn = (props: TNextTrackBtn) => {
 
   return (
     <button
-      className={className('next-track')}
+      className={className('button')}
       type="button"
       aria-label="Next track"
       onClick={nextTrack}
       data-testid="nextTrackBtn"
-    />
+    >
+      <Icon url={nextIconUrl} width="30px" height="30px" />
+    </button>
   );
 };
