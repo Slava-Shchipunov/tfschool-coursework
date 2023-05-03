@@ -1,0 +1,43 @@
+.slider-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.seek-slider {
+  background: #696767;
+  height: 3px;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: opacity 0.2s;
+  border-radius: 100px;
+  margin: 0px;
+}
+
+.seek-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 8px;
+  height: 12px;
+  background: #ffffff;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.seek-slider {
+  width: 100%;
+}
+
+.current-time,
+.total-duration {
+  font-size: 12px;
+  color: #a5c0ff;
+  opacity: 0.7;
+}
+
+.current-time,
+.total-duration {
+  padding-bottom: 10px;
+}

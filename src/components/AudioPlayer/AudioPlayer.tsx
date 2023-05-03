@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { Dispatch, useEffect, useReducer } from 'react';
 import {
   togglePlay,
   next,
@@ -13,12 +13,42 @@ import { NextTrackBtn } from 'components/AudioPlayer/NextTrackBtn/NextTrackBtn';
 import { PrevTrackBtn } from 'components/AudioPlayer/PrevTrackBtn/PrevTrackBtn';
 import { Player } from './Player';
 import styles from './style.module.css';
+import { Seekbar } from './Seekbar/Seekbar';
 
 const className = classNames.bind(styles);
+
+type TState = {
+  seekTime: number;
+  currentTime: number;
+  duration: number;
+};
+
+export type TAction = {
+  type: 'seekTime' | 'currentTime' | 'duration';
+  time: number;
+};
+
+const reducer = (state: TState, action: TAction) => {
+  const newState = {
+    ...state,
+  };
+  newState[action.type] = action.time;
+  return newState;
+};
 
 export const AudioPlayer = () => {
   const { activeSong, isPlay, currentSongs, currentIdx, isActive } =
     useSelector(getPlayer);
+
+  const [state, dispatchState]: [TState, Dispatch<TAction>] = useReducer(
+    reducer,
+    {
+      seekTime: 0,
+      currentTime: 0,
+      duration: 0,
+    }
+  );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -94,9 +124,30 @@ export const AudioPlayer = () => {
     dispatch(prev(prevIdx));
   };
 
+  const updateDuration = (event: React.SyntheticEvent<HTMLAudioElement>) => {
+    dispatchState({
+      type: 'duration',
+      time: event.currentTarget.duration,
+    });
+  };
+
+  const updateTime = (event: React.SyntheticEvent<HTMLAudioElement>) => {
+    dispatchState({
+      type: 'currentTime',
+      time: event.currentTarget.currentTime,
+    });
+  };
+
   return (
     <div className={className('audio-player')} style={{ flexWrap: 'wrap' }}>
-      <Player src={activeSong.src ? activeSong.src : ''} isPlay={isPlay} />
+      <Player
+        src={activeSong.src ? activeSong.src : ''}
+        isPlay={isPlay}
+        seekTime={state.seekTime}
+        nextTrack={nextTrack}
+        updateDuration={updateDuration}
+        updateTime={updateTime}
+      />
 
       {/* // TODO удалить button и h1 после подключения к API */}
       <button
@@ -114,13 +165,19 @@ export const AudioPlayer = () => {
       <h1
         style={{
           margin: '0px auto 20px',
-          flexBasis: '100%',
           textAlign: 'center',
+          width: '320px',
+          height: '75px',
         }}
       >
         Now playing: {activeSong.name ? activeSong.name : '-'}
       </h1>
 
+      <Seekbar
+        duration={state.duration}
+        currentTime={state.currentTime}
+        dispatchState={dispatchState}
+      />
       <div className={className('buttons')}>
         <PrevTrackBtn prevTrack={prevTrack} />
         <PlayPauseBtn isPlay={isPlay} playPauseTrack={playPauseTrack} />

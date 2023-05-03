@@ -60,7 +60,7 @@ const setTestState = (store: ToolkitStore): void => {
   store.dispatch(setActiveSong(obj));
 };
 
-test('renders AudioPlayer component', () => {
+test('should render all AudioPlayer component', () => {
   const store = createNewStore();
 
   render(
@@ -68,17 +68,14 @@ test('renders AudioPlayer component', () => {
       <AudioPlayer />
     </Provider>
   );
-  const audioElement = screen.getByTestId('audio');
-  expect(audioElement).toBeInTheDocument();
 
-  const playPauseBtn = screen.getByTestId('playPauseBtn');
-  expect(playPauseBtn).toBeInTheDocument();
-
-  const nextTrackBtn = screen.getByTestId('nextTrackBtn');
-  expect(nextTrackBtn).toBeInTheDocument();
-
-  const prevTrackBtn = screen.getByTestId('prevTrackBtn');
-  expect(prevTrackBtn).toBeInTheDocument();
+  expect(screen.getByTestId('audio')).toBeInTheDocument();
+  expect(screen.getByTestId('playPauseBtn')).toBeInTheDocument();
+  expect(screen.getByTestId('nextTrackBtn')).toBeInTheDocument();
+  expect(screen.getByTestId('prevTrackBtn')).toBeInTheDocument();
+  expect(screen.getByTestId('currentTime')).toBeInTheDocument();
+  expect(screen.getByTestId('totalDuration')).toBeInTheDocument();
+  expect(screen.getByTestId('seekbar')).toBeInTheDocument();
 });
 
 test('should call the HTMLAudioElement play() and pause() methods when the playPauseBtn is clicked', async () => {
