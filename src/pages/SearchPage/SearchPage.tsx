@@ -13,17 +13,16 @@ export const SearchPage = () => {
   const { isLoading, errorMessage, currentSongs } = useSelector(getTracks);
   const dispatch = useAppDispatch();
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const target = event.target as HTMLFormElement;
+    const data: string = target.search.value;
+    dispatch(searchTracksThunk(data));
+  };
+
   return (
     <div className={className('search-page')}>
-      <form
-        style={{ marginBottom: '15px' }}
-        onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          const target = event.target as HTMLFormElement;
-          const data: string = target.search.value;
-          dispatch(searchTracksThunk(data));
-        }}
-      >
+      <form style={{ marginBottom: '15px' }} onSubmit={handleSubmit}>
         <input
           type="text"
           name="search"

@@ -5,31 +5,31 @@ import { playerReducers, setActiveSong } from 'store/player/player.slice';
 import { configureStore } from '@reduxjs/toolkit';
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
 import { setCurrentSongs, tracksReducers } from 'store/tracks/tracks.slice';
-import axios from 'axios';
+import { instanceAxiosSpotify } from 'api/instancesOfAxios';
 
-jest.mock('axios');
+jest.mock('api/instancesOfAxios');
 
 beforeEach(() => {
-  axios.create = jest.fn(() => axios);
-
   type TOptions = {
     params: { ids: string };
   };
 
-  (axios.get as jest.Mock).mockImplementation((url, options: TOptions) => {
-    const urls = ['first-track-src', 'second-track-src', 'third-track-src'];
-    const ids = Number(options.params.ids);
-    const resp = {
-      data: {
-        tracks: [
-          {
-            preview_url: urls[ids],
-          },
-        ],
-      },
-    };
-    return Promise.resolve(resp);
-  });
+  (instanceAxiosSpotify.get as jest.Mock).mockImplementation(
+    (_, options: TOptions) => {
+      const urls = ['first-track-src', 'second-track-src', 'third-track-src'];
+      const ids = Number(options.params.ids);
+      const resp = {
+        data: {
+          tracks: [
+            {
+              preview_url: urls[ids],
+            },
+          ],
+        },
+      };
+      return Promise.resolve(resp);
+    }
+  );
 });
 
 afterEach(() => {
