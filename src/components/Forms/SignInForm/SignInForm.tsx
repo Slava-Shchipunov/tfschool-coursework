@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 const className = classNames.bind(styles);
 
 type TSignInProps = {
-  signIn: (data: TUserAuth) => Promise<TUserAuth>;
+  signIn: (data: TUserAuth) => Promise<void>;
 };
 
 export const SignInForm = (props: TSignInProps) => {
@@ -35,7 +35,6 @@ export const SignInForm = (props: TSignInProps) => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // TODO в дальнейшем отправлять данные на сервер для авторизации пользователя
     event.preventDefault();
 
     if (!email || !password) {

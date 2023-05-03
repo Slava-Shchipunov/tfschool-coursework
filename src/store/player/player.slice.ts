@@ -49,4 +49,4 @@ const playerSlice = createSlice({
 });
 
 export const { togglePlay, next, prev, setActiveSong } = playerSlice.actions;
-export const playerRedusers = playerSlice.reducer;
+export const playerReducers = playerSlice.reducer;
