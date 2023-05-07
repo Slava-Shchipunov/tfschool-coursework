@@ -10,11 +10,11 @@ import { SearchPage } from 'pages/SearchPage/SearchPage';
 export enum PathRoutes {
   welcome = '/',
   signup = 'sign-up',
-  signin = 'sign-in',
+  signin = '/sign-in',
   player = 'player/',
   top = 'top',
   liked = 'liked',
-  errorPath = '404',
+  // errorPath = '404', //TODO удалить, если не нужуен
 }
 
 const routes = [
