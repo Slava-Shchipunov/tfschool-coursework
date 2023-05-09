@@ -5,12 +5,25 @@
   z-index: 10;
 }
 
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-100%);
+  transition-delay: 0.5s;
+}
+
+.open .wrapper {
+  transform: translateX(0);
+  transition-delay: 0s;
+}
+
 .nav {
   position: fixed;
   min-width: 210px;
   height: 100%;
-  top: 0;
-  left: 0;
   background-color: #091227;
   font-size: 20px;
   line-height: 1.2;
@@ -39,9 +52,6 @@
 .header-burger {
   position: relative;
   z-index: 15;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   width: 24px;
   height: 9px;
   cursor: pointer;
@@ -53,23 +63,31 @@
 }
 
 .burger-line {
+  position: absolute;
   display: block;
   width: 24px;
   height: 3px;
   background-color: #eaf0ff;
-  transition: ease-in-out 0.3s;
+  transition: all ease-in-out 0.2s;
+}
+
+.burger-line:first-child {
+  top: 0;
+}
+
+.burger-line:last-child {
+  bottom: 0;
 }
 
 .open .header-burger .burger-line {
   display: block;
-  position: absolute;
   top: 50%;
 }
 
 .open .burger-line:first-child {
-  transform: translateY(-50%) rotate(45deg);
+  transform: rotate(45deg);
 }
 
 .open .burger-line:last-child {
-  transform: translateY(-50%) rotate(-45deg);
+  transform: rotate(-45deg);
 }
