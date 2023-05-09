@@ -157,6 +157,10 @@ body {
   background-color: #091227;
 }
 
+li {
+  list-style-type: none;
+}
+
 /* Common styles end */
 
 .wrapper {

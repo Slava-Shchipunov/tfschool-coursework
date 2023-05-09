@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './style.module.css';
 import classNames from 'classnames/bind';
+import { PathRoutes } from 'router/router';
 
 const className = classNames.bind(styles);
 
@@ -8,7 +9,7 @@ export const WelcomePage = () => {
   const navigate = useNavigate();
 
   function handleClick() {
-    navigate('/player');
+    navigate(PathRoutes.player);
   }
 
   return (
