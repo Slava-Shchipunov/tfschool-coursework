@@ -4,15 +4,15 @@ import { useSelector } from 'react-redux';
 import { getTracks } from 'store/tracks/tracks.selectors';
 import { SongCard } from 'components/SongCard/SongCard';
 // import { searchTracksThunk } from 'store/tracks/tracks.thunk';
-import { useAppDispatch } from 'hooks/useAppDispatch';
+// import { useAppDispatch } from 'hooks/useAppDispatch';
 import { Loader } from 'components/Loader/Loader';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
 const className = classNames.bind(styles);
 
 export const LikedPage = () => {
   const { isLoading, errorMessage, currentSongs } = useSelector(getTracks);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   // TODO получать понравившиеся песни при монтировании компонента
   /* useEffect(() => {
@@ -23,19 +23,22 @@ export const LikedPage = () => {
     <div className={className('liked-page')}>
       {isLoading && <Loader />}
       {!isLoading && (
-        <div className={className('tracks')}>
-          {currentSongs &&
-            currentSongs.map((track) => (
-              <SongCard
-                key={track.id}
-                trackId={track.id}
-                imgUrl={track.image}
-                title={track.name}
-                artist={track.artists.join(', ')}
-                isSmall={true}
-              />
-            ))}
-        </div>
+        <>
+          <h2>Liked Songs</h2>
+          <div className={className('tracks')}>
+            {currentSongs &&
+              currentSongs.map((track) => (
+                <SongCard
+                  key={track.id}
+                  trackId={track.id}
+                  imgUrl={track.image}
+                  title={track.name}
+                  artist={track.artists.join(', ')}
+                  isSmall={true}
+                />
+              ))}
+          </div>
+        </>
       )}
     </div>
   );

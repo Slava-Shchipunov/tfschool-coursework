@@ -22,7 +22,7 @@ export const SearchPage = () => {
 
   return (
     <div className={className('search-page')}>
-      <form style={{ marginBottom: '15px' }} onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="search"
@@ -33,19 +33,22 @@ export const SearchPage = () => {
       </form>
       {isLoading && <Loader />}
       {!isLoading && (
-        <div className={className('tracks')}>
-          {currentSongs &&
-            currentSongs.map((track) => (
-              <SongCard
-                key={track.id}
-                trackId={track.id}
-                imgUrl={track.image}
-                title={track.name}
-                artist={track.artists.join(', ')}
-                isSmall={true}
-              />
-            ))}
-        </div>
+        <>
+          <h2>Search results</h2>
+          <div className={className('tracks')}>
+            {currentSongs &&
+              currentSongs.map((track) => (
+                <SongCard
+                  key={track.id}
+                  trackId={track.id}
+                  imgUrl={track.image}
+                  title={track.name}
+                  artist={track.artists.join(', ')}
+                  isSmall={true}
+                />
+              ))}
+          </div>
+        </>
       )}
     </div>
   );
