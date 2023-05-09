@@ -10,7 +10,7 @@ type TInitialState = {
   activeSong: TTrack | null;
 };
 
-const initialState: TInitialState = {
+export const initialState: TInitialState = {
   isLoading: false,
   errorMessage: '',
   currentIdx: 0,
@@ -27,7 +27,9 @@ const playerSlice = createSlice({
       state.isPlay =
         action.payload !== undefined ? action.payload : !state.isPlay;
     },
+
     // TODO добавить тип для payload:
+
     setActiveSong: (state, { payload }) => {
       state.currentIdx = payload.currentIdx;
       state.activeSong = payload.activeSong;
