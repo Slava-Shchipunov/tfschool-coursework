@@ -29,16 +29,20 @@ export const Menu = () => {
   };
 
   return (
-    <header className={className('header', { open: isOpenMenu })}>
+    <header
+      className={className('header', { open: isOpenMenu })}
+      data-testid="header"
+    >
       <Burger handleClick={handleCloseMenuClick} />
       <div className={className('wrapper')} onClick={handleClickOutsideMenu}>
-        <nav className={className('nav')}>
+        <nav className={className('nav')} data-testid="menu">
           <ul className={className('nav-list')}>
             <li className={className('nav-item')}>
               <Link
                 to={PathRoutes.player}
                 className={className('nav-link')}
                 onClick={handleCloseMenuClick}
+                data-testid="search-link"
               >
                 <Icon url={searchIconUrl} width="20px" height="20px" />
                 Search
@@ -49,6 +53,7 @@ export const Menu = () => {
                 to={PathRoutes.top}
                 className={className('nav-link')}
                 onClick={handleCloseMenuClick}
+                data-testid="top-link"
               >
                 <Icon url={topIconUrl} width="20px" height="20px" />
                 Top Songs
@@ -59,6 +64,7 @@ export const Menu = () => {
                 to={PathRoutes.liked}
                 className={className('nav-link')}
                 onClick={handleCloseMenuClick}
+                data-testid="liked-link"
               >
                 <Icon url={heartIconUrl} width="20px" height="20px" />
                 Liked Songs

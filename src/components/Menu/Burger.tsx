@@ -9,7 +9,11 @@ type TBurger = {
 
 export const Burger = ({ handleClick }: TBurger) => {
   return (
-    <div className={className('header-burger')} onClick={handleClick}>
+    <div
+      className={className('header-burger')}
+      onClick={handleClick}
+      data-testid="burger"
+    >
       <span className={className('burger-line')}></span>
       <span className={className('burger-line')}></span>
     </div>
