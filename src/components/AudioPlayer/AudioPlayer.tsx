@@ -12,7 +12,7 @@ import { Seekbar } from './Seekbar/Seekbar';
 import { getTrackDetailsThunk } from 'store/player/player.thunk';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { SongCard } from 'components/SongCard/SongCard';
-import { getTracks } from 'pages/SearchPage/selectors/getTracks';
+import { getTracks } from 'store/tracks/tracks.selectors';
 
 const className = classNames.bind(styles);
 

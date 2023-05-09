@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { PathRoutes } from 'router/router';
 import { SignOutBtn } from 'components/SignOutBtn/SignOutBtn';
 import { Icon } from 'components/Icon/Icon';
+import topIconUrl from 'assets/svg/chart.svg';
 import searchIconUrl from 'assets/svg/search.svg';
 import heartIconUrl from 'assets/svg/heart.svg';
 import { useState } from 'react';
@@ -41,6 +42,16 @@ export const Menu = () => {
               >
                 <Icon url={searchIconUrl} width="20px" height="20px" />
                 Search
+              </Link>
+            </li>
+            <li className={className('nav-item')}>
+              <Link
+                to={PathRoutes.top}
+                className={className('nav-link')}
+                onClick={handleCloseMenuClick}
+              >
+                <Icon url={topIconUrl} width="20px" height="20px" />
+                Top Songs
               </Link>
             </li>
             <li className={className('nav-item')}>

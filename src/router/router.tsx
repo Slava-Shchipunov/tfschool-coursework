@@ -6,14 +6,16 @@ import { SignInPage } from 'pages/SignInPage';
 import { SignUpPage } from 'pages/SignUpPage';
 import { PlayerPage } from 'pages/PlayerPage/PlayerPage';
 import { SearchPage } from 'pages/SearchPage/SearchPage';
+import { LikedPage } from 'pages/LikedPage/LikedPage';
+import { TopPage } from 'pages/TopPage/TopPage';
 
 export enum PathRoutes {
   welcome = '/',
   signup = '/sign-up',
   signin = '/sign-in',
-  player = '/player/',
-  top = '/top',
-  liked = '/liked',
+  player = '/player',
+  top = 'top',
+  liked = 'liked',
   // errorPath = '404', //TODO удалить, если не нужуен
 }
 
@@ -42,14 +44,14 @@ const routes = [
             index: true,
             element: <SearchPage />,
           },
-          /*{
+          {
             path: PathRoutes.top,
             element: <TopPage />,
           },
           {
             path: PathRoutes.liked,
             element: <LikedPage />,
-          }, */
+          },
         ],
       },
     ],
