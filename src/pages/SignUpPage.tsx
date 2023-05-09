@@ -22,7 +22,7 @@ export const SignUpPage = () => {
   };
 
   if (auth.currentUser) {
-    return <Navigate to={`/${PathRoutes.player}`} replace />;
+    return <Navigate to={PathRoutes.player} replace />;
   }
 
   return (

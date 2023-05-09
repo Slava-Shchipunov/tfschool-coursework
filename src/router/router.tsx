@@ -11,9 +11,9 @@ export enum PathRoutes {
   welcome = '/',
   signup = '/sign-up',
   signin = '/sign-in',
-  player = 'player/',
-  top = 'top',
-  liked = 'liked',
+  player = '/player/',
+  top = '/top',
+  liked = '/liked',
   // errorPath = '404', //TODO удалить, если не нужуен
 }
 
