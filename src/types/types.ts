@@ -48,3 +48,12 @@ export type TTrackDetailsResponse = {
     preview_url: string;
   }[];
 };
+
+export type TTopTracksResponse = {
+  trackMetadata: {
+    trackName: string;
+    trackUri: string;
+    displayImageUri: string;
+    artists: { name: string }[];
+  };
+}[];
