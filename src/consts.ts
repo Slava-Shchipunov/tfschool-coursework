@@ -13,10 +13,20 @@ export const RAPIDAPI_KEY = process.env.REACT_APP_RAPIDAPI_KEY;
 
 export const SPOTIFY_BASE_URL = 'spotify81.p.rapidapi.com';
 
+export const SPOTIFY_DOWNLOADER_BASE_URL = 'spotify-downloader1.p.rapidapi.com';
+
 export const AXIOS_SPOTIFY_CONFIG: AxiosRequestConfig = {
   baseURL: `https://${SPOTIFY_BASE_URL}`,
   headers: {
     'X-RapidAPI-Key': RAPIDAPI_KEY,
     'X-RapidAPI-Host': SPOTIFY_BASE_URL,
+  },
+};
+
+export const AXIOS_SPOTIFY_DOWNLOADER_CONFIG: AxiosRequestConfig = {
+  baseURL: `https://${SPOTIFY_DOWNLOADER_BASE_URL}`,
+  headers: {
+    'X-RapidAPI-Key': RAPIDAPI_KEY,
+    'X-RapidAPI-Host': SPOTIFY_DOWNLOADER_BASE_URL,
   },
 };

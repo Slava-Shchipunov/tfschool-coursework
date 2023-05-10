@@ -57,3 +57,8 @@ export type TTopTracksResponse = {
     artists: { name: string }[];
   };
 }[];
+
+export type TDownloadTrackResponse = {
+  success: boolean;
+  link: string;
+};
