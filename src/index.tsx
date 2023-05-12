@@ -6,17 +6,22 @@ import { router } from 'router/router';
 import { store } from 'store/store';
 import 'index.css';
 import reportWebVitals from 'reportWebVitals';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from 'api/firebase';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-root.render(
-  <StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </StrictMode>
-);
+
+onAuthStateChanged(auth, () => {
+  root.render(
+    <StrictMode>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </StrictMode>
+  );
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
