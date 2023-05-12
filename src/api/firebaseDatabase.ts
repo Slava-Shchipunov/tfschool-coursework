@@ -1,4 +1,12 @@
-import { child, get, getDatabase, ref, update } from 'firebase/database';
+import {
+  child,
+  get,
+  getDatabase,
+  ref,
+  remove,
+  set,
+  update,
+} from 'firebase/database';
 import { TTrack, TLikedSongsData } from 'types/types';
 
 export const addLikedSongsData = async (
@@ -52,14 +60,11 @@ export const removeLikedSongData = async (userId: string, trackId: string) => {
   const snapshot = await get(child(userRef, `${userId}/likedSongsIds`));
   const likedSongsIds: string[] = snapshot.val();
 
-  const updates = {
-    [userId]: {
-      likedSongs: {
-        [trackId]: null,
-      },
-      likedSongsIds: likedSongsIds.filter((id) => id !== trackId),
-    },
-  };
+  const likedSongsRef = ref(db, `${userId}/likedSongs/${trackId}`);
+  const likedSongsIdsRef = ref(db, `${userId}/likedSongsIds`);
 
-  update(userRef, updates);
+  const likedSongsIdsUpdates = likedSongsIds.filter((id) => id !== trackId);
+
+  remove(likedSongsRef);
+  set(likedSongsIdsRef, likedSongsIdsUpdates);
 };

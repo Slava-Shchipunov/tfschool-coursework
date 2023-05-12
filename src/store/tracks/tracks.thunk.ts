@@ -3,7 +3,11 @@ import { setError, setLoading, setTrackList } from './tracks.slice';
 import { getTopTracks, downloadTrack, searchTracks } from 'api/tracks';
 import { handleError } from 'api/handleError';
 import { getTracksData } from 'utils/getTracksData';
-import { addLikedSongsData, getLikedSongsData } from 'api/firebaseDatabase';
+import {
+  addLikedSongsData,
+  getLikedSongsData,
+  removeLikedSongData,
+} from 'api/firebaseDatabase';
 import { TTrack } from 'types/types';
 import {
   downloadTrackToFirebase,
@@ -12,7 +16,7 @@ import {
 } from 'api/firebaseStorage';
 import { auth } from 'api/firebase';
 import { getTopTracksData } from 'utils/getTopTracksData';
-import { setCurrentSongs } from 'store/player/player.slice';
+import { setCurrentSongs, setIsTrackLiked } from 'store/player/player.slice';
 import { shuffle } from 'utils/shuffle';
 
 type TSearchTracksThunk = {
@@ -105,6 +109,26 @@ export const addLikedTrackThunk = createAsyncThunk(
         );
 
         await addLikedSongsData(auth.currentUser?.uid, trackData, trackUrl);
+      }
+    } catch (error) {
+      const errorMessage = handleError(error).message;
+      dispatch(setError(errorMessage));
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
+export const removeLikedTrackThunk = createAsyncThunk(
+  'removeLikedTrack',
+  async (trackData: TTrack, { dispatch }) => {
+    const { id } = trackData;
+    dispatch(setError(''));
+    dispatch(setLoading(true));
+    try {
+      if (auth.currentUser?.uid) {
+        await removeLikedSongData(auth.currentUser?.uid, id);
+        dispatch(setIsTrackLiked(false));
       }
     } catch (error) {
       const errorMessage = handleError(error).message;
