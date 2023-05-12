@@ -22,6 +22,7 @@ import { ShuffleTracksBtn } from './controls/ShuffleTracksBtn';
 import { VolumeBar } from './VolumeBar/VolumeBar';
 import { shuffle } from 'utils/shuffle';
 import { getTracks } from 'store/tracks/tracks.selectors';
+import { addLikedTrackThunk } from 'store/tracks/tracks.thunk';
 
 const className = classNames.bind(styles);
 
@@ -199,6 +200,14 @@ export const AudioPlayer = () => {
           <NextTrackBtn nextTrack={nextTrack} />
         </div>
       </div>
+      <button
+        onClick={() => {
+          if (!activeSong) return;
+          dispatch(addLikedTrackThunk(activeSong));
+        }}
+      >
+        add to liked
+      </button>
     </div>
   );
 };
