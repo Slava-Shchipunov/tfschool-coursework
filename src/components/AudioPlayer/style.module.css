@@ -35,8 +35,7 @@
 .dark-btn:hover {
   transition: ease-in-out 0.5s;
   opacity: 1;
-  filter: invert(0%) sepia(100%) saturate(1%) hue-rotate(139deg)
-    brightness(173%) contrast(101%);
+  filter: invert(0%) sepia(100%) saturate(1%) hue-rotate(139deg) brightness(173%) contrast(101%);
 }
 
 .slider-container {

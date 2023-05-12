@@ -23,14 +23,17 @@ export const getTrackDetailsThunk = createAsyncThunk(
       if (auth.currentUser?.uid) {
         likedSongsIds = await getLikedSongsIds(auth.currentUser?.uid);
       }
-      const trackDetails =
+
+      const isTrackLiked = Boolean(
         likedSongsIds && likedSongsIds.includes(trackId)
-          ? null
-          : await getTrackDetails(trackId);
+      );
+
+      const trackDetails = await getTrackDetails(trackId);
       const playerState = createPlayerState({
         trackId,
         currentSongs,
         trackDetails,
+        isTrackLiked,
       });
 
       dispatch(setActiveSong(playerState));
