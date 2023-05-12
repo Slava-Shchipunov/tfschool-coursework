@@ -5,6 +5,8 @@ export const FIREBASE_CONFIG = {
   authDomain: 'online-audio-player-tfscw.firebaseapp.com',
   projectId: 'online-audio-player-tfscw',
   storageBucket: 'online-audio-player-tfscw.appspot.com',
+  databaseURL:
+    'https://online-audio-player-tfscw-default-rtdb.europe-west1.firebasedatabase.app',
   messagingSenderId: '397367957174',
   appId: '1:397367957174:web:de6d328803db85d8f5b817',
 };
