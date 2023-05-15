@@ -1,5 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TTrack } from 'types/types';
+import { shuffle } from 'utils/shuffle';
+
+type TSetActiveSongPayload = {
+  currentIdx: number;
+  activeSong: TTrack | null;
+  isActive: boolean;
+};
 
 type TVolume = {
   isVolumeActive: boolean;
@@ -9,6 +16,7 @@ type TVolume = {
 type TInitialState = {
   isLoading: boolean;
   errorMessage: string;
+  currentSongs: TTrack[];
   currentIdx: number;
   isActive: boolean;
   isPlay: boolean;
@@ -21,6 +29,7 @@ type TInitialState = {
 export const initialState: TInitialState = {
   isLoading: false,
   errorMessage: '',
+  currentSongs: [],
   currentIdx: 0,
   isActive: false,
   isPlay: false,
@@ -44,7 +53,19 @@ const playerSlice = createSlice({
     toggleRepeat: (state) => {
       state.isRepeat = !state.isRepeat;
     },
-    toggleShuffle: (state) => {
+    toggleShuffle: (state, { payload }: PayloadAction<TTrack[]>) => {
+      if (state.isShuffle) {
+        state.currentIdx =
+          payload.findIndex(
+            (el) => el.id === state.currentSongs[state.currentIdx].id
+          ) ?? 0;
+        state.currentSongs = payload;
+      } else {
+        const shuffledArray = shuffle(state.currentIdx, payload);
+
+        state.currentIdx = shuffledArray.newCurrentIdx;
+        state.currentSongs = shuffledArray.shuffledArray;
+      }
       state.isShuffle = !state.isShuffle;
     },
     setVolume: (state, { payload }: PayloadAction<number | undefined>) => {
@@ -54,9 +75,13 @@ const playerSlice = createSlice({
         state.volume.volumeLevel = payload;
       }
     },
-    // TODO добавить тип для payload:
-
-    setActiveSong: (state, { payload }) => {
+    setCurrentSongs: (state, { payload }: PayloadAction<TTrack[]>) => {
+      state.currentSongs = payload;
+    },
+    setActiveSong: (
+      state,
+      { payload }: PayloadAction<TSetActiveSongPayload>
+    ) => {
       state.currentIdx = payload.currentIdx;
       state.activeSong = payload.activeSong;
       state.isActive = payload.isActive;
@@ -75,6 +100,7 @@ export const {
   toggleRepeat,
   toggleShuffle,
   setVolume,
+  setCurrentSongs,
   setActiveSong,
   setLoading,
   setError,

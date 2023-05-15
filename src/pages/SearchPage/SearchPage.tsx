@@ -4,14 +4,21 @@ import { searchTracksThunk } from 'store/tracks/tracks.thunk';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { SongsPageLayout } from 'pages/PlayerPage/SongsPageLayout';
 import { SearchLine } from 'components/SearchLine/SearchLine';
+import { getPlayer } from 'components/AudioPlayer/selectors/getPlayer';
 
 const className = classNames.bind(styles);
 
 export const SearchPage = () => {
+  const { isShuffle } = useSelector(getPlayer);
   const dispatch = useAppDispatch();
 
   const searchTracks = (data: string) => {
-    dispatch(searchTracksThunk(data));
+    dispatch(
+      searchTracksThunk({
+        searchQuery: data,
+        isShuffle,
+      })
+    );
   };
 
   return (
