@@ -7,7 +7,7 @@ import { Icon } from 'components/Icon/Icon';
 import topIconUrl from 'assets/svg/chart.svg';
 import searchIconUrl from 'assets/svg/search.svg';
 import heartIconUrl from 'assets/svg/heart.svg';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Burger } from './Burger';
 
 const className = classNames.bind(styles);
@@ -15,19 +15,23 @@ const className = classNames.bind(styles);
 export const Menu = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
-  const handleCloseMenuClick = () => {
+  const handleCloseMenuClick = useCallback(() => {
     setIsOpenMenu(!isOpenMenu);
-  };
+  }, [isOpenMenu]);
+
+  const navRef = useRef(null);
 
   const handleClickOutsideMenu = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    const target = e.target as HTMLElement;
-    if (!target.closest('nav')) {
-      setIsOpenMenu(!isOpenMenu);
+    if (navRef.current) {
+      const nav: HTMLElement = navRef.current;
+
+      if (!nav.contains(e.target as HTMLElement)) {
+        setIsOpenMenu(!isOpenMenu);
+      }
     }
   };
-
   return (
     <header
       className={className('header', { open: isOpenMenu })}
@@ -35,7 +39,7 @@ export const Menu = () => {
     >
       <Burger handleClick={handleCloseMenuClick} />
       <div className={className('wrapper')} onClick={handleClickOutsideMenu}>
-        <nav className={className('nav')} data-testid="menu">
+        <nav className={className('nav')} ref={navRef} data-testid="menu">
           <ul className={className('nav-list')}>
             <li className={className('nav-item')}>
               <Link
