@@ -4,13 +4,13 @@ import { TTrack } from 'types/types';
 type TInitialState = {
   isLoading: boolean;
   errorMessage: string;
-  currentSongs: TTrack[];
+  trackList: TTrack[];
 };
 
 const initialState: TInitialState = {
   isLoading: false,
   errorMessage: '',
-  currentSongs: [],
+  trackList: [],
 };
 
 const tracksSlice = createSlice({
@@ -23,11 +23,11 @@ const tracksSlice = createSlice({
     setError: (state, { payload }: PayloadAction<string>) => {
       state.errorMessage = payload;
     },
-    setCurrentSongs: (state, { payload }: PayloadAction<TTrack[]>) => {
-      state.currentSongs = payload;
+    setTrackList: (state, { payload }: PayloadAction<TTrack[]>) => {
+      state.trackList = payload;
     },
   },
 });
 
-export const { setLoading, setError, setCurrentSongs } = tracksSlice.actions;
+export const { setLoading, setError, setTrackList } = tracksSlice.actions;
 export const tracksReducers = tracksSlice.reducer;

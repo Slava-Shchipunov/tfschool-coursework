@@ -4,7 +4,7 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import { getTrackDetailsThunk } from 'store/player/player.thunk';
 import { togglePlay } from 'store/player/player.slice';
 import { useSelector } from 'react-redux';
-import { getTracks } from 'store/tracks/tracks.selectors';
+import { getPlayer } from 'components/AudioPlayer/selectors/getPlayer';
 import { memo } from 'react';
 
 type TSongCard = {
@@ -19,23 +19,27 @@ const className = classNames.bind(styles);
 
 export const SongCardComponent = (props: TSongCard) => {
   const { trackId, imgUrl, title, artist, isSmall } = props;
-  const { currentSongs } = useSelector(getTracks);
+  const { currentSongs } = useSelector(getPlayer);
   const dispatch = useAppDispatch();
+
+  const handleOnClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    if (!isSmall) {
+      return;
+    }
+
+    dispatch(togglePlay(false));
+    const trackId = event.currentTarget.id;
+
+    dispatch(getTrackDetailsThunk({ trackId, currentSongs }));
+  };
 
   return (
     <div
       className={className('card', { small: isSmall })}
       id={trackId}
-      onClick={(event) => {
-        dispatch(togglePlay(false));
-        const trackId = event.currentTarget.id;
-
-        if (!currentSongs) {
-          return;
-        }
-
-        dispatch(getTrackDetailsThunk({ trackId, currentSongs }));
-      }}
+      onClick={handleOnClick}
     >
       <div className={className('art')}>
         <img className={className('art-fill')} src={imgUrl} alt="cover" />

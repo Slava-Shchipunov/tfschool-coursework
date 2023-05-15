@@ -5,15 +5,21 @@
   gap: 20px;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 320px;
-  height: 500px;
+  padding: 20px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
 
 .buttons {
   display: flex;
   align-items: center;
-  margin-bottom: 40px;
   justify-content: center;
   gap: 35px;
 }
@@ -22,4 +28,21 @@
   border: none;
   background-color: transparent;
   padding: 0px;
+  transition: ease-in-out 0.2s;
+}
+
+.active,
+.dark-btn:hover {
+  transition: ease-in-out 0.5s;
+  opacity: 1;
+  filter: invert(0%) sepia(100%) saturate(1%) hue-rotate(139deg)
+    brightness(173%) contrast(101%);
+}
+
+.slider-container {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
 }

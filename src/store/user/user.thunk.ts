@@ -4,8 +4,11 @@ import { handleError } from 'api/handleError';
 import { TUserAuth, TUserCreate } from 'types/types';
 import { signIn, signUp, userSignOut } from 'api/user';
 import { auth } from 'api/firebase';
-import { initialState, setActiveSong } from 'store/player/player.slice';
-import { setCurrentSongs } from 'store/tracks/tracks.slice';
+import {
+  initialState,
+  setActiveSong,
+  setCurrentSongs,
+} from 'store/player/player.slice';
 
 export const userSignUpThunk = createAsyncThunk(
   'userSignUp',

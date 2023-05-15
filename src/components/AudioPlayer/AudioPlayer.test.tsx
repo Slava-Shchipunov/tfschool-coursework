@@ -1,10 +1,14 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { AudioPlayer } from './AudioPlayer';
-import { playerReducers, setActiveSong } from 'store/player/player.slice';
+import {
+  playerReducers,
+  setActiveSong,
+  setCurrentSongs,
+} from 'store/player/player.slice';
 import { configureStore } from '@reduxjs/toolkit';
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
-import { setCurrentSongs, tracksReducers } from 'store/tracks/tracks.slice';
+import { setTrackList, tracksReducers } from 'store/tracks/tracks.slice';
 import { instanceAxiosSpotify } from 'api/instancesOfAxios';
 
 jest.mock('api/instancesOfAxios');
@@ -33,7 +37,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
+  jest.restoreAllMocks();
 });
 
 const createNewStore = () => {
@@ -102,6 +106,7 @@ const setTestState = (store: ToolkitStore): void => {
   };
 
   store.dispatch(setCurrentSongs(currentSongs));
+  store.dispatch(setTrackList(currentSongs));
   store.dispatch(setActiveSong(obj));
 };
 
@@ -208,4 +213,72 @@ test('should correctly change src when clicking on the PrevTrackBtn', async () =
   fireEvent.click(screen.getByTestId('prevTrackBtn'));
   expect(await screen.findByText('First track')).toBeInTheDocument();
   expect(audioElement.src).toContain('first-track-src');
+});
+
+test('should loop playback when the RepeatTrackBtn is pressed', async () => {
+  const store = createNewStore();
+
+  renderWithProvider(store);
+
+  await waitFor(() => setTestState(store));
+
+  const audioElement: HTMLAudioElement = screen.getByTestId('audio');
+  expect(audioElement.loop).toBe(false);
+
+  fireEvent.click(screen.getByTestId('repeatTrackBtn'));
+  await waitFor(() => expect(audioElement.loop).toBe(true));
+
+  fireEvent.click(screen.getByTestId('repeatTrackBtn'));
+  await waitFor(() => expect(audioElement.loop).toBe(false));
+});
+
+test('should use random track order when ShuffleTracksBtn is pressed', async () => {
+  const store = createNewStore();
+
+  renderWithProvider(store);
+
+  await waitFor(() => setTestState(store));
+
+  const random = jest.spyOn(global.Math, 'random');
+  random.mockReturnValue(0.5);
+
+  const audioElement: HTMLAudioElement = screen.getByTestId('audio');
+  expect(audioElement.src).toContain('first-track-src');
+  fireEvent.click(screen.getByTestId('shuffleTracksBtn'));
+
+  fireEvent.click(screen.getByTestId('nextTrackBtn'));
+  expect(await screen.findByText('Third track')).toBeInTheDocument();
+  expect(audioElement.src).toContain('third-track-src');
+
+  fireEvent.click(screen.getByTestId('nextTrackBtn'));
+  expect(await screen.findByText('Second track')).toBeInTheDocument();
+  expect(audioElement.src).toContain('second-track-src');
+
+  fireEvent.click(screen.getByTestId('prevTrackBtn'));
+  expect(await screen.findByText('Third track')).toBeInTheDocument();
+  expect(audioElement.src).toContain('third-track-src');
+
+  fireEvent.click(screen.getByTestId('prevTrackBtn'));
+  expect(await screen.findByText('First track')).toBeInTheDocument();
+  expect(audioElement.src).toContain('first-track-src');
+});
+
+test('should change the volume when moving the VolumeBar slider', async () => {
+  const store = createNewStore();
+
+  renderWithProvider(store);
+
+  await waitFor(() => setTestState(store));
+
+  const audioElement: HTMLAudioElement = screen.getByTestId('audio');
+  expect(audioElement.volume).toBe(0.7);
+
+  fireEvent.change(screen.getByTestId('volumeBar'), {
+    target: {
+      value: '10',
+    },
+  });
+
+  expect(await screen.findByText('10%')).toBeInTheDocument();
+  expect(audioElement.volume).toBe(0.1);
 });
