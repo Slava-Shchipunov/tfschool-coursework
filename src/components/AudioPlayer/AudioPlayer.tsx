@@ -20,8 +20,8 @@ import { SongCard } from 'components/SongCard/SongCard';
 import { RepeatTrackBtn } from './controls/RepeatTrackBtn';
 import { ShuffleTracksBtn } from './controls/ShuffleTracksBtn';
 import { VolumeBar } from './VolumeBar/VolumeBar';
-import { getTracks } from 'pages/SearchPage/selectors/getTracks';
 import { shuffle } from 'utils/shuffle';
+import { getTracks } from 'store/tracks/tracks.selectors';
 
 const className = classNames.bind(styles);
 

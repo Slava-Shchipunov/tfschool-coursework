@@ -5,6 +5,7 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import { SongsPageLayout } from 'pages/PlayerPage/SongsPageLayout';
 import { SearchLine } from 'components/SearchLine/SearchLine';
 import { getPlayer } from 'components/AudioPlayer/selectors/getPlayer';
+import { useSelector } from 'react-redux';
 
 const className = classNames.bind(styles);
 

@@ -37,14 +37,18 @@ export const searchTracksThunk = createAsyncThunk(
 
 export const getTopTracksThunk = createAsyncThunk(
   'getTopTracks',
-  async (_, { dispatch }) => {
+  async (isShuffle: boolean, { dispatch }) => {
     dispatch(setError(''));
     dispatch(setLoading(true));
     try {
       const topTracks = await getTopTracks();
 
       const tracksData = getTopTracksData(topTracks.data);
-      dispatch(setCurrentSongs(tracksData));
+      dispatch(setTrackList(tracksData));
+      const currentSongs = isShuffle
+        ? shuffle(0, tracksData).shuffledArray
+        : tracksData;
+      dispatch(setCurrentSongs(currentSongs));
     } catch (error) {
       const errorMessage = handleError(error).message;
       dispatch(setError(errorMessage));

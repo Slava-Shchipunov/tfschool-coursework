@@ -8,16 +8,16 @@ import { getTracks } from 'store/tracks/tracks.selectors';
 const className = classNames.bind(styles);
 
 export const SongsPageLayout = (props: { pageTitle: string }) => {
-  const { isLoading, errorMessage, currentSongs } = useSelector(getTracks);
+  const { isLoading, errorMessage, trackList } = useSelector(getTracks);
   return (
     <>
       {isLoading && <Loader />}
-      {!isLoading && Boolean(currentSongs.length) && (
+      {!isLoading && Boolean(trackList.length) && (
         <>
           <h2 className={className('page-title')}>{props.pageTitle}</h2>
           <div className={className('tracks')}>
-            {currentSongs &&
-              currentSongs.map((track) => (
+            {trackList &&
+              trackList.map((track) => (
                 <SongCard
                   key={track.id}
                   trackId={track.id}

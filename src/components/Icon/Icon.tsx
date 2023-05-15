@@ -13,7 +13,7 @@ type TIcon = {
 };
 
 export const IconComponent = (props: TIcon) => {
-  const { url, width, height, filter } = { ...props };
+  const { url, width, height, filter, dark } = { ...props };
   return (
     <div
       className={className('icon', { dark: dark })}
