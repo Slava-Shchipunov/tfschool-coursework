@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from '../style.module.css';
 import { Icon } from 'components/Icon/Icon';
-import likedIconUrl from 'assets/svg/heart.svg';
+import likedIconUrl from 'assets/svg/heartBtn.svg';
 
 type TAddTrackToLikedBtn = {
   isActive: boolean;

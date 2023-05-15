@@ -6,12 +6,18 @@ import { SongsPageLayout } from 'pages/PlayerPage/SongsPageLayout';
 import { SearchLine } from 'components/SearchLine/SearchLine';
 import { getPlayer } from 'components/AudioPlayer/selectors/getPlayer';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { setTrackList } from 'store/tracks/tracks.slice';
 
 const className = classNames.bind(styles);
 
 export const SearchPage = () => {
   const { isShuffle } = useSelector(getPlayer);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setTrackList([]));
+  }, [dispatch]);
 
   const searchTracks = (data: string) => {
     dispatch(

@@ -103,6 +103,7 @@ const setTestState = (store: ToolkitStore): void => {
       image: 'image-url',
       src: 'first-track-src',
     },
+    isTrackLiked: false,
   };
 
   store.dispatch(setCurrentSongs(currentSongs));

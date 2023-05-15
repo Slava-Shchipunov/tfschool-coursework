@@ -24,6 +24,11 @@ type TSearchTracksThunk = {
   isShuffle: boolean;
 };
 
+type TGetLikedTracksThunk = {
+  userId: string;
+  isShuffle: boolean;
+};
+
 export const searchTracksThunk = createAsyncThunk(
   'searchTracks',
   async (searchThunckParams: TSearchTracksThunk, { dispatch }) => {
@@ -72,15 +77,22 @@ export const getTopTracksThunk = createAsyncThunk(
 
 export const getLikedTracksThunk = createAsyncThunk(
   'getLikedTracks',
-  async (userId: string, { dispatch }) => {
+  async (getLikedTracksThunkParams: TGetLikedTracksThunk, { dispatch }) => {
     dispatch(setError(''));
     dispatch(setLoading(true));
     try {
-      const likedSongsData = await getLikedSongsData(userId);
+      const likedSongsData = await getLikedSongsData(
+        getLikedTracksThunkParams.userId
+      );
+
       const tracksData: TTrack[] = likedSongsData.likedSongsIds.map(
         (trackId) => likedSongsData.likedSongs[trackId]
       );
-      dispatch(setCurrentSongs(tracksData));
+      dispatch(setTrackList(tracksData));
+      const currentSongs = getLikedTracksThunkParams.isShuffle
+        ? shuffle(0, tracksData).shuffledArray
+        : tracksData;
+      dispatch(setCurrentSongs(currentSongs));
     } catch (error) {
       const errorMessage = handleError(error).message;
       dispatch(setError(errorMessage));
