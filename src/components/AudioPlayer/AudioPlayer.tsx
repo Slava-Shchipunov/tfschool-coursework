@@ -21,6 +21,7 @@ import { RepeatTrackBtn } from './controls/RepeatTrackBtn';
 import { ShuffleTracksBtn } from './controls/ShuffleTracksBtn';
 import { VolumeBar } from './VolumeBar/VolumeBar';
 import { getTracks } from 'pages/SearchPage/selectors/getTracks';
+import { shuffle } from 'utils/shuffle';
 
 const className = classNames.bind(styles);
 
@@ -127,7 +128,23 @@ export const AudioPlayer = () => {
   };
 
   const shuffleTracks = () => {
-    dispatch(toggleShuffle(trackList));
+    let payload;
+    if (isShuffle) {
+      payload = {
+        newCurrentIdx:
+          trackList.findIndex((el) => el.id === currentSongs[currentIdx].id) ??
+          0,
+        newCurrentSongs: trackList,
+      };
+    } else {
+      const resultOfShuffle = shuffle(currentIdx, trackList);
+      payload = {
+        newCurrentIdx: resultOfShuffle.newCurrentIdx,
+        newCurrentSongs: resultOfShuffle.shuffledArray,
+      };
+    }
+
+    dispatch(toggleShuffle(payload));
   };
 
   const showVolumeBar = () => {

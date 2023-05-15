@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TTrack } from 'types/types';
-import { shuffle } from 'utils/shuffle';
 
 type TSetActiveSongPayload = {
   currentIdx: number;
@@ -53,19 +52,17 @@ const playerSlice = createSlice({
     toggleRepeat: (state) => {
       state.isRepeat = !state.isRepeat;
     },
-    toggleShuffle: (state, { payload }: PayloadAction<TTrack[]>) => {
-      if (state.isShuffle) {
-        state.currentIdx =
-          payload.findIndex(
-            (el) => el.id === state.currentSongs[state.currentIdx].id
-          ) ?? 0;
-        state.currentSongs = payload;
-      } else {
-        const shuffledArray = shuffle(state.currentIdx, payload);
-
-        state.currentIdx = shuffledArray.newCurrentIdx;
-        state.currentSongs = shuffledArray.shuffledArray;
-      }
+    toggleShuffle: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        newCurrentIdx: number;
+        newCurrentSongs: TTrack[];
+      }>
+    ) => {
+      state.currentIdx = payload.newCurrentIdx;
+      state.currentSongs = payload.newCurrentSongs;
       state.isShuffle = !state.isShuffle;
     },
     setVolume: (state, { payload }: PayloadAction<number | undefined>) => {
