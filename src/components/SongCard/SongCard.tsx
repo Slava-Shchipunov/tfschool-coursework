@@ -5,6 +5,7 @@ import { getTrackDetailsThunk } from 'store/player/player.thunk';
 import { togglePlay } from 'store/player/player.slice';
 import { useSelector } from 'react-redux';
 import { getTracks } from 'store/tracks/tracks.selectors';
+import { memo } from 'react';
 
 type TSongCard = {
   trackId?: string;
@@ -16,7 +17,7 @@ type TSongCard = {
 
 const className = classNames.bind(styles);
 
-export const SongCard = (props: TSongCard) => {
+export const SongCardComponent = (props: TSongCard) => {
   const { trackId, imgUrl, title, artist, isSmall } = props;
   const { currentSongs } = useSelector(getTracks);
   const dispatch = useAppDispatch();
@@ -45,3 +46,5 @@ export const SongCard = (props: TSongCard) => {
     </div>
   );
 };
+
+export const SongCard = memo(SongCardComponent);

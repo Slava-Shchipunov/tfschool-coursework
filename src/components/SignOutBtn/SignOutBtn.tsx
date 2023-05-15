@@ -6,10 +6,11 @@ import { Icon } from 'components/Icon/Icon';
 import signOutIconUrl from 'assets/svg/sign-out.svg';
 import { useNavigate } from 'react-router-dom';
 import { PathRoutes } from 'router/router';
+import { memo } from 'react';
 
 const className = classNames.bind(styles);
 
-export const SignOutBtn = () => {
+export const SignOutBtnComponent = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -30,3 +31,5 @@ export const SignOutBtn = () => {
     </button>
   );
 };
+
+export const SignOutBtn = memo(SignOutBtnComponent);

@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import styles from '../style.module.css';
 import { Icon } from 'components/Icon/Icon';
 import prevIconUrl from 'assets/svg/prev.svg';
+import { memo } from 'react';
 
 type TPrevTrackBtn = {
   prevTrack: () => void;
@@ -9,7 +10,7 @@ type TPrevTrackBtn = {
 
 const className = classNames.bind(styles);
 
-export const PrevTrackBtn = (props: TPrevTrackBtn) => {
+export const PrevTrackBtnComponent = (props: TPrevTrackBtn) => {
   const { prevTrack } = props;
 
   return (
@@ -24,3 +25,5 @@ export const PrevTrackBtn = (props: TPrevTrackBtn) => {
     </button>
   );
 };
+
+export const PrevTrackBtn = memo(PrevTrackBtnComponent);
