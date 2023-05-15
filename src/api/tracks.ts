@@ -2,9 +2,13 @@ import {
   TSearchResponse,
   TTopTracksResponse,
   TTrackDetailsResponse,
+  TDownloadTrackResponse,
 } from 'types/types';
-import { instanceAxiosSpotify } from './instancesOfAxios';
 import { getDateOfLastThursday } from 'utils/getDateOfLastThursday';
+import {
+  instanceAxiosSpotify,
+  instanceAxiosSpotifyDownloader,
+} from './instancesOfAxios';
 
 export const searchTracks = (searchQuery: string) => {
   return instanceAxiosSpotify.get<TSearchResponse>('/search', {
@@ -31,4 +35,10 @@ export const getTopTracks = () => {
       date: getDateOfLastThursday(),
     },
   });
+};
+
+export const downloadTrack = (trackId: string) => {
+  return instanceAxiosSpotifyDownloader.get<TDownloadTrackResponse>(
+    `/download/${trackId}`
+  );
 };

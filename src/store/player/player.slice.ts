@@ -5,6 +5,7 @@ type TSetActiveSongPayload = {
   currentIdx: number;
   activeSong: TTrack | null;
   isActive: boolean;
+  isTrackLiked: boolean;
 };
 
 type TVolume = {
@@ -17,6 +18,7 @@ type TInitialState = {
   errorMessage: string;
   currentSongs: TTrack[];
   currentIdx: number;
+  isTrackLiked: boolean;
   isActive: boolean;
   isPlay: boolean;
   activeSong: TTrack | null;
@@ -30,6 +32,7 @@ export const initialState: TInitialState = {
   errorMessage: '',
   currentSongs: [],
   currentIdx: 0,
+  isTrackLiked: false,
   isActive: false,
   isPlay: false,
   activeSong: null,
@@ -82,6 +85,10 @@ const playerSlice = createSlice({
       state.currentIdx = payload.currentIdx;
       state.activeSong = payload.activeSong;
       state.isActive = payload.isActive;
+      state.isTrackLiked = payload.isTrackLiked;
+    },
+    setIsTrackLiked: (state, { payload }: PayloadAction<boolean>) => {
+      state.isTrackLiked = payload;
     },
     setLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
@@ -99,6 +106,7 @@ export const {
   setVolume,
   setCurrentSongs,
   setActiveSong,
+  setIsTrackLiked,
   setLoading,
   setError,
 } = playerSlice.actions;

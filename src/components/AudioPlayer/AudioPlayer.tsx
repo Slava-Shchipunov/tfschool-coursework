@@ -22,6 +22,11 @@ import { ShuffleTracksBtn } from './controls/ShuffleTracksBtn';
 import { VolumeBar } from './VolumeBar/VolumeBar';
 import { shuffle } from 'utils/shuffle';
 import { getTracks } from 'store/tracks/tracks.selectors';
+import {
+  addLikedTrackThunk,
+  removeLikedTrackThunk,
+} from 'store/tracks/tracks.thunk';
+import { AddTrackToLikedBtn } from './controls/AddTrackToLikedBtn';
 
 const className = classNames.bind(styles);
 
@@ -54,6 +59,7 @@ export const AudioPlayer = () => {
     isRepeat,
     isShuffle,
     volume,
+    isTrackLiked,
   } = useSelector(getPlayer);
   const { trackList } = useSelector(getTracks);
 
@@ -151,6 +157,15 @@ export const AudioPlayer = () => {
     dispatch(setVolume());
   };
 
+  const addTrackToLiked = () => {
+    if (!activeSong) return;
+    if (isTrackLiked) {
+      dispatch(removeLikedTrackThunk(activeSong));
+    } else {
+      dispatch(addLikedTrackThunk(activeSong));
+    }
+  };
+
   return (
     <div className={className('audio-player')}>
       <Player
@@ -181,6 +196,11 @@ export const AudioPlayer = () => {
             volume={volume.volumeLevel}
             isVolumeActive={volume.isVolumeActive}
             handleClick={showVolumeBar}
+          />
+          <AddTrackToLikedBtn
+            isTrackLiked={isTrackLiked}
+            isActive={isActive}
+            addTrackToLiked={addTrackToLiked}
           />
           <RepeatTrackBtn isRepeat={isRepeat} repeatTrack={repeatTrack} />
           <ShuffleTracksBtn
