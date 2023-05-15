@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './style.module.css';
+import { memo } from 'react';
 
 const className = classNames.bind(styles);
 
@@ -7,7 +8,7 @@ type TBurger = {
   handleClick: () => void;
 };
 
-export const Burger = ({ handleClick }: TBurger) => {
+const BurgerBtn = ({ handleClick }: TBurger) => {
   return (
     <div
       className={className('header-burger')}
@@ -19,3 +20,5 @@ export const Burger = ({ handleClick }: TBurger) => {
     </div>
   );
 };
+
+export const Burger = memo(BurgerBtn);
