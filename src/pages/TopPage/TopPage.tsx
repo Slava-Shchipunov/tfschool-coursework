@@ -3,38 +3,28 @@ import styles from './style.module.css';
 import { useSelector } from 'react-redux';
 import { getTracks } from 'store/tracks/tracks.selectors';
 import { SongCard } from 'components/SongCard/SongCard';
-import { searchTracksThunk } from 'store/tracks/tracks.thunk';
-import { useAppDispatch } from 'hooks/useAppDispatch';
+// import { searchTracksThunk } from 'store/tracks/tracks.thunk';
+// import { useAppDispatch } from 'hooks/useAppDispatch';
 import { Loader } from 'components/Loader/Loader';
+// import { useEffect } from 'react';
 
 const className = classNames.bind(styles);
 
-export const SearchPage = () => {
+export const TopPage = () => {
   const { isLoading, errorMessage, currentSongs } = useSelector(getTracks);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const target = event.target as HTMLFormElement;
-    const data: string = target.search.value;
-    dispatch(searchTracksThunk(data));
-  };
+  // TODO получать топ песен при монтировании компонента
+  /* useEffect(() => {
+    dispatch(searchTracksThunk('top songs'));
+  }, []); */
 
   return (
-    <div className={className('search-page')}>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="search"
-          autoComplete="off"
-          placeholder="search..."
-        />
-        <button style={{ marginLeft: '10px' }}>Search tracks</button>
-      </form>
+    <div className={className('top-page')}>
       {isLoading && <Loader />}
       {!isLoading && (
         <>
-          <h2>Search results</h2>
+          <h2>Popular Now</h2>
           <div className={className('tracks')}>
             {currentSongs &&
               currentSongs.map((track) => (

@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './style.module.css';
+import { memo } from 'react';
 
 const className = classNames.bind(styles);
 
@@ -10,7 +11,7 @@ type TIcon = {
   filter?: string;
 };
 
-export const Icon = (props: TIcon) => {
+export const IconComponent = (props: TIcon) => {
   const { url, width, height, filter } = { ...props };
   return (
     <div
@@ -24,3 +25,5 @@ export const Icon = (props: TIcon) => {
     />
   );
 };
+
+export const Icon = memo(IconComponent);

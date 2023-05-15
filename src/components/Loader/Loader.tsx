@@ -1,9 +1,10 @@
 import classNames from 'classnames/bind';
 import styles from './style.module.css';
+import { memo } from 'react';
 
 const className = classNames.bind(styles);
 
-export const Loader = () => {
+const LoaderComponent = () => {
   return (
     <div className={className('container')}>
       <div className={className('lds-spinner')}>
@@ -23,3 +24,5 @@ export const Loader = () => {
     </div>
   );
 };
+
+export const Loader = memo(LoaderComponent);

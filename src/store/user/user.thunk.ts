@@ -4,6 +4,8 @@ import { handleError } from 'api/handleError';
 import { TUserAuth, TUserCreate } from 'types/types';
 import { signIn, signUp, userSignOut } from 'api/user';
 import { auth } from 'api/firebase';
+import { initialState, setActiveSong } from 'store/player/player.slice';
+import { setCurrentSongs } from 'store/tracks/tracks.slice';
 
 export const userSignUpThunk = createAsyncThunk(
   'userSignUp',
@@ -53,6 +55,8 @@ export const userSignOutThunk = createAsyncThunk(
     try {
       await userSignOut();
       dispatch(setUserName(''));
+      dispatch(setActiveSong(initialState));
+      dispatch(setCurrentSongs([]));
     } catch (error) {
       const errorMessage = handleError(error).message;
       dispatch(setError(errorMessage));

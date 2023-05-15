@@ -1,4 +1,6 @@
 .audio-player {
+  position: relative;
+  z-index: 1;
   display: flex;
   gap: 20px;
   flex-direction: column;

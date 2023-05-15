@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { useSelector } from 'react-redux';
-import { Dispatch, useEffect, useReducer } from 'react';
+import { Dispatch, useCallback, useEffect, useReducer } from 'react';
 import { togglePlay } from 'store/player/player.slice';
 import { getPlayer } from './selectors/getPlayer';
 import { PlayPauseBtn } from 'components/AudioPlayer/controls/PlayPauseBtn';
@@ -12,7 +12,7 @@ import { Seekbar } from './Seekbar/Seekbar';
 import { getTrackDetailsThunk } from 'store/player/player.thunk';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { SongCard } from 'components/SongCard/SongCard';
-import { getTracks } from 'pages/SearchPage/selectors/getTracks';
+import { getTracks } from 'store/tracks/tracks.selectors';
 
 const className = classNames.bind(styles);
 
@@ -55,16 +55,16 @@ export const AudioPlayer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeSong]);
 
-  const playPauseTrack = () => {
+  const playPauseTrack = useCallback(() => {
     if (!isActive) {
       return;
     }
 
     dispatch(togglePlay());
-  };
+  }, [dispatch, isActive]);
 
   // TODO сделать так, чтобы если в currentSongs только один трек, при нажатии он начинался с начала
-  const nextTrack = () => {
+  const nextTrack = useCallback(() => {
     if (!isActive) {
       return;
     }
@@ -79,9 +79,9 @@ export const AudioPlayer = () => {
     if (currentSongs) {
       dispatch(getTrackDetailsThunk({ trackId, currentSongs }));
     }
-  };
+  }, [currentIdx, currentSongs, dispatch, isActive]);
 
-  const prevTrack = () => {
+  const prevTrack = useCallback(() => {
     if (!isActive) {
       return;
     }
@@ -96,7 +96,7 @@ export const AudioPlayer = () => {
     if (currentSongs) {
       dispatch(getTrackDetailsThunk({ trackId, currentSongs }));
     }
-  };
+  }, [currentIdx, currentSongs, dispatch, isActive]);
 
   const updateDuration = (event: React.SyntheticEvent<HTMLAudioElement>) => {
     dispatchState({

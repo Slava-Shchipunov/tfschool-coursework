@@ -5,6 +5,7 @@ import { Input } from '../Input';
 import { useState } from 'react';
 import { validateInput } from '../validateInput';
 import { Link } from 'react-router-dom';
+import { PathRoutes } from 'router/router';
 
 const className = classNames.bind(styles);
 
@@ -99,7 +100,7 @@ export const SignUpForm = (props: TSignUpProps) => {
       </button>
       <span className={className('link-text')}>
         Already have an account?{' '}
-        <Link to="/sign-in" className={className('link')}>
+        <Link to={PathRoutes.signin} className={className('link')}>
           Sign in
         </Link>
       </span>

@@ -4,4 +4,6 @@
 
 .track-list {
   flex-grow: 1;
+  position: relative;
+  z-index: 1;
 }
