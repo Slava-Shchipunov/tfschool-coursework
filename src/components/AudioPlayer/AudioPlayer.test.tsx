@@ -1,10 +1,14 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { AudioPlayer } from './AudioPlayer';
-import { playerReducers, setActiveSong } from 'store/player/player.slice';
+import {
+  playerReducers,
+  setActiveSong,
+  setCurrentSongs,
+} from 'store/player/player.slice';
 import { configureStore } from '@reduxjs/toolkit';
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore';
-import { setCurrentSongs, tracksReducers } from 'store/tracks/tracks.slice';
+import { setTrackList, tracksReducers } from 'store/tracks/tracks.slice';
 import { instanceAxiosSpotify } from 'api/instancesOfAxios';
 
 jest.mock('api/instancesOfAxios');
@@ -102,6 +106,7 @@ const setTestState = (store: ToolkitStore): void => {
   };
 
   store.dispatch(setCurrentSongs(currentSongs));
+  store.dispatch(setTrackList(currentSongs));
   store.dispatch(setActiveSong(obj));
 };
 
@@ -235,7 +240,7 @@ test('should use random track order when ShuffleTracksBtn is pressed', async () 
   await waitFor(() => setTestState(store));
 
   const random = jest.spyOn(global.Math, 'random');
-  random.mockReturnValueOnce(0.9);
+  random.mockReturnValue(0.5);
 
   const audioElement: HTMLAudioElement = screen.getByTestId('audio');
   expect(audioElement.src).toContain('first-track-src');
@@ -245,23 +250,17 @@ test('should use random track order when ShuffleTracksBtn is pressed', async () 
   expect(await screen.findByText('Third track')).toBeInTheDocument();
   expect(audioElement.src).toContain('third-track-src');
 
-  random.mockReturnValueOnce(0.5);
-
   fireEvent.click(screen.getByTestId('nextTrackBtn'));
   expect(await screen.findByText('Second track')).toBeInTheDocument();
   expect(audioElement.src).toContain('second-track-src');
-
-  random.mockReturnValueOnce(0.9);
 
   fireEvent.click(screen.getByTestId('prevTrackBtn'));
   expect(await screen.findByText('Third track')).toBeInTheDocument();
   expect(audioElement.src).toContain('third-track-src');
 
-  random.mockReturnValueOnce(0.5);
-
   fireEvent.click(screen.getByTestId('prevTrackBtn'));
-  expect(await screen.findByText('Second track')).toBeInTheDocument();
-  expect(audioElement.src).toContain('second-track-src');
+  expect(await screen.findByText('First track')).toBeInTheDocument();
+  expect(audioElement.src).toContain('first-track-src');
 });
 
 test('should change the volume when moving the VolumeBar slider', async () => {
