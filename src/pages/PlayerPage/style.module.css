@@ -4,6 +4,7 @@
 
 .track-list {
   overflow-y: auto;
+  min-height: 565px;
   height: 100vh;
   flex-grow: 1;
   position: relative;
@@ -27,8 +28,23 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-gap: 2vw;
+  padding-bottom: 20px;
 }
 
 .page-title {
   margin: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .tracks {
+    margin-bottom: 70px;
+  }
+
+  .track-list {
+    min-height: inherit;
+  }
+
+  .track-list::-webkit-scrollbar-track-piece:end {
+    margin-bottom: 67px;
+  }
 }

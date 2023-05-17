@@ -5,13 +5,15 @@ import prevIconUrl from 'assets/svg/prev.svg';
 import { memo } from 'react';
 
 type TPrevTrackBtn = {
+  width: string;
+  height: string;
   prevTrack: () => void;
 };
 
 const className = classNames.bind(styles);
 
 export const PrevTrackBtnComponent = (props: TPrevTrackBtn) => {
-  const { prevTrack } = props;
+  const { width, height, prevTrack } = props;
 
   return (
     <button
@@ -21,7 +23,7 @@ export const PrevTrackBtnComponent = (props: TPrevTrackBtn) => {
       onClick={prevTrack}
       data-testid="prevTrackBtn"
     >
-      <Icon url={prevIconUrl} width="30px" height="30px" />
+      <Icon url={prevIconUrl} width={width} height={height} />
     </button>
   );
 };

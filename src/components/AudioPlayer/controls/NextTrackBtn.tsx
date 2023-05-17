@@ -5,13 +5,15 @@ import nextIconUrl from 'assets/svg/next.svg';
 import { memo } from 'react';
 
 type TNextTrackBtn = {
+  width: string;
+  height: string;
   nextTrack: () => void;
 };
 
 const className = classNames.bind(styles);
 
 export const NextTrackBtnComponent = (props: TNextTrackBtn) => {
-  const { nextTrack } = props;
+  const { width, height, nextTrack } = props;
 
   return (
     <button
@@ -21,7 +23,7 @@ export const NextTrackBtnComponent = (props: TNextTrackBtn) => {
       onClick={nextTrack}
       data-testid="nextTrackBtn"
     >
-      <Icon url={nextIconUrl} width="30px" height="30px" />
+      <Icon url={nextIconUrl} width={width} height={height} />
     </button>
   );
 };

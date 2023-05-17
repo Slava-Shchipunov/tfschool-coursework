@@ -9,6 +9,7 @@ import searchIconUrl from 'assets/svg/search.svg';
 import heartIconUrl from 'assets/svg/heart.svg';
 import { useCallback, useRef, useState } from 'react';
 import { Burger } from './Burger';
+import { auth } from 'api/firebase';
 
 const className = classNames.bind(styles);
 
@@ -40,6 +41,11 @@ export const Menu = () => {
       <Burger handleClick={handleCloseMenuClick} />
       <div className={className('wrapper')} onClick={handleClickOutsideMenu}>
         <nav className={className('nav')} ref={navRef} data-testid="menu">
+          {auth.currentUser?.displayName && (
+            <h3 className={className('user-name')}>
+              Hi, {auth.currentUser.displayName}!
+            </h3>
+          )}
           <ul className={className('nav-list')}>
             <li className={className('nav-item')}>
               <Link
