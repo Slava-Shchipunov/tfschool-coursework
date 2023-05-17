@@ -2,13 +2,15 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TTrack } from 'types/types';
 
 type TInitialState = {
-  isLoading: boolean;
+  isAddingTrackToLiked: boolean;
+  isLoadingTracks: boolean;
   errorMessage: string;
   trackList: TTrack[];
 };
 
 const initialState: TInitialState = {
-  isLoading: false,
+  isAddingTrackToLiked: false,
+  isLoadingTracks: false,
   errorMessage: '',
   trackList: [],
 };
@@ -17,8 +19,11 @@ const tracksSlice = createSlice({
   name: 'tracks',
   initialState,
   reducers: {
-    setLoading: (state, { payload }: PayloadAction<boolean>) => {
-      state.isLoading = payload;
+    setAddingTrackToLiked: (state, { payload }: PayloadAction<boolean>) => {
+      state.isAddingTrackToLiked = payload;
+    },
+    setLoadingTracks: (state, { payload }: PayloadAction<boolean>) => {
+      state.isLoadingTracks = payload;
     },
     setError: (state, { payload }: PayloadAction<string>) => {
       state.errorMessage = payload;
@@ -29,5 +34,10 @@ const tracksSlice = createSlice({
   },
 });
 
-export const { setLoading, setError, setTrackList } = tracksSlice.actions;
+export const {
+  setAddingTrackToLiked,
+  setLoadingTracks,
+  setError,
+  setTrackList,
+} = tracksSlice.actions;
 export const tracksReducers = tracksSlice.reducer;
