@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import styles from '../style.module.css';
 import { Icon } from 'components/Icon/Icon';
 import likedIconUrl from 'assets/svg/heartBtn.svg';
+import { memo } from 'react';
 
 type TAddTrackToLikedBtn = {
   isActive: boolean;
@@ -11,7 +12,7 @@ type TAddTrackToLikedBtn = {
 
 const className = classNames.bind(styles);
 
-export const AddTrackToLikedBtn = (props: TAddTrackToLikedBtn) => {
+export const AddTrackToLikedBtnComponent = (props: TAddTrackToLikedBtn) => {
   const { isTrackLiked, isActive, addTrackToLiked } = props;
 
   return (
@@ -27,3 +28,5 @@ export const AddTrackToLikedBtn = (props: TAddTrackToLikedBtn) => {
     </button>
   );
 };
+
+export const AddTrackToLikedBtn = memo(AddTrackToLikedBtnComponent);
