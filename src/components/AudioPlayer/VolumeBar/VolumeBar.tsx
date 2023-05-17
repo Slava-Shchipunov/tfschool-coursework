@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './style.module.css';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { VolumeBtn } from '../controls/VolumeBtn';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { setVolume } from 'store/player/player.slice';
@@ -13,7 +13,7 @@ type TVolumeBar = {
 
 const className = classNames.bind(styles);
 
-export const VolumeBar = (props: TVolumeBar) => {
+export const VolumeBarComponent = (props: TVolumeBar) => {
   const { volume, isVolumeActive, handleClick } = props;
 
   const dispatch = useAppDispatch();
@@ -49,3 +49,5 @@ export const VolumeBar = (props: TVolumeBar) => {
     </div>
   );
 };
+
+export const VolumeBar = memo(VolumeBarComponent);
