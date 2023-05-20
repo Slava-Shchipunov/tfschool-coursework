@@ -96,3 +96,10 @@
 .open .burger-line:last-child {
   transform: rotate(-45deg);
 }
+
+@media screen and (max-width: 768px) {
+  .header-burger:hover .burger-line {
+    background-color: #eaf0ff;
+    opacity: 1;
+  }
+}
