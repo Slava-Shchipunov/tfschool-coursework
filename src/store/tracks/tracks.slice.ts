@@ -4,6 +4,7 @@ import { TTrack } from 'types/types';
 type TInitialState = {
   isAddingTrackToLiked: boolean;
   isLoadingTracks: boolean;
+  hasNotSearchResults: boolean;
   errorMessage: string;
   trackList: TTrack[];
 };
@@ -11,6 +12,7 @@ type TInitialState = {
 const initialState: TInitialState = {
   isAddingTrackToLiked: false,
   isLoadingTracks: false,
+  hasNotSearchResults: false,
   errorMessage: '',
   trackList: [],
 };
@@ -25,6 +27,9 @@ const tracksSlice = createSlice({
     setLoadingTracks: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoadingTracks = payload;
     },
+    setHasNotSearchResults: (state, { payload }: PayloadAction<boolean>) => {
+      state.hasNotSearchResults = payload;
+    },
     setError: (state, { payload }: PayloadAction<string>) => {
       state.errorMessage = payload;
     },
@@ -37,6 +42,7 @@ const tracksSlice = createSlice({
 export const {
   setAddingTrackToLiked,
   setLoadingTracks,
+  setHasNotSearchResults,
   setError,
   setTrackList,
 } = tracksSlice.actions;

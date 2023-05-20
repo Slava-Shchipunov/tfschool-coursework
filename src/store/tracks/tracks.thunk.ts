@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   setAddingTrackToLiked,
   setError,
+  setHasNotSearchResults,
   setLoadingTracks,
   setTrackList,
 } from './tracks.slice';
@@ -39,10 +40,16 @@ export const searchTracksThunk = createAsyncThunk(
   async (searchThunckParams: TSearchTracksThunk, { dispatch }) => {
     dispatch(setError(''));
     dispatch(setLoadingTracks(true));
+    dispatch(setHasNotSearchResults(false));
     try {
       const searchResults = await searchTracks(searchThunckParams.searchQuery);
 
       const tracksData = getTracksData(searchResults.data.tracks);
+
+      if (!tracksData.length) {
+        dispatch(setHasNotSearchResults(true));
+      }
+
       dispatch(setTrackList(tracksData));
       const currentSongs = searchThunckParams.isShuffle
         ? shuffle(0, tracksData).shuffledArray
@@ -50,6 +57,7 @@ export const searchTracksThunk = createAsyncThunk(
       dispatch(setCurrentSongs(currentSongs));
     } catch (error) {
       const errorMessage = handleError(error).message;
+      dispatch(setHasNotSearchResults(true));
       dispatch(setError(errorMessage));
     } finally {
       dispatch(setLoadingTracks(false));
