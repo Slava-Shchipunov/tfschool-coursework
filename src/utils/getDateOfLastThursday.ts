@@ -1,10 +1,4 @@
-import {
-  format,
-  isFriday,
-  isSunday,
-  previousThursday,
-  subDays,
-} from 'date-fns';
+import { format, isFriday, previousThursday, subDays } from 'date-fns';
 
 export const getDateOfLastThursday = (): string => {
   const currentDate = new Date();
