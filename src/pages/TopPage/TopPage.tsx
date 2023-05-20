@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { SongsPageLayout } from 'pages/PlayerPage/SongsPageLayout';
 import { useSelector } from 'react-redux';
 import { getPlayer } from 'components/AudioPlayer/selectors/getPlayer';
+import { setTrackList } from 'store/tracks/tracks.slice';
 
 const className = classNames.bind(styles);
 
@@ -14,8 +15,9 @@ export const TopPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(setTrackList([]));
     dispatch(getTopTracksThunk(isShuffle));
-  }, [dispatch, isShuffle]);
+  }, [dispatch]);
 
   return (
     <div className={className('top-page')}>
