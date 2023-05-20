@@ -126,6 +126,7 @@ export const addLikedTrackThunk = createAsyncThunk(
         );
 
         await addLikedSongsData(auth.currentUser?.uid, trackData, trackUrl);
+        dispatch(setIsTrackLiked(true));
       }
     } catch (error) {
       const errorMessage = handleError(error).message;

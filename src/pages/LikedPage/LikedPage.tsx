@@ -8,17 +8,19 @@ import { auth } from 'api/firebase';
 import { useSelector } from 'react-redux';
 import { getPlayer } from 'components/AudioPlayer/selectors/getPlayer';
 import { setTrackList } from 'store/tracks/tracks.slice';
+import { getTracks } from 'store/tracks/tracks.selectors';
 
 const className = classNames.bind(styles);
 
 export const LikedPage = () => {
-  const { isShuffle } = useSelector(getPlayer);
+  const { isShuffle, isTrackLiked } = useSelector(getPlayer);
+  const { trackList } = useSelector(getTracks);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setTrackList([]));
 
-    if (auth.currentUser?.uid) {
+    if (auth.currentUser) {
       dispatch(
         getLikedTracksThunk({
           userId: auth.currentUser?.uid,
@@ -26,7 +28,7 @@ export const LikedPage = () => {
         })
       );
     }
-  }, [dispatch]);
+  }, [dispatch, isTrackLiked]);
 
   return (
     <div className={className('liked-page')}>
