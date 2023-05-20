@@ -7,13 +7,15 @@ import { memo } from 'react';
 
 type TPlayPauseBtn = {
   isPlay: boolean;
+  width: string;
+  height: string;
   playPauseTrack: () => void;
 };
 
 const className = classNames.bind(styles);
 
 export const PlayPauseBtnComponent = (props: TPlayPauseBtn) => {
-  const { isPlay, playPauseTrack } = props;
+  const { isPlay, width, height, playPauseTrack } = props;
 
   return (
     <button
@@ -25,8 +27,8 @@ export const PlayPauseBtnComponent = (props: TPlayPauseBtn) => {
     >
       <Icon
         url={isPlay ? pauseIconUrl : playIconUrl}
-        width="30px"
-        height="30px"
+        width={width}
+        height={height}
       />
     </button>
   );

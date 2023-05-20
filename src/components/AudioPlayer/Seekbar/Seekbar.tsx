@@ -7,6 +7,7 @@ type TSeekbar = {
   duration: number;
   currentTime: number;
   dispatchState: Dispatch<TAction>;
+  isPlayerHidden: boolean;
 };
 
 const className = classNames.bind(styles);
@@ -18,7 +19,7 @@ const formatTime = (time: number) => {
 };
 
 export const Seekbar = (props: TSeekbar) => {
-  const { duration, currentTime, dispatchState } = props;
+  const { duration, currentTime, dispatchState, isPlayerHidden } = props;
 
   const [background, setBackground] = useState<string | undefined>();
 
@@ -32,7 +33,7 @@ export const Seekbar = (props: TSeekbar) => {
   const updateSeekbar = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatchState({
       type: 'seekTime',
-      time: Number(event.target.value),
+      payload: Number(event.target.value),
     });
   };
 
@@ -53,7 +54,7 @@ export const Seekbar = (props: TSeekbar) => {
         style={{ background: background }}
         data-testid="seekbar"
         onChange={updateSeekbar}
-        className={className('seek-slider')}
+        className={className('seek-slider', { hidden: isPlayerHidden })}
       />
     </div>
   );

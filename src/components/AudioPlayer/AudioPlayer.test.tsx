@@ -121,9 +121,9 @@ test('should render all AudioPlayer component', () => {
   );
 
   expect(screen.getByTestId('audio')).toBeInTheDocument();
-  expect(screen.getByTestId('playPauseBtn')).toBeInTheDocument();
-  expect(screen.getByTestId('nextTrackBtn')).toBeInTheDocument();
-  expect(screen.getByTestId('prevTrackBtn')).toBeInTheDocument();
+  expect(screen.getAllByTestId('playPauseBtn')[0]).toBeInTheDocument();
+  expect(screen.getAllByTestId('nextTrackBtn')[0]).toBeInTheDocument();
+  expect(screen.getAllByTestId('prevTrackBtn')[0]).toBeInTheDocument();
   expect(screen.getByTestId('currentTime')).toBeInTheDocument();
   expect(screen.getByTestId('totalDuration')).toBeInTheDocument();
   expect(screen.getByTestId('seekbar')).toBeInTheDocument();
@@ -155,14 +155,14 @@ test('should call the HTMLAudioElement play() and pause() methods when the playP
   expect(playStub).toBeCalledTimes(1);
   expect(pauseStub).toBeCalledTimes(1);
   /* ожидается количество вызовов playStub === 1 и pauseStub === 1, так как при вызове
-    setTestState(store) происходит перерендер компонента Player и вызываются методы play() и
-    pause() тега audio */
+      setTestState(store) происходит перерендер компонента Player и вызываются методы play() и
+      pause() тега audio */
 
-  fireEvent.click(screen.getByTestId('playPauseBtn'));
+  fireEvent.click(screen.getAllByTestId('playPauseBtn')[0]);
   expect(playStub).toBeCalledTimes(1);
   expect(pauseStub).toBeCalledTimes(2);
 
-  fireEvent.click(screen.getByTestId('playPauseBtn'));
+  fireEvent.click(screen.getAllByTestId('playPauseBtn')[0]);
   expect(playStub).toBeCalledTimes(2);
   expect(pauseStub).toBeCalledTimes(2);
 
@@ -180,16 +180,16 @@ test('should correctly change src when clicking on the NextTrackBtn', async () =
   const audioElement: HTMLAudioElement = screen.getByTestId('audio');
   expect(audioElement.src).toContain('first-track-src');
 
-  fireEvent.click(screen.getByTestId('nextTrackBtn'));
-  expect(await screen.findByText('Second track')).toBeInTheDocument();
+  fireEvent.click(screen.getAllByTestId('nextTrackBtn')[0]);
+  expect(await screen.findAllByText('Second track')).toHaveLength(2);
   expect(audioElement.src).toContain('second-track-src');
 
-  fireEvent.click(screen.getByTestId('nextTrackBtn'));
-  expect(await screen.findByText('Third track')).toBeInTheDocument();
+  fireEvent.click(screen.getAllByTestId('nextTrackBtn')[0]);
+  expect(await screen.findAllByText('Third track')).toHaveLength(2);
   expect(audioElement.src).toContain('third-track-src');
 
-  fireEvent.click(screen.getByTestId('nextTrackBtn'));
-  expect(await screen.findByText('First track')).toBeInTheDocument();
+  fireEvent.click(screen.getAllByTestId('nextTrackBtn')[0]);
+  expect(await screen.findAllByText('First track')).toHaveLength(2);
   expect(audioElement.src).toContain('first-track-src');
 });
 
@@ -203,16 +203,16 @@ test('should correctly change src when clicking on the PrevTrackBtn', async () =
   const audioElement: HTMLAudioElement = screen.getByTestId('audio');
   expect(audioElement.src).toContain('first-track-src');
 
-  fireEvent.click(screen.getByTestId('prevTrackBtn'));
-  expect(await screen.findByText('Third track')).toBeInTheDocument();
+  fireEvent.click(screen.getAllByTestId('prevTrackBtn')[0]);
+  expect(await screen.findAllByText('Third track')).toHaveLength(2);
   expect(audioElement.src).toContain('third-track-src');
 
-  fireEvent.click(screen.getByTestId('prevTrackBtn'));
-  expect(await screen.findByText('Second track')).toBeInTheDocument();
+  fireEvent.click(screen.getAllByTestId('prevTrackBtn')[0]);
+  expect(await screen.findAllByText('Second track')).toHaveLength(2);
   expect(audioElement.src).toContain('second-track-src');
 
-  fireEvent.click(screen.getByTestId('prevTrackBtn'));
-  expect(await screen.findByText('First track')).toBeInTheDocument();
+  fireEvent.click(screen.getAllByTestId('prevTrackBtn')[0]);
+  expect(await screen.findAllByText('First track')).toHaveLength(2);
   expect(audioElement.src).toContain('first-track-src');
 });
 
@@ -247,20 +247,20 @@ test('should use random track order when ShuffleTracksBtn is pressed', async () 
   expect(audioElement.src).toContain('first-track-src');
   fireEvent.click(screen.getByTestId('shuffleTracksBtn'));
 
-  fireEvent.click(screen.getByTestId('nextTrackBtn'));
-  expect(await screen.findByText('Third track')).toBeInTheDocument();
+  fireEvent.click(screen.getAllByTestId('nextTrackBtn')[0]);
+  expect(await screen.findAllByText('Third track')).toHaveLength(2);
   expect(audioElement.src).toContain('third-track-src');
 
-  fireEvent.click(screen.getByTestId('nextTrackBtn'));
-  expect(await screen.findByText('Second track')).toBeInTheDocument();
+  fireEvent.click(screen.getAllByTestId('nextTrackBtn')[0]);
+  expect(await screen.findAllByText('Second track')).toHaveLength(2);
   expect(audioElement.src).toContain('second-track-src');
 
-  fireEvent.click(screen.getByTestId('prevTrackBtn'));
-  expect(await screen.findByText('Third track')).toBeInTheDocument();
+  fireEvent.click(screen.getAllByTestId('prevTrackBtn')[0]);
+  expect(await screen.findAllByText('Third track')).toHaveLength(2);
   expect(audioElement.src).toContain('third-track-src');
 
-  fireEvent.click(screen.getByTestId('prevTrackBtn'));
-  expect(await screen.findByText('First track')).toBeInTheDocument();
+  fireEvent.click(screen.getAllByTestId('prevTrackBtn')[0]);
+  expect(await screen.findAllByText('First track')).toHaveLength(2);
   expect(audioElement.src).toContain('first-track-src');
 });
 

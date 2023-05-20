@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import styles from '../style.module.css';
 import { Icon } from 'components/Icon/Icon';
 import volumeIconUrl from 'assets/svg/volume.svg';
+import { memo } from 'react';
 
 const className = classNames.bind(styles);
 
@@ -10,7 +11,7 @@ type TVolumeBtn = {
   handleClick: () => void;
 };
 
-export const VolumeBtn = (props: TVolumeBtn) => {
+export const VolumeBtnComponent = (props: TVolumeBtn) => {
   const { isVolumeActive, handleClick } = props;
   return (
     <button
@@ -24,3 +25,5 @@ export const VolumeBtn = (props: TVolumeBtn) => {
     </button>
   );
 };
+
+export const VolumeBtn = memo(VolumeBtnComponent);

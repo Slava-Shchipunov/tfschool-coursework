@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import styles from '../style.module.css';
 import { Icon } from 'components/Icon/Icon';
 import repeatIconUrl from 'assets/svg/repeat.svg';
+import { memo } from 'react';
 
 type TRepeatTrackBtn = {
   isRepeat: boolean;
@@ -10,7 +11,7 @@ type TRepeatTrackBtn = {
 
 const className = classNames.bind(styles);
 
-export const RepeatTrackBtn = (props: TRepeatTrackBtn) => {
+export const RepeatTrackBtnComponent = (props: TRepeatTrackBtn) => {
   const { isRepeat, repeatTrack } = props;
 
   return (
@@ -25,3 +26,5 @@ export const RepeatTrackBtn = (props: TRepeatTrackBtn) => {
     </button>
   );
 };
+
+export const RepeatTrackBtn = memo(RepeatTrackBtnComponent);

@@ -10,6 +10,11 @@
   padding: 20px;
 }
 
+.song-card-wrapper {
+  min-width: 261px;
+  min-height: 341px;
+}
+
 .controls {
   display: flex;
   flex-direction: column;
@@ -45,4 +50,43 @@
   gap: 5px;
   align-items: center;
   justify-content: space-between;
+}
+
+.go-back {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .audio-player {
+    position: fixed;
+    z-index: 10;
+    bottom: 0;
+    background: #091227;
+    height: 100%;
+    width: 100%;
+    transition: transform ease-in-out 0.5s;
+  }
+
+  .go-back {
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+  }
+
+  .hidden.audio-player {
+    transform: translateY(100%);
+    padding: 0px 0px 10px;
+  }
+
+  .hidden.controls {
+    transform: translateY(100%);
+  }
+}
+
+@media screen and (max-height: 565px) {
+  .audio-player-overflow {
+    overflow-y: auto;
+    padding-bottom: 10px;
+  }
 }

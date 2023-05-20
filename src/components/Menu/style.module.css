@@ -1,6 +1,5 @@
 .header {
   position: fixed;
-  width: 100%;
   padding: 15px 20px;
   z-index: 10;
 }
@@ -24,6 +23,8 @@
   position: fixed;
   min-width: 210px;
   height: 100%;
+  padding: 60px 0 20px 20px;
+  overflow-y: auto;
   background-color: #091227;
   font-size: 20px;
   line-height: 1.2;
@@ -31,11 +32,15 @@
   transition: 0.4s all linear;
 }
 
+.user-name {
+  padding-bottom: 32px;
+}
+
 .nav-list {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 60px 0 20px 20px;
+  padding: 0px;
   gap: 32px;
 }
 

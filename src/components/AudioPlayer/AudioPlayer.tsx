@@ -27,6 +27,9 @@ import {
   removeLikedTrackThunk,
 } from 'store/tracks/tracks.thunk';
 import { AddTrackToLikedBtn } from './controls/AddTrackToLikedBtn';
+import { MiniAudioPlayer } from './MiniAudioPlayer/MiniAudioPlayer';
+import { GoBackBtn } from './GoBackBtn';
+import { Loader } from 'components/Loader/Loader';
 
 const className = classNames.bind(styles);
 
@@ -34,23 +37,24 @@ type TState = {
   seekTime: number;
   currentTime: number;
   duration: number;
+  isPlayerHidden: boolean;
 };
 
 export type TAction = {
-  type: 'seekTime' | 'currentTime' | 'duration';
-  time: number;
+  type: 'seekTime' | 'currentTime' | 'duration' | 'isPlayerHidden';
+  payload: number | boolean;
 };
 
 const reducer = (state: TState, action: TAction) => {
-  const newState = {
+  return {
     ...state,
+    [action.type]: action.payload,
   };
-  newState[action.type] = action.time;
-  return newState;
 };
 
 export const AudioPlayer = () => {
   const {
+    isLoading,
     activeSong,
     isPlay,
     currentSongs,
@@ -61,7 +65,7 @@ export const AudioPlayer = () => {
     volume,
     isTrackLiked,
   } = useSelector(getPlayer);
-  const { trackList } = useSelector(getTracks);
+  const { isAddingTrackToLiked, trackList } = useSelector(getTracks);
 
   const [state, dispatchState]: [TState, Dispatch<TAction>] = useReducer(
     reducer,
@@ -69,6 +73,7 @@ export const AudioPlayer = () => {
       seekTime: 0,
       currentTime: 0,
       duration: 0,
+      isPlayerHidden: true,
     }
   );
 
@@ -116,24 +121,30 @@ export const AudioPlayer = () => {
     dispatch(getTrackDetailsThunk({ trackId, currentSongs }));
   }, [currentIdx, currentSongs, dispatch, isActive]);
 
-  const updateDuration = (event: React.SyntheticEvent<HTMLAudioElement>) => {
-    dispatchState({
-      type: 'duration',
-      time: event.currentTarget.duration,
-    });
-  };
+  const updateDuration = useCallback(
+    (event: React.SyntheticEvent<HTMLAudioElement>) => {
+      dispatchState({
+        type: 'duration',
+        payload: event.currentTarget.duration,
+      });
+    },
+    []
+  );
 
-  const updateTime = (event: React.SyntheticEvent<HTMLAudioElement>) => {
-    dispatchState({
-      type: 'currentTime',
-      time: event.currentTarget.currentTime,
-    });
-  };
-  const repeatTrack = () => {
+  const updateTime = useCallback(
+    (event: React.SyntheticEvent<HTMLAudioElement>) => {
+      dispatchState({
+        type: 'currentTime',
+        payload: event.currentTarget.currentTime,
+      });
+    },
+    []
+  );
+  const repeatTrack = useCallback(() => {
     dispatch(toggleRepeat());
-  };
+  }, [dispatch]);
 
-  const shuffleTracks = () => {
+  const shuffleTracks = useCallback(() => {
     let payload;
     if (isShuffle) {
       payload = {
@@ -151,23 +162,36 @@ export const AudioPlayer = () => {
     }
 
     dispatch(toggleShuffle(payload));
-  };
+  }, [currentIdx, currentSongs, dispatch, isShuffle, trackList]);
 
-  const showVolumeBar = () => {
+  const showVolumeBar = useCallback(() => {
     dispatch(setVolume());
-  };
+  }, [dispatch]);
 
-  const addTrackToLiked = () => {
+  const addTrackToLiked = useCallback(() => {
     if (!activeSong) return;
     if (isTrackLiked) {
       dispatch(removeLikedTrackThunk(activeSong));
     } else {
       dispatch(addLikedTrackThunk(activeSong));
     }
-  };
+  }, [activeSong, dispatch, isTrackLiked]);
+
+  const handleClickToSwitchPlayer = useCallback(() => {
+    dispatchState({
+      type: 'isPlayerHidden',
+      payload: !state.isPlayerHidden,
+    });
+  }, [state.isPlayerHidden]);
 
   return (
-    <div className={className('audio-player')}>
+    <div
+      className={className(
+        'audio-player',
+        { hidden: state.isPlayerHidden },
+        { 'audio-player-overflow': !state.isPlayerHidden }
+      )}
+    >
       <Player
         src={activeSong?.src ? activeSong.src : ''}
         isPlay={isPlay}
@@ -179,24 +203,31 @@ export const AudioPlayer = () => {
         onEnded={nextTrack}
       />
 
-      <h2>Playing Now</h2>
+      <GoBackBtn handleClickToSwitchPlayer={handleClickToSwitchPlayer} />
 
-      {activeSong && (
-        <SongCard
-          imgUrl={activeSong.image}
-          title={activeSong.name}
-          artist={activeSong.artists.join(', ')}
-          isSmall={false}
-        />
-      )}
+      <h2 className={className('title')}>Playing Now</h2>
 
-      <div className={className('controls')}>
+      <div className={className('song-card-wrapper')}>
+        {isLoading && <Loader />}
+        {activeSong && !isLoading && (
+          <SongCard
+            imgUrl={activeSong.image}
+            title={activeSong.name}
+            artist={activeSong.artists.join(', ')}
+            isSmall={false}
+          />
+        )}
+      </div>
+
+      <div className={className('controls', { hidden: !isActive })}>
         <div className={className('slider-container')}>
           <VolumeBar
             volume={volume.volumeLevel}
             isVolumeActive={volume.isVolumeActive}
             handleClick={showVolumeBar}
           />
+
+          {isAddingTrackToLiked && <span>Wait...</span>}
           <AddTrackToLikedBtn
             isTrackLiked={isTrackLiked}
             isActive={isActive}
@@ -212,12 +243,29 @@ export const AudioPlayer = () => {
           duration={state.duration}
           currentTime={state.currentTime}
           dispatchState={dispatchState}
+          isPlayerHidden={state.isPlayerHidden}
         />
         <div className={className('buttons')}>
-          <PrevTrackBtn prevTrack={prevTrack} />
-          <PlayPauseBtn isPlay={isPlay} playPauseTrack={playPauseTrack} />
-          <NextTrackBtn nextTrack={nextTrack} />
+          <PrevTrackBtn prevTrack={prevTrack} width="30px" height="30px" />
+          <PlayPauseBtn
+            isPlay={isPlay}
+            playPauseTrack={playPauseTrack}
+            width="30px"
+            height="30px"
+          />
+          <NextTrackBtn nextTrack={nextTrack} width="30px" height="30px" />
         </div>
+        {isActive && (
+          <MiniAudioPlayer
+            activeSong={activeSong}
+            isPlay={isPlay}
+            nextTrack={nextTrack}
+            prevTrack={prevTrack}
+            playPauseTrack={playPauseTrack}
+            handleClickToSwitchPlayer={handleClickToSwitchPlayer}
+            isPlayerHidden={state.isPlayerHidden}
+          />
+        )}
       </div>
     </div>
   );
