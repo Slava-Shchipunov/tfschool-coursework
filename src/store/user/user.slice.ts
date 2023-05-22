@@ -2,13 +2,13 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 type TInitialState = {
   isLoading: boolean;
-  errorMessage: string;
+  userErrorMessage: string;
   userName: string;
 };
 
 const initialState: TInitialState = {
   isLoading: false,
-  errorMessage: '',
+  userErrorMessage: '',
   userName: '',
 };
 
@@ -19,8 +19,8 @@ const userSlice = createSlice({
     setLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
     },
-    setError: (state, { payload }: PayloadAction<string>) => {
-      state.errorMessage = payload;
+    setUserError: (state, { payload }: PayloadAction<string>) => {
+      state.userErrorMessage = payload;
     },
     setUserName: (state, { payload }: PayloadAction<string>) => {
       state.userName = payload;
@@ -28,5 +28,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { setLoading, setError, setUserName } = userSlice.actions;
+export const { setLoading, setUserError, setUserName } = userSlice.actions;
 export const userReducers = userSlice.reducer;
