@@ -1,11 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { setError, setLoading, setActiveSong } from './player.slice';
+import { setLoading, setActiveSong } from './player.slice';
 import { getTrackDetails } from 'api/tracks';
 import { handleError } from 'api/handleError';
 import { TTrack } from 'types/types';
 import { createPlayerState } from 'utils/createPlayerState';
 import { getLikedSongsIds } from 'api/firebaseDatabase';
 import { auth } from 'api/firebase';
+import { AxiosResponse } from 'axios';
+import { setTracksError } from 'store/tracks/tracks.slice';
 
 type TTrackData = {
   trackId: string;
@@ -16,7 +18,7 @@ export const getTrackDetailsThunk = createAsyncThunk(
   'getTrackDetails',
   async (trackData: TTrackData, { dispatch }) => {
     const { trackId, currentSongs } = trackData;
-    dispatch(setError(''));
+    dispatch(setTracksError(''));
     dispatch(setLoading(true));
     try {
       let likedSongsIds;
@@ -28,7 +30,11 @@ export const getTrackDetailsThunk = createAsyncThunk(
         likedSongsIds && likedSongsIds.includes(trackId)
       );
 
-      const trackDetails = await getTrackDetails(trackId);
+      let trackDetails: AxiosResponse | null = null;
+      if (!isTrackLiked) {
+        trackDetails = await getTrackDetails(trackId);
+      }
+
       const playerState = createPlayerState({
         trackId,
         currentSongs,
@@ -39,7 +45,7 @@ export const getTrackDetailsThunk = createAsyncThunk(
       dispatch(setActiveSong(playerState));
     } catch (error) {
       const errorMessage = handleError(error).message;
-      dispatch(setError(errorMessage));
+      dispatch(setTracksError(errorMessage));
     } finally {
       dispatch(setLoading(false));
     }

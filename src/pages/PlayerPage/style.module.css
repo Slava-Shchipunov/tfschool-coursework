@@ -3,7 +3,7 @@
 }
 
 .track-list {
-  overflow-y: auto;
+  overflow-y: scroll;
   min-height: 565px;
   height: 100vh;
   flex-grow: 1;

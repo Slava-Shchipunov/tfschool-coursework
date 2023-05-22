@@ -9,7 +9,6 @@ import {
   setActiveSong,
   setCurrentSongs,
 } from 'store/player/player.slice';
-import { convertUserError } from 'utils/convertErrorsToHumanReadableText';
 
 export const userSignUpThunk = createAsyncThunk(
   'userSignUp',
@@ -24,7 +23,7 @@ export const userSignUpThunk = createAsyncThunk(
       }
     } catch (error) {
       const errorMessage = handleError(error).message;
-      dispatch(setUserError(convertUserError(errorMessage)));
+      dispatch(setUserError(errorMessage));
     } finally {
       dispatch(setLoading(false));
     }
@@ -44,7 +43,7 @@ export const userSignInThunk = createAsyncThunk(
       }
     } catch (error) {
       const errorMessage = handleError(error).message;
-      dispatch(setUserError(convertUserError(errorMessage)));
+      dispatch(setUserError(errorMessage));
     } finally {
       dispatch(setLoading(false));
     }
