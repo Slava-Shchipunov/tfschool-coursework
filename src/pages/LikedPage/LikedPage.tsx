@@ -23,6 +23,7 @@ export const LikedPage = () => {
         })
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, isTrackLiked]);
 
   return (

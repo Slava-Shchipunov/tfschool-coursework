@@ -15,6 +15,7 @@ export const TopPage = () => {
 
   useEffect(() => {
     dispatch(getTopTracksThunk(isShuffle));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (
