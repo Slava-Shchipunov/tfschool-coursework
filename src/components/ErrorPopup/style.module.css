@@ -1,0 +1,22 @@
+.popup {
+  background: #ed4242;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  bottom: 20px;
+}
+
+.popup-text {
+  color: #091227;
+  line-height: 1em;
+}
+
+.close-btn {
+  border-radius: 100%;
+  border: none;
+  padding: 5px;
+  background: #f72525;
+}
