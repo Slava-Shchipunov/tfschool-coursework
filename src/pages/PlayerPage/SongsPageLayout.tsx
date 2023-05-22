@@ -8,7 +8,7 @@ import { getTracks } from 'store/tracks/tracks.selectors';
 const className = classNames.bind(styles);
 
 export const SongsPageLayout = (props: { pageTitle: string }) => {
-  const { isLoadingTracks, errorMessage, trackList } = useSelector(getTracks);
+  const { isLoadingTracks, trackList } = useSelector(getTracks);
   return (
     <>
       {isLoadingTracks && <Loader />}

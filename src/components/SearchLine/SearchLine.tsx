@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Icon } from 'components/Icon/Icon';
 import searchIconUrl from 'assets/svg/search.svg';
 import crossIconUrl from 'assets/svg/cross.svg';
+import { setHasNotSearchResults } from 'store/tracks/tracks.slice';
+import { useAppDispatch } from 'hooks/useAppDispatch';
 
 const className = classNames.bind(styles);
 
@@ -13,6 +15,7 @@ type TSearchLineProps = {
 
 export const SearchLine = (props: TSearchLineProps) => {
   const [value, setValue] = useState('');
+  const dispatch = useAppDispatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -25,9 +28,12 @@ export const SearchLine = (props: TSearchLineProps) => {
   const handleSubmit = async () => {
     const trimmedSearchString = value.trim();
 
-    if (trimmedSearchString) {
-      props.search(trimmedSearchString);
+    if (!trimmedSearchString) {
+      dispatch(setHasNotSearchResults(true));
+      return;
     }
+
+    props.search(trimmedSearchString);
   };
 
   return (

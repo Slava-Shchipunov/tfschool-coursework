@@ -15,7 +15,6 @@ type TVolume = {
 
 type TInitialState = {
   isLoading: boolean;
-  errorMessage: string;
   currentSongs: TTrack[];
   currentIdx: number;
   isTrackLiked: boolean;
@@ -29,7 +28,6 @@ type TInitialState = {
 
 export const initialState: TInitialState = {
   isLoading: false,
-  errorMessage: '',
   currentSongs: [],
   currentIdx: 0,
   isTrackLiked: false,
@@ -93,9 +91,6 @@ const playerSlice = createSlice({
     setLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
     },
-    setError: (state, { payload }: PayloadAction<string>) => {
-      state.errorMessage = payload;
-    },
   },
 });
 
@@ -108,6 +103,5 @@ export const {
   setActiveSong,
   setIsTrackLiked,
   setLoading,
-  setError,
 } = playerSlice.actions;
 export const playerReducers = playerSlice.reducer;

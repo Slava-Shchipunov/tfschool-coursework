@@ -1,12 +1,22 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { SearchLine } from './SearchLine';
+import { Provider } from 'react-redux';
+import { store } from 'store/store';
 
 const mockSearch: (data: string) => Promise<string> = jest.fn((data) => {
   return Promise.resolve(data);
 });
 
+const renderWithProvider = () => {
+  render(
+    <Provider store={store}>
+      <SearchLine search={mockSearch} />
+    </Provider>
+  );
+};
+
 test('should render all form elements', () => {
-  render(<SearchLine search={mockSearch} />);
+  renderWithProvider();
 
   expect(screen.getByTestId('search')).toBeInTheDocument();
   expect(screen.getByTestId('resetBtn')).toBeInTheDocument();
@@ -14,7 +24,7 @@ test('should render all form elements', () => {
 });
 
 test('should clear the search bar when clicking on the reset button', () => {
-  render(<SearchLine search={mockSearch} />);
+  renderWithProvider();
 
   fireEvent.input(screen.getByTestId('search'), {
     target: {
@@ -30,7 +40,7 @@ test('should clear the search bar when clicking on the reset button', () => {
 });
 
 test('should not send request with empty string', async () => {
-  render(<SearchLine search={mockSearch} />);
+  renderWithProvider();
 
   expect(screen.getByTestId('search')).toHaveValue('');
 
@@ -40,7 +50,7 @@ test('should not send request with empty string', async () => {
 });
 
 test('should send request with test string', async () => {
-  render(<SearchLine search={mockSearch} />);
+  renderWithProvider();
 
   fireEvent.input(screen.getByTestId('search'), {
     target: {

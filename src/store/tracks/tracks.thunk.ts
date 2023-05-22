@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   setAddingTrackToLiked,
-  setError,
+  setTracksError,
+  setHasNotSearchResults,
   setLoadingTracks,
   setTrackList,
 } from './tracks.slice';
@@ -37,20 +38,25 @@ type TGetLikedTracksThunk = {
 export const searchTracksThunk = createAsyncThunk(
   'searchTracks',
   async (searchThunckParams: TSearchTracksThunk, { dispatch }) => {
-    dispatch(setError(''));
+    dispatch(setTracksError(''));
     dispatch(setLoadingTracks(true));
+    dispatch(setHasNotSearchResults(false));
     try {
       const searchResults = await searchTracks(searchThunckParams.searchQuery);
 
       const tracksData = getTracksData(searchResults.data.tracks);
+
+      if (!tracksData.length) {
+        dispatch(setHasNotSearchResults(true));
+      }
+
       dispatch(setTrackList(tracksData));
       const currentSongs = searchThunckParams.isShuffle
         ? shuffle(0, tracksData).shuffledArray
         : tracksData;
       dispatch(setCurrentSongs(currentSongs));
-    } catch (error) {
-      const errorMessage = handleError(error).message;
-      dispatch(setError(errorMessage));
+    } catch {
+      dispatch(setHasNotSearchResults(true));
     } finally {
       dispatch(setLoadingTracks(false));
     }
@@ -60,7 +66,7 @@ export const searchTracksThunk = createAsyncThunk(
 export const getTopTracksThunk = createAsyncThunk(
   'getTopTracks',
   async (isShuffle: boolean, { dispatch }) => {
-    dispatch(setError(''));
+    dispatch(setTracksError(''));
     dispatch(setLoadingTracks(true));
     dispatch(setTrackList([]));
     try {
@@ -74,7 +80,7 @@ export const getTopTracksThunk = createAsyncThunk(
       dispatch(setCurrentSongs(currentSongs));
     } catch (error) {
       const errorMessage = handleError(error).message;
-      dispatch(setError(errorMessage));
+      dispatch(setTracksError(errorMessage));
     } finally {
       dispatch(setLoadingTracks(false));
     }
@@ -84,7 +90,7 @@ export const getTopTracksThunk = createAsyncThunk(
 export const getLikedTracksThunk = createAsyncThunk(
   'getLikedTracks',
   async (getLikedTracksThunkParams: TGetLikedTracksThunk, { dispatch }) => {
-    dispatch(setError(''));
+    dispatch(setTracksError(''));
     dispatch(setLoadingTracks(true));
     dispatch(setTrackList([]));
     try {
@@ -102,7 +108,7 @@ export const getLikedTracksThunk = createAsyncThunk(
       dispatch(setCurrentSongs(currentSongs));
     } catch (error) {
       const errorMessage = handleError(error).message;
-      dispatch(setError(errorMessage));
+      dispatch(setTracksError(errorMessage));
     } finally {
       dispatch(setLoadingTracks(false));
     }
@@ -113,7 +119,7 @@ export const addLikedTrackThunk = createAsyncThunk(
   'addLikedTrack',
   async (trackData: TTrack, { dispatch }) => {
     const { id } = trackData;
-    dispatch(setError(''));
+    dispatch(setTracksError(''));
     dispatch(setAddingTrackToLiked(true));
     try {
       const downloadTrackData = await downloadTrack(id);
@@ -132,7 +138,7 @@ export const addLikedTrackThunk = createAsyncThunk(
       }
     } catch (error) {
       const errorMessage = handleError(error).message;
-      dispatch(setError(errorMessage));
+      dispatch(setTracksError(errorMessage));
     } finally {
       dispatch(setAddingTrackToLiked(false));
     }
@@ -143,7 +149,7 @@ export const removeLikedTrackThunk = createAsyncThunk(
   'removeLikedTrack',
   async (trackData: TTrack, { dispatch }) => {
     const { id } = trackData;
-    dispatch(setError(''));
+    dispatch(setTracksError(''));
     dispatch(setAddingTrackToLiked(true));
     try {
       if (auth.currentUser?.uid) {
@@ -152,7 +158,7 @@ export const removeLikedTrackThunk = createAsyncThunk(
       }
     } catch (error) {
       const errorMessage = handleError(error).message;
-      dispatch(setError(errorMessage));
+      dispatch(setTracksError(errorMessage));
     } finally {
       dispatch(setAddingTrackToLiked(false));
     }

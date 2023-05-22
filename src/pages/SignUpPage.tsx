@@ -10,12 +10,13 @@ import { TUserCreate } from 'types/types';
 import { Navigate } from 'react-router-dom';
 import { auth } from 'api/firebase';
 import { PathRoutes } from 'router/router';
+import { ErrorPopup } from 'components/ErrorPopup/ErrorPopup';
 
 const className = classNames.bind(styles);
 
 export const SignUpPage = () => {
   const dispatch = useAppDispatch();
-  const { isLoading } = useSelector(getUser);
+  const { isLoading, userErrorMessage } = useSelector(getUser);
 
   const handleSignUp = async (data: TUserCreate) => {
     await dispatch(userSignUpThunk(data));
@@ -29,6 +30,7 @@ export const SignUpPage = () => {
     <div className="wrapper">
       <h2>Sign up</h2>
       <SignUpForm signUp={handleSignUp} />
+      {userErrorMessage && <ErrorPopup errorMessage={userErrorMessage} />}
       {isLoading && (
         <div className={className('loader-wrapper')}>
           <Loader />
