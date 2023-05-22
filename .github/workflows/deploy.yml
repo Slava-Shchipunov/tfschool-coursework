@@ -17,6 +17,8 @@ jobs:
   call-workflow-test:
     needs: call-workflow-lint
     uses: ./.github/workflows/test.yml
+    secrets:
+      REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
 
   deploy:
     if: |

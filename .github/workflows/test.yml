@@ -2,6 +2,9 @@ name: Test Project
 
 on:
   workflow_call:
+    secrets:
+      REACT_APP_FIREBASE_API_KEY:
+        required: true
   push:
     branches-ignore: [main, dev]
   pull_request:
