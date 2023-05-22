@@ -145,12 +145,17 @@ export const AudioPlayer = () => {
   }, [dispatch]);
 
   const shuffleTracks = useCallback(() => {
+    if (currentIdx > currentSongs.length - 1) {
+      return;
+    }
+
     let payload;
     if (isShuffle) {
+      const newCurrentIdx = trackList.findIndex(
+        (el) => el.id === currentSongs[currentIdx].id
+      );
       payload = {
-        newCurrentIdx:
-          trackList.findIndex((el) => el.id === currentSongs[currentIdx].id) ??
-          0,
+        newCurrentIdx: newCurrentIdx > -1 ? newCurrentIdx : 0,
         newCurrentSongs: trackList,
       };
     } else {

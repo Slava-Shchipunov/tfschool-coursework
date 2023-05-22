@@ -16,9 +16,12 @@ export const shuffle = (
     [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
   }
 
+  const newCurrentIdx = shuffledArray.findIndex(
+    (el) => el.id === array[currentIdx].id
+  );
+
   return {
     shuffledArray: shuffledArray,
-    newCurrentIdx:
-      shuffledArray.findIndex((el) => el.id === array[currentIdx].id) ?? 0,
+    newCurrentIdx: newCurrentIdx > -1 ? newCurrentIdx : 0,
   };
 };

@@ -15,7 +15,7 @@ export const TopPage = () => {
 
   useEffect(() => {
     dispatch(getTopTracksThunk(isShuffle));
-  }, [dispatch, isShuffle]);
+  }, [dispatch]);
 
   return (
     <div className={className('top-page')}>

@@ -82,6 +82,18 @@
   .hidden.controls {
     transform: translateY(100%);
   }
+
+  .dark-btn:hover {
+    opacity: 1;
+    filter: none;
+  }
+
+  .active,
+  .active:hover {
+    opacity: 1;
+    filter: invert(0%) sepia(100%) saturate(1%) hue-rotate(139deg)
+      brightness(173%) contrast(101%);
+  }
 }
 
 @media screen and (max-height: 565px) {

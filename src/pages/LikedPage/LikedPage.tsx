@@ -11,11 +11,11 @@ import { getPlayer } from 'components/AudioPlayer/selectors/getPlayer';
 const className = classNames.bind(styles);
 
 export const LikedPage = () => {
-  const { isShuffle } = useSelector(getPlayer);
+  const { isShuffle, isTrackLiked } = useSelector(getPlayer);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (auth.currentUser?.uid) {
+    if (auth.currentUser) {
       dispatch(
         getLikedTracksThunk({
           userId: auth.currentUser?.uid,
@@ -23,7 +23,7 @@ export const LikedPage = () => {
         })
       );
     }
-  }, [dispatch, isShuffle]);
+  }, [dispatch, isTrackLiked]);
 
   return (
     <div className={className('liked-page')}>
