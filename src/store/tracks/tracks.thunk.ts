@@ -62,6 +62,7 @@ export const getTopTracksThunk = createAsyncThunk(
   async (isShuffle: boolean, { dispatch }) => {
     dispatch(setError(''));
     dispatch(setLoadingTracks(true));
+    dispatch(setTrackList([]));
     try {
       const topTracks = await getTopTracks();
 
@@ -85,6 +86,7 @@ export const getLikedTracksThunk = createAsyncThunk(
   async (getLikedTracksThunkParams: TGetLikedTracksThunk, { dispatch }) => {
     dispatch(setError(''));
     dispatch(setLoadingTracks(true));
+    dispatch(setTrackList([]));
     try {
       const likedSongsData = await getLikedSongsData(
         getLikedTracksThunkParams.userId

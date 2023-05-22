@@ -7,7 +7,6 @@ import { useEffect } from 'react';
 import { auth } from 'api/firebase';
 import { useSelector } from 'react-redux';
 import { getPlayer } from 'components/AudioPlayer/selectors/getPlayer';
-import { setTrackList } from 'store/tracks/tracks.slice';
 
 const className = classNames.bind(styles);
 
@@ -16,8 +15,6 @@ export const LikedPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setTrackList([]));
-
     if (auth.currentUser) {
       dispatch(
         getLikedTracksThunk({
