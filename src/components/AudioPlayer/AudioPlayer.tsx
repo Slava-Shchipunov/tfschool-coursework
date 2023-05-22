@@ -227,7 +227,9 @@ export const AudioPlayer = () => {
             handleClick={showVolumeBar}
           />
 
-          {isAddingTrackToLiked && <span>Wait...</span>}
+          {isAddingTrackToLiked && (
+            <span className={className('wait-loader')}>Wait...</span>
+          )}
           <AddTrackToLikedBtn
             isTrackLiked={isTrackLiked}
             isActive={isActive}
