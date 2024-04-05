@@ -3,7 +3,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 export const downloadTrackToFirebase = (userId: string, trackId: string) => {
   const storage = getStorage();
 
-  const trackRef = ref(storage, `${userId}/songs/${trackId}.mp3`);
+  const trackRef = ref(storage, `${userId}/songs/${trackId}.m4a`);
 
   return getDownloadURL(trackRef);
 };
@@ -15,7 +15,7 @@ export const uploadTrackToFirebase = async (
 ) => {
   const storage = getStorage();
 
-  const trackRef = ref(storage, `${userId}/songs/${trackId}.mp3`);
+  const trackRef = ref(storage, `${userId}/songs/${trackId}.m4a`);
 
   await uploadBytes(trackRef, file);
 };

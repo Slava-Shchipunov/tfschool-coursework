@@ -39,6 +39,7 @@ export const getTopTracks = () => {
 
 export const downloadTrack = (trackId: string) => {
   return instanceAxiosSpotifyDownloader.get<TDownloadTrackResponse>(
-    `/download/${trackId}`
+    `/download_track/`,
+    { params: { q: trackId, onlyLinks: true } }
   );
 };

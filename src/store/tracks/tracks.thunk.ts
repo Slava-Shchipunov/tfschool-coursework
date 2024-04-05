@@ -123,7 +123,7 @@ export const addLikedTrackThunk = createAsyncThunk(
     dispatch(setAddingTrackToLiked(true));
     try {
       const downloadTrackData = await downloadTrack(id);
-      const blob = await getBlobFromUrl(downloadTrackData.data.link);
+      const blob = await getBlobFromUrl(downloadTrackData.data[0].url);
 
       if (auth.currentUser?.uid) {
         await uploadTrackToFirebase(auth.currentUser?.uid, id, blob);
