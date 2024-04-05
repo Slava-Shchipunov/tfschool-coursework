@@ -58,10 +58,7 @@ export type TTopTracksResponse = {
   };
 }[];
 
-export type TDownloadTrackResponse = {
-  success: boolean;
-  link: string;
-};
+export type TDownloadTrackResponse = { url: string }[];
 
 export type TLikedSongsData = {
   likedSongs: {
