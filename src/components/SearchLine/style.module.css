@@ -1,0 +1,36 @@
+.search {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  padding-right: 25px;
+  background-color: #eaf0ff;
+  border: solid #8996b8 2px;
+  border-radius: 5px;
+  width: 258px;
+  color: #091227;
+  height: 30px;
+  transition: ease-in-out 0.25s;
+}
+
+.search-input::placeholder {
+  color: rgba(9, 18, 39, 0.6);
+}
+
+.search-input:focus {
+  background-color: #8996b8;
+}
+
+.reset-btn {
+  position: relative;
+  left: -20px;
+  padding: 0px;
+}
+
+.search-btn,
+.reset-btn {
+  border: none;
+  background-color: transparent;
+  padding: 0px;
+}

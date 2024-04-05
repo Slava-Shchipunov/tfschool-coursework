@@ -1,0 +1,31 @@
+.popup-wrapper {
+  width: 100%;
+  padding: 10px;
+  position: fixed;
+  z-index: 15;
+  bottom: 0;
+}
+
+.popup {
+  background: #ed4242;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.popup-text {
+  color: #091227;
+  line-height: 1em;
+}
+
+.close-btn {
+  border-radius: 100%;
+  border: none;
+  padding: 5px;
+  background: #f72525;
+}

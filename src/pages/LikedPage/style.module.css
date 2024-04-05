@@ -1,0 +1,10 @@
+.liked-page {
+  padding: 35px 20px 20px;
+  height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .liked-page {
+    height: auto;
+  }
+}
