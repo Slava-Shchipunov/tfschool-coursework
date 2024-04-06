@@ -83,7 +83,7 @@
     display: block;
     position: absolute;
     top: 10px;
-    left: 20px;
+    right: 20px;
   }
 
   .hidden.audio-player {
