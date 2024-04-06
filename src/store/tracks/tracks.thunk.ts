@@ -18,6 +18,7 @@ import { TTrack } from 'types/types';
 import {
   downloadTrackToFirebase,
   getBlobFromUrl,
+  checkTrackInStorage,
   uploadTrackToFirebase,
 } from 'api/firebaseStorage';
 import { auth } from 'api/firebase';
@@ -122,16 +123,17 @@ export const addLikedTrackThunk = createAsyncThunk(
     dispatch(setTracksError(''));
     dispatch(setAddingTrackToLiked(true));
     try {
-      const downloadTrackData = await downloadTrack(id);
-      const blob = await getBlobFromUrl(downloadTrackData.data[0].url);
-
       if (auth.currentUser?.uid) {
-        await uploadTrackToFirebase(auth.currentUser?.uid, id, blob);
+        const hasTrackInStorage = await checkTrackInStorage(id);
 
-        const trackUrl = await downloadTrackToFirebase(
-          auth.currentUser?.uid,
-          id
-        );
+        if (!hasTrackInStorage) {
+          const downloadTrackData = await downloadTrack(id);
+          const blob = await getBlobFromUrl(downloadTrackData.data[0].url);
+
+          await uploadTrackToFirebase(id, blob);
+        }
+
+        const trackUrl = await downloadTrackToFirebase(id);
 
         await addLikedSongsData(auth.currentUser?.uid, trackData, trackUrl);
         dispatch(setIsTrackLiked(true));
