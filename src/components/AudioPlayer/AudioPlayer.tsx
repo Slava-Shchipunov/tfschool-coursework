@@ -30,6 +30,7 @@ import { AddTrackToLikedBtn } from './controls/AddTrackToLikedBtn';
 import { MiniAudioPlayer } from './MiniAudioPlayer/MiniAudioPlayer';
 import { GoBackBtn } from './GoBackBtn';
 import { Loader } from 'components/Loader/Loader';
+import { useMediaSessionEvents } from 'hooks/useMediaSessionEvents';
 
 const className = classNames.bind(styles);
 
@@ -188,6 +189,8 @@ export const AudioPlayer = () => {
       payload: !state.isPlayerHidden,
     });
   }, [state.isPlayerHidden]);
+
+  useMediaSessionEvents({ playPauseTrack, prevTrack, nextTrack });
 
   return (
     <div
