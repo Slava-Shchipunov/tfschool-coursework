@@ -37,6 +37,7 @@ export const useMediaSessionEvents = ({
       try {
         navigator.mediaSession.setActionHandler(action, handler);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(
           `The media session action "${action}" is not supported yet.`
         );
