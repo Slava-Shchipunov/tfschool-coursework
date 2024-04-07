@@ -31,6 +31,7 @@ import { MiniAudioPlayer } from './MiniAudioPlayer/MiniAudioPlayer';
 import { GoBackBtn } from './GoBackBtn';
 import { Loader } from 'components/Loader/Loader';
 import { useMediaSessionEvents } from 'hooks/useMediaSessionEvents';
+import { useMediaSessionMetadata } from 'hooks/useMediaSessionMetadata';
 
 const className = classNames.bind(styles);
 
@@ -191,6 +192,7 @@ export const AudioPlayer = () => {
   }, [state.isPlayerHidden]);
 
   useMediaSessionEvents({ playPauseTrack, prevTrack, nextTrack });
+  useMediaSessionMetadata(activeSong);
 
   return (
     <div
