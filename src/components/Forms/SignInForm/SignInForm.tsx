@@ -86,7 +86,7 @@ export const SignInForm = (props: TSignInProps) => {
       <span className={className('link-text')}>
         Don&#39;t have an account?{' '}
         <Link to={PathRoutes.signup} className={className('link')}>
-          Sign up
+          Sign&nbsp;up
         </Link>
       </span>
     </form>
